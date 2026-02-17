@@ -1,0 +1,392 @@
+/* ======================================================
+   GLOBAL HELPERS
+====================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+/* ======================================================
+   LISTING CARD
+====================================================== */
+
+.listing-card {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* IMAGE */
+.listing-card .listing-image {
+  width: 260px;
+  flex-shrink: 0;
+  padding-right: 20px;
+}
+
+.listing-card .listing-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* CONTENT */
+.listing-card .listing-content {
+  padding: 18px 20px;
+  flex: 1;
+}
+
+/* HEADER */
+.listing-card .listing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.listing-card .listing-title {
+  display: flex;
+  gap: 12px;
+}
+
+.listing-card .listing-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.listing-card .listing-title h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.listing-card .location {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* WISHLIST */
+.listing-card .wishlist-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* DIVIDER */
+.listing-card .divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 14px 0;
+}
+
+/* DETAILS */
+.listing-card .listing-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.listing-card .quick-links {
+  list-style: disc;
+  padding-left: 18px;
+  display: flex;
+  gap: 20px;
+  color: #1d4ed8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.listing-card .program-fees {
+  display: flex;
+  gap: 40px;
+}
+
+.listing-card .program {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.listing-card .fees {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* FOOTER */
+.listing-card .listing-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.listing-card .ranking {
+  font-size: 14px;
+  color: #475569;
+}
+
+.listing-card .action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.listing-card .apply-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.listing-card .brochure-btn {
+  background: #ffffff;
+  border: 1px solid #2563eb;
+  color: #2563eb;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* ======================================================
+   SELECTED FILTER CHIPS
+====================================================== */
+
+.selected-filtered {
+  background: #ffffff;
+  border: 1px solid #e6eaf0;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.selected-filtered h5 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0b2b5c;
+  margin-bottom: 12px;
+}
+
+.selected-filtered .filters-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.selected-filtered .filter-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f1f5ff;
+  color: #1d4ed8;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 1px solid #dbe3ff;
+  transition: all 0.25s ease;
+}
+
+.selected-filtered .filter-item:hover {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+/* ======================================================
+   SIDEBAR FILTERS
+====================================================== */
+
+.sidebar-post {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TITLE + SEARCH (NOT SCROLLABLE) */
+.sidebar_title {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.sidebar_title h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* SEARCH INPUT */
+.filter-search {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid #dbe3ff;
+  outline: none;
+  background: #ffffff;
+  color:#000000
+}
+
+.filter-search:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* SCROLLABLE LIST */
+.sidebar-scroll {
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 6px;
+  flex-grow: 1;
+}
+
+/* CUSTOM SCROLLBAR */
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: #f1f5ff;
+  border-radius: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: #2563eb;
+}
+
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #c7d2fe #f1f5ff;
+}
+
+/* FILTER ITEM + BIG CHECKBOX */
+.single_langu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 6px;
+  font-size: 14px;
+  color: #334155;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.single_langu:hover {
+  background: #f8fafc;
+}
+
+.single_langu input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+/* ======================================================
+   TOP SEARCH
+====================================================== */
+
+.blog_search input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+/* ======================================================
+   PRICE FILTER
+====================================================== */
+
+.rs-slider {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 20px;
+}
+
+.rs-slider h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+
+@media (max-width: 991px) {
+  .listing-card {
+    flex-direction: column;
+  }
+
+  .listing-card .listing-image {
+    width: 100%;
+    height: 220px;
+    padding-right: 0;
+  }
+
+  .listing-card .listing-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .col-lg-4 {
+    margin-bottom: 24px;
+  }
+
+  .sidebar-scroll {
+    max-height: 220px;
+  }
+}
+
+@media (max-width: 576px) {
+  .listing-card .listing-title h3 {
+    font-size: 16px;
+  }
+
+  .listing-card .listing-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .listing-card .action-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .listing-card .apply-btn,
+  .listing-card .brochure-btn {
+    width: 100%;
+  }
+
+  .sidebar-scroll {
+    max-height: 200px;
+  }
+
+  .single_langu input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+  }
+}
