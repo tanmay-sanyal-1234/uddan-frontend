@@ -2,8 +2,8 @@
 deployment:
   tasks:
     # Define paths
-    - export REPO_DIR=/home/hcvvravc/repositories/college_finder
-    - export APP_DIR=/home/hcvvravc/backendapi
+    - export REPO_DIR=/home/hcvvravc/repositories/uddan-frontend
+    - export APP_DIR=/home/hcvvravc/public_html
 
     # Copy repo files to Node app folder (including hidden files)
     - cp -r $REPO_DIR/. $APP_DIR/
