@@ -278,6 +278,84 @@ margin-bottom: 60px;
   border-radius: 100px;
 }
 
+
+
+
+.howitworkT {
+    font-size: 18px;
+}
+
+.gallery-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.gallery-modal .gallery-content {
+  position: relative;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+}
+
+.gallery-modal .image-container img {
+  width: 50%;
+  border-radius: 12px;
+}
+
+.gallery-modal .feedback-box {
+  margin-top: 15px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.gallery-modal .nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border: none;
+  font-size: 24px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  color: #1a3a90;
+}
+
+.gallery-modal .nav-btn.left {
+  left: -50px;
+}
+
+.gallery-modal .nav-btn.right {
+  right: -50px;
+}
+
+.gallery-modal .close-btn {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: #fff;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 4px 12px;
+  color: #1a3a90;
+}
+
+
+
+
+
+
+
+
+
 @media only screen and (max-width:880px) { 
 .btn_one {padding: 10px 20px;}
 }
@@ -3248,10 +3326,21 @@ margin-bottom:60px;
 .partner_title p{width: 80%;}
 }
 .partner_logo {
-	background:#fff;
-	border: 1px solid #eee;
-	margin-bottom: 30px;
-	padding: 30px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px; /* container fixed height */
+}
+
+.partner_logo img {
+  width: 160px;      /* fixed width */
+  height: 80px;      /* fixed height */
+  object-fit: contain; /* keeps logo ratio */
+  transition: 0.3s ease;
+}
+
+.partner_logo img:hover {
+  transform: scale(1.05);
 }
 .partner_logo a{}
 .partner_logo a img{}
@@ -3801,7 +3890,6 @@ border: 1px solid #fff;
 .contact button{border:none;}
 .address_area {
 	padding-bottom: 50px;
-	margin-top: -60px;
 	position: relative;
 }
 .single_address{

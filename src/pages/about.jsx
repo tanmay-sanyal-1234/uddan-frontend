@@ -318,23 +318,22 @@ const About = () => {
 
                         {/* RIGHT LOGOS */}
                         <div className="col-lg-6">
-                            <Slider {...partnerSettings}>
-                                {partners.map((logo, index) => (
-                                    <div key={index} className="px-3">
-                                        <div className="partner_logo text-center">
-                                            <a href="#" aria-label={`Partner ${index + 1}`}>
-                                                <img
-                                                    src={logo}
-                                                    alt={`Partner ${index + 1}`}
-                                                    className="img-fluid"
-                                                    style={{ maxHeight: 80, margin: "0 auto" }}
-                                                />
-                                            </a>
-                                        </div>
-                                    </div>
-                                ))}
-                            </Slider>
-                        </div>
+  <Slider {...partnerSettings}>
+    {partners.map((logo, index) => (
+      <div key={index} className="px-3">
+        <div className="partner_logo">
+          <a href="#" aria-label={`Partner ${index + 1}`}>
+            <img
+              src={logo}
+              alt={`Partner ${index + 1}`}
+              className="img-fluid"
+            />
+          </a>
+        </div>
+      </div>
+    ))}
+  </Slider>
+</div>
                     </div>
                 </div>
             </div>

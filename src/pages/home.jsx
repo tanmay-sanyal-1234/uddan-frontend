@@ -5,22 +5,39 @@ import { student_profiling, One_on_One_Counselling, Action_Plan_Creation } from 
 import Cities from "../components/cities";
 import { useState, useMemo, useRef, useEffect } from "react";
 import InstituteCard from "../components/instituteComponent";
-import { Link ,useNavigate} from "react-router-dom";
-import { useGetCourses, useGetCollegeListHome,useGetCity } from "../hooks/collegeHook";
+import { Link, useNavigate } from "react-router-dom";
+import { useGetCourses, useGetCollegeListHome, useGetCity } from "../hooks/collegeHook";
 import SkeletonLoader from "@/components/SkeletonLoader";
 import { Button } from "react-bootstrap";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 import { apiImageWrapper } from "../utils/helpers";
 import Select from "react-select";
 const Home = () => {
-    
+
     const navigate = useNavigate();
     const [courseFilterId, setCourseFilterId] = useState(null);
     const { data: coursesData, isLoading: isLoadingCourses, isFetching: isFetchingCourses, error: coursesError } = useGetCourses();
     const { data: citiesData, isLoading: isLoadingCities, isFetching: isFetchingCities, error: citiesError } = useGetCity();
-    const { data: collegeListData, isLoading: isCollegeListLoading, isFetching: isCollegeListFetching, refetch: refetchCollegeList, error: collegeListError } = useGetCollegeListHome({courseId:courseFilterId});
+    const { data: collegeListData, isLoading: isCollegeListLoading, isFetching: isCollegeListFetching, refetch: refetchCollegeList, error: collegeListError } = useGetCollegeListHome({ courseId: courseFilterId });
     const [activeTab, setActiveTab] = useState(null);
-    const [homeBannerSearch , setHomeBannerSearch] = useState({
+    const [showModal, setShowModal] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const openGallery = (index) => {
+        setCurrentIndex(index);
+        setShowModal(true);
+    };
+
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (prev + 1) % alumni.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) =>
+            prev === 0 ? alumni.length - 1 : prev - 1
+        );
+    };
+    const [homeBannerSearch, setHomeBannerSearch] = useState({
         course: null,
         city: null,
         budget: null
@@ -109,19 +126,19 @@ const Home = () => {
 
 
     const alumni = [
-        { id: 1, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[0] },
-        { id: 2, avatar: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&q=80", companyLogo: partners[1] },
-        { id: 3, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[2] },
-        { id: 4, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80", companyLogo: partners[3] },
-        { id: 5, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[4] },
-        { id: 6, avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=80", companyLogo: partners[5] },
-        { id: 7, avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80", companyLogo: partners[6] },
-        { id: 8, avatar: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=400&q=80", companyLogo: partners[7] },
-        { id: 9, avatar: "https://images.unsplash.com/photo-1524503033411-c9566986fc8f?w=400&q=80", companyLogo: partners[8] },
-        { id: 10, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80", companyLogo: partners[9] },
-        { id: 11, avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=80", companyLogo: partners[10] },
-        { id: 12, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[11] },
-        { id: 13, avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80", companyLogo: partners[12] },
+        { id: 1, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[0], feedback: "Udaan Scholars transformed my college search experience. The personalized guidance and genuine support helped me find the perfect fit for my higher education journey.", name: "Rahul Sharma" },
+        { id: 2, avatar: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&q=80", companyLogo: partners[1], feedback: "I was overwhelmed with the college admission process, but Udaan Scholars made it so much easier. Their expert counseling and real student benefits gave me the confidence to make informed decisions.", name: "Anjali Verma" },
+        { id: 3, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[2], feedback: "Udaan Scholars is a game-changer for students like me. The end-to-end personalized support and verified institutes made my college admission process stress-free and successful.", name: "Suresh Kumar" },
+        { id: 4, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80", companyLogo: partners[3], feedback: "I can't thank Udaan Scholars enough for their guidance and support. The scholarships and financial benefits they offered made a significant difference in my higher education journey.", name: "Priya Patel" },
+        { id: 5, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[4], feedback: "Udaan Scholars provided me with the clarity and trust I needed to navigate the college admission process. Their expert counseling and genuine support helped me make smart decisions for my future.", name: "Rajesh Gupta" },
+        { id: 6, avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=80", companyLogo: partners[5], feedback: "Udaan Scholars is more than just a college counseling service. They truly care about their students and go above and beyond to ensure their success. I'm grateful for the personalized support I received throughout my higher education journey.", name: "Neha Singh" },
+        { id: 7, avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80", companyLogo: partners[6], feedback: "Udaan Scholars made my college admission process seamless and stress-free. Their expert guidance and real student benefits helped me find the right college and career path for my future.", name: "Amitabh Choudhary" },
+        { id: 8, avatar: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=400&q=80", companyLogo: partners[7], feedback: "I highly recommend Udaan Scholars to any student looking for guidance in their higher education journey. Their personalized support and verified institutes helped me make informed decisions and secure my admission to the college of my dreams.", name: "Deepika Sharma" },
+        { id: 9, avatar: "https://images.unsplash.com/photo-1524503033411-c9566986fc8f?w=400&q=80", companyLogo: partners[8], feedback: "Udaan Scholars is a trusted partner for students seeking guidance in their higher education journey. Their expert counseling and genuine support helped me navigate the college admission process with confidence and ease.", name: "Rohit Mehta" },
+        { id: 10, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80", companyLogo: partners[9], feedback: "Udaan Scholars provided me with the clarity and trust I needed to navigate the college admission process. Their expert counseling and genuine support helped me make smart decisions for my future.", name: "Sneha Agarwal" },
+        { id: 11, avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=80", companyLogo: partners[10], feedback: "Udaan Scholars is more than just a college counseling service. They truly care about their students and go above and beyond to ensure their success. I'm grateful for the personalized support I received throughout my higher education journey.", name: "Vikram Singh" },
+        { id: 12, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[11], feedback: "Udaan Scholars made my college admission process seamless and stress-free. Their expert guidance and real student benefits helped me find the right college and career path for my future.", name: "Ananya Reddy" },
+        { id: 13, avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80", companyLogo: partners[12], feedback: "Udaan Scholars is a trusted partner for students seeking guidance in their higher education journey. Their expert counseling and genuine support helped me navigate the college admission process with confidence and ease.", name: "Karan Sharma" },
     ];
     const scrollRef = useRef(null);
 
@@ -134,8 +151,8 @@ const Home = () => {
     };
 
     useEffect(() => {
-        if(!courseFilterId){
-            if(!isFetchingCourses && coursesData){
+        if (!courseFilterId) {
+            if (!isFetchingCourses && coursesData) {
                 console.log("Setting course filter id to:", coursesData[0]?._id);
                 const t = setTimeout(() => {
                     setCourseFilterId(coursesData[0]?._id);
@@ -143,32 +160,32 @@ const Home = () => {
                 return () => clearTimeout(t);
             }
         }
-    },[coursesData,isFetchingCourses,courseFilterId,setCourseFilterId])
+    }, [coursesData, isFetchingCourses, courseFilterId, setCourseFilterId])
 
     const getCities = useMemo(() => {
-        if(citiesData && citiesData?.length > 0 && !isFetchingCities){
+        if (citiesData && citiesData?.length > 0 && !isFetchingCities) {
             return citiesData?.map((city) => {
                 return {
                     value: city._id,
                     label: city.name
                 }
             })
-        }else{
+        } else {
             return [];
         }
-    },[citiesData,isFetchingCities])
+    }, [citiesData, isFetchingCities])
 
     const getCourseData = useMemo(() => {
-    if(!isFetchingCourses && coursesData){
-        return coursesData?.map((cou) => {
-            return{
-                value: cou._id,
-                label: cou.name
-            }
-        })
-    }else{
-        return [];
-    }
+        if (!isFetchingCourses && coursesData) {
+            return coursesData?.map((cou) => {
+                return {
+                    value: cou._id,
+                    label: cou.name
+                }
+            })
+        } else {
+            return [];
+        }
     }, [coursesData, isFetchingCourses])
 
     const budgetRanges = [
@@ -180,7 +197,7 @@ const Home = () => {
         { value: ">800000", label: "Above ₹8,00,000" },
     ];
 
-    const handleChangeForSearch = (selectedOption , name) => {
+    const handleChangeForSearch = (selectedOption, name) => {
         setHomeBannerSearch((prev) => ({
             ...prev,
             [name]: selectedOption?.value || null
@@ -197,13 +214,13 @@ const Home = () => {
             queryParams += `city=${city}&`;
         }
         if (budget) {
-            if(budget === "<100000"){
+            if (budget === "<100000") {
                 queryParams += `maxPrice=100000&`;
             }
-            else if(budget === ">800000"){
+            else if (budget === ">800000") {
                 queryParams += `minPrice=800000&`;
             }
-            else{
+            else {
                 const [minBudget, maxBudget] = budget.split("-");
                 queryParams += `minPrice=${minBudget}&maxPrice=${maxBudget}&`;
             }
@@ -229,17 +246,17 @@ const Home = () => {
                             </div>
                             <div className="home_sb">
                                 <form className="banner_subs" onSubmit={(e) => e.preventDefault()}>
-                                     <Select
+                                    <Select
                                         options={getCourseData}
                                         className="form-control home_si"
                                         placeholder="Select Course"
                                         name="course"
                                         isLoading={isFetchingCourses}
-                                        onChange={(e) => handleChangeForSearch(e,"course")}
+                                        onChange={(e) => handleChangeForSearch(e, "course")}
                                         styles={{
                                             control: (base) => ({
-                                            ...base,
-                                            border: "none"
+                                                ...base,
+                                                border: "none"
                                             }),
                                         }}
                                         isClearable
@@ -250,11 +267,11 @@ const Home = () => {
                                         placeholder="Select City"
                                         name="city"
                                         isLoading={isFetchingCities}
-                                        onChange={(e) => handleChangeForSearch(e,"city")}
+                                        onChange={(e) => handleChangeForSearch(e, "city")}
                                         styles={{
                                             control: (base) => ({
-                                            ...base,
-                                            border: "none"
+                                                ...base,
+                                                border: "none"
                                             }),
                                         }}
                                         isClearable
@@ -264,11 +281,11 @@ const Home = () => {
                                         className="form-control home_si"
                                         placeholder="Select Budget Range"
                                         name="budget"
-                                        onChange={(e) => handleChangeForSearch(e,"budget")}
+                                        onChange={(e) => handleChangeForSearch(e, "budget")}
                                         styles={{
                                             control: (base) => ({
-                                            ...base,
-                                            border: "none"
+                                                ...base,
+                                                border: "none"
                                             }),
                                         }}
                                         isClearable
@@ -284,9 +301,9 @@ const Home = () => {
                             <div className="home_tag">
                                 <span>Popular Topic:</span>
                                 {isFetchingCourses && (
-                                    <SkeletonLoader count={1} width={300}  height={20} />
+                                    <SkeletonLoader count={1} width={300} height={20} />
                                 )}
-                                {getCourseData?.slice(0,5).map((course) => (
+                                {getCourseData?.slice(0, 5).map((course) => (
                                     <Link key={course._id} to={`/colleges?course=${course.value}`}>{course.label}</Link>
                                 ))}
                             </div>
@@ -307,31 +324,31 @@ const Home = () => {
                     <div className="row">
 
                         <div className="col-lg-12">
-        
+
                             <Slider {...settings}>
-                                {isFetchingCities ? (                    
-                                    <SkeletonLoader count={1} width={500}  height={100} />
+                                {isFetchingCities ? (
+                                    <SkeletonLoader count={1} width={500} height={100} />
                                 ) : (
                                     citiesData?.map((city) => {
-                                            
+
                                         return (
                                             city?.isTop && (
-                                            <div key={city._id} className="px-1">
-                                                <div className="rounded-2xl overflow-hidden border border-secondary top-college" onClick={() => navigate(`/colleges?city=${city._id}`)} >
-                                                    <img
-                                                        src={apiImageWrapper(city?.image)}
-                                                        alt={city?.name}
-                                                        className="city-img"
-                                                    />
+                                                <div key={city._id} className="px-1">
+                                                    <div className="rounded-2xl overflow-hidden border border-secondary top-college" onClick={() => navigate(`/colleges?city=${city._id}`)} >
+                                                        <img
+                                                            src={apiImageWrapper(city?.image)}
+                                                            alt={city?.name}
+                                                            className="city-img"
+                                                        />
 
-                                                    <div className="city-content">
-                                                        <h3>{city?.name}</h3>
+                                                        <div className="city-content">
+                                                            <h3>{city?.name}</h3>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                             )
                                         )
-                                    
+
                                     })
 
                                 )}
@@ -407,130 +424,64 @@ const Home = () => {
 
 
 
-
-
             <section className="ab_one section-padding">
                 <div className="container">
-                    <div className="row">
 
-                        <div
-                            className="col-lg-12 col-sm-12 col-xs-12 wow fadeInUp"
-                            data-wow-duration="1s"
-                            data-wow-delay="0.1s"
-                            data-wow-offset="0"
-                        >
-                            <div className="ab_content">
-                                <h2>
-                                    How It Works
-                                </h2>
-                                <p>
-                                    From choosing the right course to securing your admission, we support you at every step of your higher education journey.
+                    <div className="col-lg-12 howitsection1 p-4 rounded-3 mb-4">
+                        <div className="row align-items-center">
+
+                            <div className="col-lg-3 text-center text-lg-start">
+                                <h4>Student Profiling</h4>
+                                <img src={student_profiling} className="img-fluid" alt="Student Profiling" />
+                            </div>
+
+                            <div className="col-lg-9 d-flex align-items-center howitworkT">
+                                <p className="mb-0">
+                                    Gather deep insights into student strengths,
+                                    weaknesses, interests, and potential through
+                                    structured assessments and data-driven evaluation techniques.
                                 </p>
                             </div>
 
-                            <div className="row">
-                                <div className="col-lg-12 howitsection1 p-4 rounded-3 mb-4">
-                                    <div className="row">
-                                        <div className="col-lg-3">
-                                            <div className="abmv">
-                                                <h4>Student Profiling</h4>
-
-
-                                                <img src={student_profiling} alt="" srcset="" />
-
-
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-9">
-                                            <div className="abmv " style={{ marginTop: '40px' }}>
-
-                                                <p>
-                                                    Gather deep insights into student strengths,
-                                                    weaknesses, interests, and potential through
-                                                    structured assessments and data-driven evaluation techniques.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="col-lg-12 p-4 rounded-3 mb-4">
-                                    <div className="row">
-                                        <div className="col-lg-9">
-                                            <div className="abmv" style={{ marginTop: '40px' }}>
-
-                                                <p>
-                                                    Experienced counselors provide tailored guidance by understanding each student's goals, challenges, and aspirations to create a personalized growth strategy.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-3">
-                                            <div className="abmv">
-                                                <h4>One-on-One Counselling</h4>
-
-
-                                                <img src={One_on_One_Counselling} alt="" srcset="" />
-
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div className="col-lg-12 howitsection1 p-4 rounded-3 mb-4">
-                                    <div className="row">
-                                        <div className="col-lg-3">
-                                            <div className="abmv">
-                                                <h4>Action Plan Creation</h4>
-
-
-                                                <img src={Action_Plan_Creation} alt="" srcset="" />
-
-
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-9">
-                                            <div className="abmv" style={{ marginTop: '40px' }}>
-
-                                                <p>
-                                                    Deliver a detailed and actionable roadmap, outlining
-                                                    clear steps, goals, and timelines tailored to meet each student's unique objectives.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-
-                            <div>
-                                <a className="btn_one" href="about.html">
-                                    Discover More
-                                </a>
-                            </div>
                         </div>
+                    </div>
+                    <div className="col-lg-12 p-4 rounded-3 mb-4">
+                        <div className="row align-items-center flex-lg-row-reverse">
 
-                        {/* <div
-                            className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp"
-                            data-wow-duration="1s"
-                            data-wow-delay="0.2s"
-                            data-wow-offset="0"
-                        >
-                            <div className="ab_img">
-                                <img
-                                    src={why_choose}
-                                    className="img-fluid"
-                                    alt="About"
-                                />
+                            <div className="col-lg-3 text-center text-lg-start">
+                                <h4>One-on-One Counselling</h4>
+                                <img src={One_on_One_Counselling} className="img-fluid" alt="Counselling" />
                             </div>
-                        </div> */}
 
+                            <div className="col-lg-9 d-flex align-items-center howitworkT">
+                                <p className="mb-0">
+                                    Experienced counselors provide tailored guidance by understanding each student's goals,
+                                    challenges, and aspirations to create a personalized growth strategy.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className="col-lg-12 howitsection1 p-4 rounded-3 mb-4">
+                        <div className="row align-items-center">
+
+                            <div className="col-lg-3 text-center text-lg-start">
+                                <h4>Action Plan Creation</h4>
+                                <img src={Action_Plan_Creation} className="img-fluid" alt="Action Plan" />
+                            </div>
+
+                            <div className="col-lg-9 d-flex align-items-center howitworkT">
+                                <p className="mb-0">
+                                    Deliver a detailed and actionable roadmap,
+                                    outlining clear steps, goals, and timelines tailored to meet each student's unique objectives.
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </section>
+
             {/* <section className="topic_content_p2 section-padding">
                 <div className="container">
                     <div className="section-title">
@@ -676,117 +627,117 @@ const Home = () => {
                 </div>
             </section>
             {/* START POPULAR COURSES (tab-wise) */}
-  
-                    <div className="best-cpurse section-padding">
-                        <div className="container">
-                            <div className="section-title">
-                                <h2>Top Colleges</h2>
-                                <p>
-                                    Choose from the best colleges across India to kickstart your higher education journey.
-                                </p>
-                            </div>
 
-                            <div className="row mb-4">
-                                <div className="col-12">
-                                    <div className="course-tabs d-flex align-items-center">
-                                        {isFetchingCourses ? (
-                                            <>
-                                                <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
-                                                <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
-                                                <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
-                                                <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
-                                                <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
-                                            </>
+            <div className="best-cpurse section-padding">
+                <div className="container">
+                    <div className="section-title">
+                        <h2>Top Colleges</h2>
+                        <p>
+                            Choose from the best colleges across India to kickstart your higher education journey.
+                        </p>
+                    </div>
 
-                                        ) : (
-                                            <>
-                                                <Button
-                                                    variant="light"
-                                                    className="arrow-btn me-2"
-                                                    onClick={() => scrollCourse("left")}
-                                                >
-                                                    <ChevronLeft />
-                                                </Button>
-                                                <div className="course-scroll flex-grow-1 gap-3" ref={scrollRef}>
-                                                    {coursesData?.map((cat,indf) => (
-                                                        <button
-                                                            key={cat?._id}
-                                                            type="button"
-                                                            onClick={() => {
-                                                                setCourseFilterId(cat?._id);
-                                                                setActiveTab(cat?._id)
-                                                            
-                                                            }}
-                                                            className={`btn ${courseFilterId === cat?._id ? "btn-primary" : (!courseFilterId && indf == 0 )? "btn-primary" :"btn-outline-secondary"}`}
-                                                            aria-pressed={courseFilterId === cat?._id}
-                                                        >
-                                                            {cat?.name}
-                                                        </button>
-                                                    ))}
-                                                </div>
-
-                                                <Button
-                                                    variant="light"
-                                                    className="arrow-btn ms-2"
-                                                    onClick={() => scrollCourse("right")}
-                                                >
-                                                    <ChevronRight />
-                                                </Button>
-                                            </>
-                                        )}
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                {isCollegeListFetching ? (
+                    <div className="row mb-4">
+                        <div className="col-12">
+                            <div className="course-tabs d-flex align-items-center">
+                                {isFetchingCourses ? (
                                     <>
-                                    <div className="col-lg-4 col-sm-6 col-xs-12">
-                                    <SkeletonLoader width={400} height={150} count={1} />
-                                    </div>
+                                        <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
+                                        <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
+                                        <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
+                                        <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
+                                        <SkeletonLoader width={100} height={40} count={1} additionals={{ className: "me-2" }} />
                                     </>
-                                ):(
-                                    collegeListData?.data && collegeListData?.data?.length > 0 ? (
-                                        collegeListData?.data?.map((course, index) => (
-                                            <div
-                                                key={index}
-                                                className="col-lg-4 col-sm-6 col-xs-12 wow fadeInUp"
-                                                data-wow-delay="0.1s"
-                                            >
-                                                <InstituteCard
-                                                    logo={course?.logo}
-                                                    name={course?.name}
-                                                    location={`${course?.address?.cityD?.name} , ${course?.address?.stateD?.name}`}
-                                                    program={course.streamAndCourse}
-                                                    fees={course.streamAndCourse}
-                                                    id={course?._id}
-                                                />
-                                                
-                                            </div>
-                                        ))
-                                
-                                    ):(
-                                        <div className="col-lg-12 col-sm-6 col-xs-12 text-center">
-                                        <p>No colleges found for the selected course.</p>
+
+                                ) : (
+                                    <>
+                                        <Button
+                                            variant="light"
+                                            className="arrow-btn me-2"
+                                            onClick={() => scrollCourse("left")}
+                                        >
+                                            <ChevronLeft />
+                                        </Button>
+                                        <div className="course-scroll flex-grow-1 gap-3" ref={scrollRef}>
+                                            {coursesData?.map((cat, indf) => (
+                                                <button
+                                                    key={cat?._id}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setCourseFilterId(cat?._id);
+                                                        setActiveTab(cat?._id)
+
+                                                    }}
+                                                    className={`btn ${courseFilterId === cat?._id ? "btn-primary" : (!courseFilterId && indf == 0) ? "btn-primary" : "btn-outline-secondary"}`}
+                                                    aria-pressed={courseFilterId === cat?._id}
+                                                >
+                                                    {cat?.name}
+                                                </button>
+                                            ))}
                                         </div>
-                                    )
 
-
+                                        <Button
+                                            variant="light"
+                                            className="arrow-btn ms-2"
+                                            onClick={() => scrollCourse("right")}
+                                        >
+                                            <ChevronRight />
+                                        </Button>
+                                    </>
                                 )}
-                                
+                            </div>
 
-                                <div className="col-lg-12 text-center">
-                                    <div className="cc_btn">
-                                        <Link className="btn_one" to="/colleges">
-                                            View All
-                                        </Link>
-                                    </div>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        {isCollegeListFetching ? (
+                            <>
+                                <div className="col-lg-4 col-sm-6 col-xs-12">
+                                    <SkeletonLoader width={400} height={150} count={1} />
                                 </div>
+                            </>
+                        ) : (
+                            collegeListData?.data && collegeListData?.data?.length > 0 ? (
+                                collegeListData?.data?.map((course, index) => (
+                                    <div
+                                        key={index}
+                                        className="col-lg-4 col-sm-6 col-xs-12 wow fadeInUp"
+                                        data-wow-delay="0.1s"
+                                    >
+                                        <InstituteCard
+                                            logo={course?.logo}
+                                            name={course?.name}
+                                            location={`${course?.address?.cityD?.name} , ${course?.address?.stateD?.name}`}
+                                            program={course.streamAndCourse}
+                                            fees={course.streamAndCourse}
+                                            id={course?._id}
+                                        />
+
+                                    </div>
+                                ))
+
+                            ) : (
+                                <div className="col-lg-12 col-sm-6 col-xs-12 text-center">
+                                    <p>No colleges found for the selected course.</p>
+                                </div>
+                            )
+
+
+                        )}
+
+
+                        <div className="col-lg-12 text-center">
+                            <div className="cc_btn">
+                                <Link className="btn_one" to="/colleges">
+                                    View All
+                                </Link>
                             </div>
                         </div>
                     </div>
-               
+                </div>
+            </div>
+
             {/* END COURSE */}
 
             {/* START COURSE PROMOTION */}
@@ -841,7 +792,7 @@ const Home = () => {
                     <div className="row justify-content-center mt-4">
                         <div className="col-12">
                             <div className="alumni-grid d-flex flex-wrap justify-content-center gap-3">
-                                {alumni.map((a) => (
+                                {alumni.map((a, index) => (
                                     <div
                                         key={a.id}
                                         className="alumni-card text-center"
@@ -865,7 +816,12 @@ const Home = () => {
                                                 background: "#fff",
                                             }}
                                         >
-                                            <img src={a.avatar} alt={`Alumni ${a.id}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                            <img
+                                                src={a.avatar}
+                                                alt={`Alumni ${a.id}`}
+                                                style={{ width: "100%", height: "100%", objectFit: "cover", cursor: "pointer" }}
+                                                onClick={() => openGallery(index)}
+                                            />
                                         </div>
                                         <div
                                             className="company-logo"
@@ -878,10 +834,11 @@ const Home = () => {
                                                 background: "#fff",
                                                 borderRadius: 6,
                                                 padding: 4,
-                                                boxShadow: "0 2px 8px rgba(0,0,0,0.12)"
+                                                boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
+                                                marginTop: 6,
                                             }}
                                         >
-                                            Rajesh
+                                            {a?.name}
                                         </div>
                                     </div>
                                 ))}
@@ -979,6 +936,32 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
+            {showModal && (
+                <div className="gallery-modal">
+                    <div className="gallery-content">
+
+                        <button className="close-btn" onClick={() => setShowModal(false)}>×</button>
+
+                        <button className="nav-btn left" onClick={prevSlide}>❮</button>
+
+                        <div className="image-container">
+                            <img
+                                src={alumni[currentIndex].avatar}
+                                alt="Selected Alumni"
+                            />
+                            <div className="feedback-box">
+                                <h5>{alumni[currentIndex].name}</h5>
+                                <p>{alumni[currentIndex].feedback}</p>
+                            </div>
+                        </div>
+
+                        <button className="nav-btn right" onClick={nextSlide}>❯</button>
+
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
