@@ -208,66 +208,41 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                     Best University for your Online Courses Course
                 </p>
 
-                {/* Logos */}
-                <Row className="g-2 mb-3">
-                    <Col>
-                        <div className="logo-card">
-                            <img
-                                src={college_logo}
-                                alt="Online Manipal"
-                                className="logo-img"
-                            />
-                        </div>
-                    </Col>
 
-                    <Col>
-                        <div className="logo-card">
-                            <img
-                                src={college_logo}
-                                alt="CU Online Learning"
-                                className="logo-img"
-                            />
-                        </div>
-                    </Col>
-
-                    <Col>
-                        <div className="logo-card">
-                            <img
-                                src={college_logo}
-                                alt="SMU"
-                                className="logo-img"
-                            />
-                        </div>
-                    </Col>
-                </Row>
-
-                {/* Highlights */}
-                <div className="d-flex justify-content-between text-success small mb-3">
-                    <span>✔ No-Cost EMI From ₹4,999/-</span>
-                    <span>✔ 100% Placement Assistance</span>
-                </div>
                 {loading && <FullPageLoader />}
                 {/* Form */}
                 {college && (
-                    <div>
-                        <h5 className="text-center mb-3 text-primary fw-bold">Register Now To Apply</h5>
-                        <div className="d-flex justify-content-center align-items-center">
-                            <div className="text-center">
+                   <div className="card shadow-sm border-0 rounded-4 p-4 text-center mx-auto border-top border-4 border-primary">
 
+  
+  <h5 className="fw-bold text-primary mb-4">
+    Register Now To Apply
+  </h5>
 
-                                <div className="d-flex align-items-center justify-content-center mb-3">
-                                    <img
-                                        alt="College Logo"
-                                        className="img-fluid me-2"
-                                        src={apiImageWrapper(college?.logo)}
-                                        style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                                    />
-                                    <p className="fw-bold mb-0">{college?.name} , {college?.address?.stateD?.name} , {college?.address?.cityD?.name}</p>
-                                </div>
-                            </div>
-                        </div>
+  <div className="d-flex align-items-center justify-content-center gap-3">
+    
+    {/* Logo */}
+    <div className="bg-light rounded-3 p-2 d-flex align-items-center justify-content-center">
+      <img
+        src={apiImageWrapper(college?.logo)}
+        alt={college?.name}
+        className="img-fluid"
+        style={{ width: "60px", height: "60px", objectFit: "contain" }}
+      />
+    </div>
 
-                    </div>
+    {/* College Details */}
+    <div className="text-start">
+      <h6 className="fw-semibold mb-1">
+        {college?.name}
+      </h6>
+      <p className="text-muted mb-0 small">
+        {college?.address?.cityD?.name}, {college?.address?.stateD?.name}
+      </p>
+    </div>
+
+  </div>
+</div>
                 )}
                 <Form>
                     <Form.Control className="mb-2" name="name" onChange={(e) => {

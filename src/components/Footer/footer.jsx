@@ -25,7 +25,7 @@ const Footer = () => {
                     <div className="row">
 
                         {/* Logo & About */}
-                        <div className="col-lg-3 col-sm-6 col-xs-12">
+                        <div className="col-lg-4 col-sm-6 col-xs-12">
                             <div className="single_footer">
                                 <a href="/">
                                     <img
@@ -57,7 +57,7 @@ const Footer = () => {
                         </div>
 
                         {/* Courses */}
-                        <div className="col-lg-3 col-sm-6 col-xs-12">
+                        <div className="col-lg-4 col-sm-6 col-xs-12">
                             <div className="single_footer">
                                 <h4>Quick Links</h4>
                                 <ul>
@@ -70,23 +70,9 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        {/* Company */}
-                        <div className="col-lg-3 col-sm-6 col-xs-12">
-                            <div className="single_footer">
-                                <h4>Company</h4>
-                                <ul>
-                                    <li><a href="#">About us</a></li>
-                                    <li><a href="#">Knowledge Base</a></li>
-                                    <li><a href="#">Affiliate Program</a></li>
-                                    <li><a href="#">Community</a></li>
-                                    <li><a href="#">Market API</a></li>
-                                    <li><a href="#">Support team</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
+                        
                         {/* Contact Info */}
-                        <div className="col-lg-3 col-sm-6 col-xs-12">
+                        <div className="col-lg-4 col-sm-6 col-xs-12">
                             <div className="single_footer">
                                 <h4>Contact Info</h4>
 

@@ -24,7 +24,7 @@ const Header = () => {
                         </div>
 
                         {/* Hamburger (Mobile) */}
-                        <div className="col-6 d-lg-none text-end">
+                        <div className="col-6 d-lg-none d-flex justify-content-end">
                             <button
                                 className="mobile-toggle"
                                 onClick={() => setMenuOpen(!menuOpen)}
@@ -87,7 +87,7 @@ const Header = () => {
                     <ul>
                         <li><a href="/" onClick={() => setMenuOpen(false)}>Home</a></li>
                         <li><a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a></li>
-                        <li><a href="#" onClick={() => setMenuOpen(false)}>Colleges</a></li>
+                        <li><a href="/colleges" onClick={() => setMenuOpen(false)}>Colleges</a></li>
                         <li><a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a></li>
                         <li><a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a></li>
                         <li className="mobile-cta">
