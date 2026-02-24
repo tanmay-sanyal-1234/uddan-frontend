@@ -1,4 +1,4 @@
-import { useQuery ,useMutation, useQueryClient} from "@tanstack/react-query";
+import { useQuery ,useMutation, useQueryClient,useInfiniteQuery} from "@tanstack/react-query";
 import axios from "axios";
 
 export const useGetCollegeList = (page = 1, limit = 10, filters = "") => {
@@ -12,6 +12,28 @@ export const useGetCollegeList = (page = 1, limit = 10, filters = "") => {
     }
   }); 
 };
+
+// export const useGetCollegeList = (limit = 10, filters = "") => {
+//   return useInfiniteQuery({
+//     queryKey: ["useGetCollegeList", filters],
+
+//     queryFn: async ({ pageParam = 1 }) => {
+//       const res = await axios.get(
+//         `${import.meta.env.VITE_API_URL}/find-collages?page=${pageParam}&limit=${limit}&${filters}`
+//       );
+
+//       return res.data;
+//     },
+
+//     getNextPageParam: (lastPage) => {
+//       // Adjust according to your backend response
+//       if (lastPage.currentPage < lastPage.totalPages) {
+//         return lastPage.currentPage + 1;
+//       }
+//       return undefined;
+//     },
+//   });
+// };
 
 export const useGetCollegeListHome = ({page = 1, limit = 10, courseId}) => {
   return useQuery({
