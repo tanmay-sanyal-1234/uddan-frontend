@@ -8,10 +8,15 @@ import InstituteCard from "../components/instituteComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { useGetCourses, useGetCollegeListHome, useGetCity } from "../hooks/collegeHook";
 import SkeletonLoader from "@/components/SkeletonLoader";
-import { Button } from "react-bootstrap";
+import { Button , OverlayTrigger ,Overlay } from "react-bootstrap";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
 import { apiImageWrapper } from "../utils/helpers";
 import Select from "react-select";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 const Home = () => {
 
     const navigate = useNavigate();
@@ -96,33 +101,41 @@ const Home = () => {
 
         responsive: [
             {
-                breakpoint: 1200, // laptops
+                breakpoint: 1200,
                 settings: {
                     slidesToShow: 4,
+                    slidesToScroll: 1,
                 },
             },
             {
-                breakpoint: 992, // tablets
+                breakpoint: 992,
                 settings: {
                     slidesToShow: 3,
+                    slidesToScroll: 1,
                 },
             },
             {
-                breakpoint: 768, // mobile
+                breakpoint: 768,
                 settings: {
                     slidesToShow: 2,
-                    arrows: true,
+                    slidesToScroll: 1,
+                    arrows: false, // better UX
                 },
             },
             {
-                breakpoint: 480, // small mobile
+                breakpoint: 576, // better than 480
                 settings: {
                     slidesToShow: 1,
+                    slidesToScroll: 1,
                     arrows: false,
                 },
             },
         ],
     };
+
+
+
+
 
 
     const alumni = [
@@ -325,7 +338,30 @@ const Home = () => {
 
                         <div className="col-lg-12">
 
-                            <Slider {...settings}>
+                            <Swiper
+                                slidesPerView={5}
+                                spaceBetween={12}
+                                loop={true}
+                                //   autoplay={{ delay: 3000 }}
+                                navigation={true}
+                                breakpoints={{
+                                    0: {
+                                        slidesPerView: 2, // 👈 mobile
+                                    },
+                                    768: {
+                                        slidesPerView: 3,
+                                    },
+                                    992: {
+                                        slidesPerView: 4,
+                                    },
+                                    1200: {
+                                        slidesPerView: 5,
+                                    }
+                                }}
+                                modules={[Autoplay, Navigation, Pagination]}
+                            >
+
+
                                 {isFetchingCities ? (
                                     <SkeletonLoader count={1} width={500} height={100} />
                                 ) : (
@@ -333,26 +369,28 @@ const Home = () => {
 
                                         return (
                                             city?.isTop && (
-                                                <div key={city._id} className="px-1">
-                                                    <div className="rounded-2xl overflow-hidden border border-secondary top-college" onClick={() => navigate(`/colleges?city=${city._id}`)} >
-                                                        <img
-                                                            src={apiImageWrapper(city?.image)}
-                                                            alt={city?.name}
-                                                            className="city-img"
-                                                        />
+                                                <SwiperSlide key={city._id}>
+                                                    <div className="px-1">
+                                                        <div className="rounded-2xl overflow-hidden border border-primary top-college" onClick={() => navigate(`/colleges?city=${city._id}`)} >
+                                                            <img
+                                                                src={apiImageWrapper(city?.image)}
+                                                                alt={city?.name}
+                                                                className="city-img"
+                                                            />
 
-                                                        <div className="city-content">
-                                                            <h3>{city?.name}</h3>
+                                                            <div className="city-content">
+                                                                <h3>{city?.name}</h3>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </SwiperSlide>
                                             )
                                         )
 
                                     })
 
                                 )}
-                            </Slider>
+                            </Swiper>
                         </div>
 
 
@@ -426,6 +464,14 @@ const Home = () => {
 
             <section className="ab_one section-padding">
                 <div className="container">
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                            How It Works
+                        </h2>
+                        <p className="text-center">
+                            From choosing the right course to securing your admission, we support you at every step of your higher education journey.
+                        </p>
+                    </div>
 
                     <div className="col-lg-12 howitsection1 p-4 rounded-3 mb-4">
                         <div className="row align-items-center">
@@ -785,85 +831,44 @@ const Home = () => {
 
             <section className="alumni_section section-padding" aria-label="Alumni and Placements">
                 <div className="container text-center">
-                    <h1 className="alumni-number">1000+</h1>
+                    <h1 className="alumni-number"></h1>
 
-                    <p className="lead">Feedback Section</p>
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                            <span className="alumni-number">1000+</span> Feedback
+                        </h2>
+                        <p className="text-center">
+                            Hear directly from our students about their transformative journeys and successful placements after choosing Udaan Scholars.
+                        </p>
+                    </div>
 
                     <div className="row justify-content-center mt-4">
                         <div className="col-12">
-                            <div className="alumni-grid d-flex flex-wrap justify-content-center gap-3">
+                            <div className="alumni-grid d-flex flex-wrap justify-content-center gap-4">
                                 {alumni.map((a, index) => (
-                                    <div
-                                        key={a.id}
-                                        className="alumni-card text-center"
-                                        style={{
-                                            width: 110,
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            alignItems: "center",
-                                            gap: 8,
-                                            fontSize: 23
-                                        }}
-                                    >
-                                        <div
-                                            className="avatar"
-                                            style={{
-                                                width: "116px",
-                                                height: "116px",
-                                                borderRadius: 12,
-                                                overflow: "hidden",
-                                                boxShadow: "0 6px 18px rgba(0,0,0,0.25)",
-                                                background: "#fff",
-                                            }}
-                                        >
+                                    <div key={a.id} className="alumni-card text-center">
+
+                                        <div className="avatar" onClick={() => openGallery(index)}>
                                             <img
                                                 src={a.avatar}
                                                 alt={`Alumni ${a.id}`}
-                                                style={{ width: "100%", height: "100%", objectFit: "cover", cursor: "pointer" }}
-                                                onClick={() => openGallery(index)}
+                                                className="img-fluid"
                                             />
                                         </div>
-                                        <div
-                                            className="company-logo"
-                                            style={{
-                                                width: 80,
-                                                height: 28,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                background: "#fff",
-                                                borderRadius: 6,
-                                                padding: 4,
-                                                boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-                                                marginTop: 6,
-                                            }}
-                                        >
+
+                                        <div className="company-logo">
                                             {a?.name}
                                         </div>
+
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                {/* lightweight inline CSS for the section */}
-                <style>{`
-                    .alumni-number {
-                        font-size: 64px;
-                        font-weight: 800;
-                        color: #0ea5e9;
-                        margin-bottom: 8px;
-                    }
-                    .alumni-section .lead, .alumni_section .lead {
-                        color: #6b7280;
-                        margin-bottom: 18px;
-                    }
-                    .alumni-grid { gap: 18px; }
-                    @media (max-width: 768px) {
-                        .alumni-number { font-size: 44px; }
-                    }
-                `}</style>
+
             </section>
 
 

@@ -129,7 +129,7 @@ const CollegeDetails = () => {
                         </div>
 
                         {/* RIGHT */}
-                        <div className="content-right">
+                        {/* <div className="content-right">
                             <h3>Students Also Visited</h3>
 
                             {visitedColleges.map((college, index) => (
@@ -147,7 +147,7 @@ const CollegeDetails = () => {
 
                                 </div>
                             ))}
-                        </div>
+                        </div> */}
                     </div>
 
                 </div>

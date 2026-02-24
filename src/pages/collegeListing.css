@@ -51,6 +51,7 @@ body {
   width: 260px;
   flex-shrink: 0;
   padding-right: 20px;
+  height: -webkit-fill-available;
 }
 
 .listing-card .listing-image img {

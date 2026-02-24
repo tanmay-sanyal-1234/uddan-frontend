@@ -1,14 +1,63 @@
-
+import React, { useCallback } from "react";
 import FullPageLoader from "@/components/FullPageLoader";
 import { Link } from "react-router-dom";
 import { formatINR, apiImageWrapper } from "@/utils/helpers";
 import { useNavigate } from "react-router-dom";
+import { Button, OverlayTrigger, Overlay, Tooltip } from "react-bootstrap";
 const CollegeListComponent = ({ isFetching, data }) => {
     const navigate = useNavigate();
+    const courseNames = useCallback((college) => {
+        let names = college?.flatMap(stream =>
+            stream?.courses?.map(p => p?.courseD?.name) || []
+        )
+            .filter(Boolean)
+            .slice(0, 2)
+            .join(" / ");
+        let hasMore = college?.flatMap(stream =>
+            stream?.courses?.map(p => p?.courseD?.name) || []
+        )
+            .filter(Boolean)
+            .length > 2 ? " & more" : "";
+        let displayNames = names + hasMore || "";
+        names = names.length > 30 ? names.slice(0, 30) + "..." : names;
+        return {
+            names,
+            displayNames
+        }
+
+    }, [data])
+    const getName = useCallback((college) => {
+        let displayName = college?.name.length > 30 ? college?.name.slice(0, 30) + "..." : college?.name;
+        let tooltip = college?.name || "";
+        return {
+            displayName,
+            tooltip
+        }
+
+    }, [data])
+
+    const feesDisplay = useCallback((college) => {
+        let feesList = college?.flatMap(stream =>
+            stream?.courses?.map(p => p?.fees) || []
+        )
+            .filter(Boolean)
+            .slice(0, 2)
+            .map(f => formatINR(f, true))
+            .join(" / ");
+        return feesList || "";
+    }, [data]);
+
+    const viewMore = (link) => {
+        return (
+            <Link className="view-more-course" to={`/college-details/${link}`}>
+                View More
+            </Link>
+        )
+    }
     return (
         <div className="row">
             {isFetching && <FullPageLoader />}
-            {!isFetching && data?.data?.length === 0 && (
+            {!isFetching && data?.length === 0 && (
                 <div className="col-12 text-center">
                     <p>No colleges found matching the selected filters.</p>
                 </div>
@@ -67,16 +116,28 @@ const CollegeListComponent = ({ isFetching, data }) => {
                                 </ul>
 
                                 <div className="program-fees ms-3">
-                                    {college.streamAndCourse.map((stream) => (
-                                        stream?.courses?.map((courseFee, idx) => (
-                                            
-                                            <div key={idx}>
-                                                <p className="program">{courseFee.courseD?.name}</p>
+
+                                    {college?.streamAndCourse
+                                        ?.flatMap(stream => stream?.courses || [])
+                                        ?.slice(0, 2)
+                                        ?.map((courseFee, index) => (
+                                            <div key={index}>
+                                                <OverlayTrigger
+                                                    placement="top"
+                                                    overlay={<Tooltip>{courseFee.courseD?.name}</Tooltip>}
+                                                >
+                                                    <p className="program">
+                                                        {courseFee.courseD?.name?.length > 10
+                                                            ? courseFee.courseD?.name.slice(0, 10) + "..."
+                                                            : courseFee.courseD?.name}
+                                                    </p>
+                                                </OverlayTrigger>
+
                                                 
                                                 <p className="fees">{formatINR(courseFee?.fees, true)}</p>
                                             </div>
-                                        ))
-                                    ))}
+                                        ))}
+                                        {college?.streamAndCourse?.flatMap(stream => stream?.courses || [])?.length > 2 && viewMore(college._id)}
 
                                 </div>
                             </div>
