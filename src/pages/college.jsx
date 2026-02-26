@@ -282,7 +282,7 @@ const College = () => {
     return (
         <div>
             <section className="section-top">
-                <div className="container">
+                {/* <div className="container">
                     <div className="col-lg-10 offset-lg-1 text-center">
                         <div
                             className="section-top-title wow fadeInRight"
@@ -299,7 +299,7 @@ const College = () => {
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </section>
 
             <div className="best-cpurse section-padding">
@@ -350,7 +350,7 @@ const College = () => {
                         {/* LEFT CONTENT */}
 
                         {/* RIGHT SIDEBAR */}
-                        <div className="col-lg-4">
+                        <div className="col-lg-3">
                             {/* Search */}
                             <div className="sidebar-post">
                                 <div className="blog_search">
@@ -392,8 +392,8 @@ const College = () => {
                             </div>
 
                             {/* Skill Level */}
-                            <Accordion>
-                                <Accordion.Item eventKey="0">
+                            <Accordion defaultActiveKey={["0", "1", "2", "3"]} alwaysOpen>
+                                <Accordion.Item eventKey="0" >
                                     <Accordion.Header>Course</Accordion.Header>
                                     <Accordion.Body>
                                         <div className="sidebar-post">
@@ -527,7 +527,7 @@ const College = () => {
                                 </Accordion.Item>
                             </Accordion>
                         </div>
-                        <div className="col-lg-8">
+                        <div className="col-lg-9">
                             {/* <InfiniteScroll
                             scrollThreshold={0.8}
                             

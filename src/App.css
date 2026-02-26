@@ -288,7 +288,7 @@ margin-bottom: 60px;
 
 
 .howitworkT {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .gallery-modal {
@@ -545,7 +545,7 @@ color:#fff;
 .top_menu_bg{
 border: 1px solid #00000021;
     background: #ffffff;
-padding:10px 80px;
+padding:10px 3px;
 /* border-radius:30px; */
 }
 .navbar-fixed {
@@ -972,7 +972,7 @@ box-shadow:none;
 .home_content h1 {font-size: 32px;line-height:70px;}
  }
  @media only screen and (max-width:480px){
-.home_content h1 {font-size:20px;line-height:40px;}
+.home_content h1 {font-size:16px;line-height:40px;}
  }
 .home_content h1 span{color:#4d54fd;}
 .home_content p {
@@ -1017,9 +1017,13 @@ box-shadow:none;
 .home_si {
 	border: 1px solid #ddd;
   border-radius: 6px;
-  padding: 8px 12px;
+  /* padding: 8px 12px; */
   min-width: 260px;
   outline: none;
+  font-size: 14px;
+}
+.home_si.form-control{
+  padding: 0px;
   font-size: 14px;
 }
 .home_si:focus{
@@ -1033,15 +1037,16 @@ border: 2px solid #4d54fd!important;
   position: relative;
 }
 .home_sb button {
-	background-color: #4d54fd;
-	border-radius: 100px;
-	color: #fff;
-	cursor: pointer;
-	font-size: 20px;
+background-color: #ffffff;
+    border-radius: 100px;
+    color: #4d54fd;
+    cursor: pointer;
+    font-size: 20px;
+    border: 1px solid #4d54fd;
 }
 .home_sb button:hover{
 	color:#fff;
-	background:#1a2d62;
+	background:#4d54fd;
 }
 .home_tag {
 	margin-top: 30px;
@@ -1326,6 +1331,7 @@ color: #fff;
 	-webkit-transition: 0.2s;
 	-o-transition: 0.3s;
 	transition: 0.3s;
+  height: 300px;
 }
 .sf_top{overflow: hidden;}
 .single_feature_one span {
@@ -3536,7 +3542,7 @@ margin-bottom:60px;
 * ----------------------------------------------------------------------------------------
 */
 .section-top {
-	padding-top: 100px;
+	/* padding-top: 100px; */
 	position: relative;
 	background: url(../images/banner/section-bg.html);
 	background-size: cover;
@@ -5471,7 +5477,24 @@ img {
   margin-top: 20px;
   text-align: center;
 }
+@media (max-width: 992px) {
+    .gallery-modal .nav-btn.right {
+        right: -20px;
+    }
+    .gallery-modal .nav-btn.left {
+        left: -20px;
+    }
+}
 
+/* Mobile */
+@media (max-width: 576px) {
+    .gallery-modal .nav-btn.right {
+        right: 10px;   /* bring inside screen */
+    }
+    .gallery-modal .nav-btn.left {
+        left: -10px;
+    }
+}
 
 /* ============================
    FEATURE / CARD SECTIONS
@@ -5480,6 +5503,7 @@ img {
   .single_tp,
   .single_feature_one {
     padding: 30px;
+    height: 430px;
   }
 }
 
@@ -5488,6 +5512,7 @@ img {
   .single_feature_one {
     padding: 25px;
     text-align: center;
+    height: 430px;
   }
 
   .single_feature_one span {
@@ -5710,7 +5735,7 @@ img {
 .scroll-top {
   position: fixed;
   right: 20px;
-  bottom: 30px;
+  bottom: 87px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -5738,7 +5763,7 @@ img {
     width: 42px;
     height: 42px;
     right: 15px;
-    bottom: 20px;
+    bottom: 70px;
     font-size: 16px;
   }
 }
@@ -5750,8 +5775,8 @@ img {
    ROOT + GLOBAL
 ================================ */
 .college-page.premium {
-  background: #f8fafc;
-  padding: 40px 0 80px;
+  /* background: #f8fafc; */
+  padding: 40px 0 0px;
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -5764,19 +5789,20 @@ img {
   justify-content: space-between;
   align-items: flex-start;
   padding: 26px;
-  background: linear-gradient(135deg, #ffffff, #eef2ff);
+  /* background: linear-gradient(135deg, #ffffff, #eef2ff); */
   border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(37, 99, 235, 0.08);
+  /* box-shadow: 0 12px 32px rgba(37, 99, 235, 0.08); */
 }
 
 .college-page .header-left {
   display: flex;
   gap: 18px;
+  width: 84%;
 }
 
 .college-page .college-logo {
-  width: 72px;
-  height: 72px;
+  width: 125px;
+  height: 84px;
   object-fit: contain;
 }
 
@@ -5838,14 +5864,11 @@ img {
   margin-top: 32px;
   display: flex;
   gap: 14px;
-  padding: 12px;
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
   z-index: 10;
   overflow-x: auto;
+  width: 100%;
 }
 
 .college-page .college-tabs::-webkit-scrollbar {
@@ -5877,7 +5900,7 @@ img {
   position: relative;
 }
 .college-page .college-tabs {
-  padding: 12px 45px; /* increased from 12px */
+  /* padding: 12px 45px;  */
 }
 .tab-arrow {
   position: absolute;
@@ -5923,7 +5946,7 @@ img {
 ================================ */
 .college-page .college-content {
   display: grid;
-  grid-template-columns: 3fr 1.3fr;
+  grid-template-columns: 5fr 1.3fr;
   gap: 32px;
   margin-top: 34px;
 }
@@ -5932,10 +5955,10 @@ img {
    LEFT CONTENT / ARTICLE
 ================================ */
 .college-page .content-left {
-  background: #ffffff;
+  /* background: #ffffff; */
   border-radius: 16px;
   padding: 32px;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06);
+  /* box-shadow: 0 14px 34px rgba(0, 0, 0, 0.06); */
 }
 
 .college-page .author {
@@ -6157,7 +6180,7 @@ box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 
 @media (max-width: 576px) {
   .college-page .college-header h1 {
-    font-size: 22px;
+    font-size: 15px;
   }
 
   .college-page .content-left {
@@ -6169,6 +6192,135 @@ box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     text-align: center;
   }
 }
+
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+  transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  background-color: #1ebe5d;
+}
+
+/* ✅ Tablet */
+@media (max-width: 992px) {
+  .whatsapp-float {
+    width: 55px;
+    height: 55px;
+    bottom: 18px;
+    right: 18px;
+  }
+}
+
+/* ✅ Mobile */
+@media (max-width: 576px) {
+  .whatsapp-float {
+    width: 50px;
+    height: 50px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .whatsapp-float svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+
+
+
+
+
+
+@media (max-width: 992px) {
+  .impact-section {
+    padding: 0px 0px;
+  }
+  .section-padding{
+    padding: 20px 0px;
+  }
+  .faq-section{
+    padding: 20px 0px;
+  }
+}
+
+/* ✅ Mobile */
+@media (max-width: 576px) {
+  .impact-section {
+    padding: 0px 0px;
+  }
+  .section-padding{
+    padding: 20px 0px;
+  }
+  .faq-section{
+    padding: 20px 0px;
+  }
+  .college-page .college-logo{
+    width: 72px;
+    height: 72px;
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+@media (max-width: 768px) {
+
+  .college-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-actions {
+    width: 100%;
+    margin-top: 15px;
+
+    display: flex;
+    gap: 10px;
+  }
+
+  .college-page .apply-link,
+  .college-page .brochure-btn {
+      padding: 10px 10px;
+      font-size: 13px;
+      border-radius: 10px;     /* smaller radius looks better on mobile */
+      text-align: center;
+  }
+  .apply-not-for-mobile{
+    display: none !important;
+  }
+  .apply-for-mobile{
+    display: block !important;
+  }
+}
+
+.apply-not-for-mobile{
+  display: block;
+}
+.apply-for-mobile{
+  display: none;
+}
+
+
+
+
 
 
 

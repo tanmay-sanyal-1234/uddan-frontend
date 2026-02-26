@@ -96,7 +96,7 @@ const CollegeListComponent = ({ isFetching, data }) => {
                                         className="listing-logo"
                                     />
                                     <div className="ms-3">
-                                        <h3>{college.name}</h3>
+                                        <Link className="view-more-course" to={`/college-details/${college._id}`}><h3>{college.name}</h3></Link>
                                         <p className="location">
                                             <i className="fa fa-map-marker"></i>
                                             <span className="location-name ms-2"></span>{college?.address?.cityD?.name}, {college?.address?.stateD?.name}

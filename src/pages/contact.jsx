@@ -4,30 +4,10 @@ const Contact = () => {
     return (
         <div>
             <section className="section-top" style={{ backgroundImage: `url(${contact_image})` }}>
-                <div className="container">
-                    <div className="col-lg-10 offset-lg-1 text-center">
-                        <div
-                            className="section-top-title wow fadeInRight"
-                            data-wow-duration="1s"
-                            data-wow-delay="0.3s"
-                            data-wow-offset="0"
-                        >
-                            <h1>Get In Touch</h1>
-                            <ul>
-                                <li>
-                                    <a href="/">Home</a>
-                                </li>
-                                <li> / Contact</li>
-                            </ul>
-                        </div>
-                        {/* //.HERO-TEXT */}
-                    </div>
-                    {/* END COL */}
-                </div>
-                {/* END CONTAINER */}
+                
             </section>
 
-            <section className="address_area">
+            <section className="address_area mt-4">
                 <div className="container">
                     <div className="row text-center">
 
