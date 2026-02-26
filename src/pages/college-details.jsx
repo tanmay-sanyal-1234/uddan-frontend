@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef,useEffect } from "react";
 import { college_detail_image, image_2, college_logo } from "../assets/images";
 import { useGetCollegeDetailsById } from "../hooks/collegeHook";
 import { Link, useParams } from "react-router-dom";
@@ -7,6 +7,7 @@ import {apiImageWrapper} from "@/utils/helpers";
 import { useSelector,useDispatch } from "react-redux";
 import {setCollegeDetails,openModal,setBrochureDownloadUrl,setCanBrochureDownload} from "../store/slices/universityModalSlice";
 import UniversityModal from "../components/universityModal";
+import RecentlyViewed from "@/components/RecentlyViewed";
 const CollegeDetails = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -31,10 +32,39 @@ const CollegeDetails = () => {
             image: college_logo
         }
     ];
+    const tabsRef = useRef(null);
+
+const scrollTabs = (direction) => {
+  if (tabsRef.current) {
+    tabsRef.current.scrollBy({
+      left: direction === "left" ? -200 : 200,
+      behavior: "smooth",
+    });
+  }
+};
+
+useEffect(() => {
+    if (data) {
+      let viewedColleges = JSON.parse(localStorage.getItem("viewedColleges")) || [];
+
+      // Remove if already exists (avoid duplicate)
+      viewedColleges = viewedColleges.filter(
+        (item) => item._id !== data._id
+      );
+
+      // Add new college at beginning
+      viewedColleges.unshift(data);
+
+      // Keep only last 5 viewed
+      viewedColleges = viewedColleges.slice(0, 5);
+
+      localStorage.setItem("viewedColleges", JSON.stringify(viewedColleges));
+    }
+  }, [data]);
     return (
         <div>
             <section className="section-top">
-                <div className="container">
+                {/* <div className="container">
                     <div className="col-lg-10 offset-lg-1 text-center">
                         <div
                             className="section-top-title wow fadeInRight"
@@ -51,7 +81,7 @@ const CollegeDetails = () => {
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </section>
 
 
@@ -76,6 +106,20 @@ const CollegeDetails = () => {
                                     {/* <span>| Autonomous University</span>
                                     <span>| AACSB, AMBA Approved</span> */}
                                 </p>
+                                <div className="apply-not-for-mobile">
+                                <Link to="#" onClick={() => {
+                                    setModalOpenFor("apply");
+                                    dispatch(setCollegeDetails(data));
+                                    dispatch(openModal());
+                                }} className="apply-link">
+                                
+                                    ✔ Apply Now
+                                </Link>
+                                </div>
+                            </div>
+                        </div>
+                         <div className="header-actions">
+                            <div className="apply-for-mobile">
                                 <Link to="#" onClick={() => {
                                     setModalOpenFor("apply");
                                     dispatch(setCollegeDetails(data));
@@ -85,21 +129,28 @@ const CollegeDetails = () => {
                                     ✔ Apply Now
                                 </Link>
                             </div>
-                        </div>
 
-                        <button className="brochure-btn" onClick={() => {
-                            setModalOpenFor("brochure");
-                            dispatch(setCollegeDetails(data));
-                            dispatch(setCanBrochureDownload(true));
-                            dispatch(setBrochureDownloadUrl(apiImageWrapper(data?.media?.brochureUrl)));
-                            dispatch(openModal());
-                        }}>
-                            <i className="fa fa-download"></i> Download Brochure
-                        </button>
+    <button
+      className="brochure-btn"
+      onClick={() => {
+        setModalOpenFor("brochure");
+        dispatch(setCollegeDetails(data));
+        dispatch(setCanBrochureDownload(true));
+        dispatch(
+          setBrochureDownloadUrl(apiImageWrapper(data?.media?.brochureUrl))
+        );
+        dispatch(openModal());
+      }}
+    >
+      <i className="fa fa-download"></i> Download Brochure
+    </button>
+  </div>
+
+                        
                     </div>
 
                     {/* TABS */}
-                    <div className="college-tabs">
+                    {/* <div className="college-tabs">
                         {data?.tabs?.map((tab, index) => (
                             <button
                                 key={index}
@@ -109,7 +160,31 @@ const CollegeDetails = () => {
                                 {tab?.title}
                             </button>
                         ))}
-                    </div>
+                    </div> */}
+
+                    <div className="tabs-bar">
+
+  <button className="nav-arrow mt-4 me-3" onClick={() => scrollTabs("left")}>
+    ‹
+  </button>
+
+  <div className="college-tabs" ref={tabsRef}>
+    {data?.tabs?.map((tab, index) => (
+      <button
+        key={index}
+        className={`tab-item ${activeTab === index ? "active" : ""}`}
+        onClick={() => setActiveTab(index)}
+      >
+        {tab?.title}
+      </button>
+    ))}
+  </div>
+
+  <button className="nav-arrow mt-4 ms-3" onClick={() => scrollTabs("right")}>
+    ›
+  </button>
+
+</div>
 
                     {/* CONTENT */}
                     <div className="college-content">
@@ -129,6 +204,7 @@ const CollegeDetails = () => {
                         </div>
 
                         {/* RIGHT */}
+                        <RecentlyViewed/>
                         {/* <div className="content-right">
                             <h3>Students Also Visited</h3>
 

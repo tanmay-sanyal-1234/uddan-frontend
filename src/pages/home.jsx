@@ -21,13 +21,45 @@ const Home = () => {
 
     const navigate = useNavigate();
     const [courseFilterId, setCourseFilterId] = useState(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+    
+        
     const { data: coursesData, isLoading: isLoadingCourses, isFetching: isFetchingCourses, error: coursesError } = useGetCourses();
     const { data: citiesData, isLoading: isLoadingCities, isFetching: isFetchingCities, error: citiesError } = useGetCity();
     const { data: collegeListData, isLoading: isCollegeListLoading, isFetching: isCollegeListFetching, refetch: refetchCollegeList, error: collegeListError } = useGetCollegeListHome({ courseId: courseFilterId });
     const [activeTab, setActiveTab] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-
+    const toggleFAQ = (index) => {
+        setActiveIndex(activeIndex === index ? null : index);
+    };
+    const faqs = [
+        {
+            question: "What is Future Lift, and how can it help me with my career goals ?",
+            answer:
+                "Future Lift is an online career counseling platform dedicated to helping you make informed career decisions. Our AI-integrated assessment tests, affordable counseling sessions, and Instant Advice are designed to guide you toward a successful future."
+        },
+        {
+            question: "How does FutureLift better than other brands ?",
+            answer:
+                "FutureLift combines AI-driven assessments with personalized counseling, offering transparent guidance and affordable solutions tailored to individual needs."
+        },
+        {
+            question: "How do the AI-integrated assessment test work?",
+            answer:
+                "Our AI-integrated assessment analyzes your skills, interests, and aptitude to recommend suitable career paths using data-driven insights."
+        },
+        {
+            question: "Are the counseling sessions conducted online ?",
+            answer:
+                "Yes, all counseling sessions are conducted online through secure video conferencing platforms."
+        },
+        {
+            question: "How can I get started with FutureLift?",
+            answer:
+                "You can get started by signing up on our website and booking your first assessment or counseling session."
+        }
+    ];
     const openGallery = (index) => {
         setCurrentIndex(index);
         setShowModal(true);
@@ -250,7 +282,7 @@ const Home = () => {
 
                             <div className="home_content">
                                 <h1>
-                                    Find the Right College & Career Path - With Expert Guidance
+                                    Find the Right College & Career Path - With <br/>Expert Guidance
                                 </h1>
                                 <p>
                                     Udaan Scholars helps you make smart, stress-free decisions with expert counselling,
@@ -262,7 +294,7 @@ const Home = () => {
                                     <Select
                                         options={getCourseData}
                                         className="form-control home_si"
-                                        placeholder="Select Course"
+                                        placeholder="Courses"
                                         name="course"
                                         isLoading={isFetchingCourses}
                                         onChange={(e) => handleChangeForSearch(e, "course")}
@@ -277,7 +309,7 @@ const Home = () => {
                                     <Select
                                         options={getCities}
                                         className="form-control home_si"
-                                        placeholder="Select City"
+                                        placeholder="Cities"
                                         name="city"
                                         isLoading={isFetchingCities}
                                         onChange={(e) => handleChangeForSearch(e, "city")}
@@ -292,7 +324,7 @@ const Home = () => {
                                     <Select
                                         options={budgetRanges}
                                         className="form-control home_si"
-                                        placeholder="Select Budget Range"
+                                        placeholder="Budget Range"
                                         name="budget"
                                         onChange={(e) => handleChangeForSearch(e, "budget")}
                                         styles={{
@@ -304,8 +336,8 @@ const Home = () => {
                                         isClearable
                                     />
 
-                                    <button type="button" className="search_home_btn" onClick={handleSearch}>
-                                        Search <i className="fa fa-search"></i>
+                                    <button type="button" className="search_home_btn d-flex justify-content-center align-items-center" onClick={handleSearch}>
+                                        Explore College <i className="fa fa-search"></i>
                                     </button>
                                 </form>
                             </div>
@@ -473,15 +505,15 @@ const Home = () => {
                         </p>
                     </div>
 
-                    <div className="col-lg-12 howitsection1 p-4 rounded-3 mb-4">
+                    <div className="col-lg-12 howitsection1 p-4 ps-5 pe-5 rounded-3 mb-4">
                         <div className="row align-items-center">
 
                             <div className="col-lg-3 text-center text-lg-start">
                                 <h4>Student Profiling</h4>
                                 <img src={student_profiling} className="img-fluid" alt="Student Profiling" />
                             </div>
-
-                            <div className="col-lg-9 d-flex align-items-center howitworkT">
+                            <div className="col-lg-3"></div>
+                            <div className="col-lg-6 d-flex align-items-center howitworkT">
                                 <p className="mb-0">
                                     Gather deep insights into student strengths,
                                     weaknesses, interests, and potential through
@@ -491,15 +523,15 @@ const Home = () => {
 
                         </div>
                     </div>
-                    <div className="col-lg-12 p-4 rounded-3 mb-4">
+                    <div className="col-lg-12 p-4 rounded-3 mb-4 ps-5 pe-5">
                         <div className="row align-items-center flex-lg-row-reverse">
 
                             <div className="col-lg-3 text-center text-lg-start">
                                 <h4>One-on-One Counselling</h4>
                                 <img src={One_on_One_Counselling} className="img-fluid" alt="Counselling" />
                             </div>
-
-                            <div className="col-lg-9 d-flex align-items-center howitworkT">
+                                <div className="col-lg-3"></div>
+                            <div className="col-lg-6 d-flex align-items-center howitworkT">
                                 <p className="mb-0">
                                     Experienced counselors provide tailored guidance by understanding each student's goals,
                                     challenges, and aspirations to create a personalized growth strategy.
@@ -508,15 +540,15 @@ const Home = () => {
 
                         </div>
                     </div>
-                    <div className="col-lg-12 howitsection1 p-4 rounded-3 mb-4">
+                    <div className="col-lg-12 howitsection1 p-4 rounded-3 mb-4 ps-5 pe-5">
                         <div className="row align-items-center">
 
                             <div className="col-lg-3 text-center text-lg-start">
                                 <h4>Action Plan Creation</h4>
                                 <img src={Action_Plan_Creation} className="img-fluid" alt="Action Plan" />
                             </div>
-
-                            <div className="col-lg-9 d-flex align-items-center howitworkT">
+                                <div className="col-lg-3"></div>
+                            <div className="col-lg-6 d-flex align-items-center howitworkT">
                                 <p className="mb-0">
                                     Deliver a detailed and actionable roadmap,
                                     outlining clear steps, goals, and timelines tailored to meet each student's unique objectives.
@@ -599,7 +631,7 @@ const Home = () => {
             <section className="marketing_content_area section-padding">
                 <div className="container">
                     <div className="section-title">
-                        <h2>Why Students Choose Udaan Scholars</h2>
+                        <h2>What You’ll Get From Us</h2>
                         <p>
                             We're committed to making quality higher education accessible to every Indian student through expert guidance and genuine support.
                         </p>
@@ -614,11 +646,11 @@ const Home = () => {
                                     </span>
                                     <h2>
                                         <a href="single-service.html" target="_blank" rel="noreferrer">
-                                            Free Expert Counselling
+                                            100% Free Expert Counselling: Confused about your career path & college?
                                         </a>
                                     </h2>
                                 </div>
-                                <p>Receive personalised advice from experienced education counsellors — completely free of charge, no hidden costs.</p>
+                                <p>Get personalised career counselling in India to identify the right course and college based on your strengths and goals — completely free for Indian students.</p>
                             </div>
                         </div>
 
@@ -630,11 +662,11 @@ const Home = () => {
                                     </span>
                                     <h2>
                                         <a href="single-service.html" target="_blank" rel="noreferrer">
-                                            180+ Partner Institutes
+                                            400+ Verified Indian & Global Institutes: Choose from trusted colleges that match your profile
                                         </a>
                                     </h2>
                                 </div>
-                                <p>Official partnerships with leading colleges and universities across India for seamless admissions.</p>
+                                <p>We connect you with 400+ partner institutes across India and abroad, helping you secure admission based on your budget, location preference, and career ambitions.</p>
                             </div>
                         </div>
 
@@ -646,11 +678,11 @@ const Home = () => {
                                     </span>
                                     <h2>
                                         <a href="single-service.html" target="_blank" rel="noreferrer">
-                                            Scholarships up to ₹50,000
+                                            Up to ₹50,000 Scholarship & Loan Support: Financial support to reduce your burden.
                                         </a>
                                     </h2>
                                 </div>
-                                <p>Exclusive scholarship opportunities for eligible students to reduce financial burden.</p>
+                                <p>Eligible students can receive up to ₹50,000 in scholarship assistance, along with complete education loan guidance for a stress-free admission journey.</p>
                             </div>
                         </div>
 
@@ -662,11 +694,11 @@ const Home = () => {
                                     </span>
                                     <h2>
                                         <a href="single-service.html" target="_blank" rel="noreferrer">
-                                            Fast Response
+                                            Support Till Course Completion: We stay with you beyond admission.
                                         </a>
                                     </h2>
                                 </div>
-                                <p>We contact you within 24 hours — because your future can't wait.</p>
+                                <p>From course selection to placements, we provide ongoing academic and career guidance to help you succeed until graduation.</p>
                             </div>
                         </div>
                     </div>
@@ -677,10 +709,10 @@ const Home = () => {
             <div className="best-cpurse section-padding">
                 <div className="container">
                     <div className="section-title">
-                        <h2>Top Colleges</h2>
-                        <p>
+                        <h2>Explore Your Future College</h2>
+                        {/* <p>
                             Choose from the best colleges across India to kickstart your higher education journey.
-                        </p>
+                        </p> */}
                     </div>
 
                     <div className="row mb-4">
@@ -835,11 +867,11 @@ const Home = () => {
 
                     <div className="ab_content">
                         <h2 className="text-center">
-                            <span className="alumni-number">1000+</span> Feedback
+                            Student Stories
                         </h2>
-                        <p className="text-center">
+                        {/* <p className="text-center">
                             Hear directly from our students about their transformative journeys and successful placements after choosing Udaan Scholars.
-                        </p>
+                        </p> */}
                     </div>
 
                     <div className="row justify-content-center mt-4">
@@ -919,11 +951,10 @@ const Home = () => {
                         <div className="col-lg-6 offset-lg-3">
                             <div className="subs_form">
                                 <h3>
-                                    Subscribe to our newsletter, We don't make any spam.
+                                    Subscribe to our Newsletter
                                 </h3>
                                 <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit sed
-                                    eiusmod tempor enim minim.
+                                    We don’t make any spam.
                                 </p>
 
                                 <form className="home_subs">
@@ -938,6 +969,37 @@ const Home = () => {
                                 </form>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="faq-section">
+                <div className="container">
+                    <h2 className="faq-title">FAQs</h2>
+
+                    <div className="faq-list">
+                        {faqs.map((faq, index) => (
+                            <div
+                                key={index}
+                                className={`faq-item ${activeIndex === index ? "active" : ""}`}
+                            >
+                                <div
+                                    className="faq-question"
+                                    onClick={() => toggleFAQ(index)}
+                                >
+                                    <span>{faq.question}</span>
+                                    <span className="faq-icon">
+                                        {activeIndex === index ? "−" : "+"}
+                                    </span>
+                                </div>
+
+                                {activeIndex === index && (
+                                    <div className="faq-answer">
+                                        {faq.answer}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>

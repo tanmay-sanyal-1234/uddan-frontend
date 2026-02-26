@@ -77,7 +77,7 @@ const About = () => {
     return (
         <div>
             <section className="section-top" style={{ backgroundImage: `url(${about_banner})` }}>
-                <div className="container">
+                {/* <div className="container">
                     <div className="col-lg-10 offset-lg-1 text-center">
                         <div
                             className="section-top-title wow fadeInRight"
@@ -94,7 +94,7 @@ const About = () => {
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </section>
 
 

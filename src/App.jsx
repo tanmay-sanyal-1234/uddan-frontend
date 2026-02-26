@@ -12,11 +12,14 @@ import CollegeDetails from './pages/college-details';
 import ReferAndEarn from './pages/referandearn';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollToTop from "./components/ScrollToTop";
+import WhatsAppButton from "./components/WhatsAppButton";
 function App() {
 
 
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <MainLayout>
         <ToastContainer />
         <Routes>
@@ -28,6 +31,7 @@ function App() {
           <Route path="/refer-and-earn" element={<ReferAndEarn />} />
         </Routes>
       </MainLayout>
+      <WhatsAppButton />
     </BrowserRouter>
   )
 }
