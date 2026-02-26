@@ -84,6 +84,11 @@ const CollegeListComponent = ({ isFetching, data }) => {
                             </div>
                         </Link>
 
+
+
+
+
+
                         {/* Content */}
                         <div className="listing-content">
 
