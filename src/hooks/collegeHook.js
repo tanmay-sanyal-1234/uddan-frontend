@@ -132,7 +132,7 @@ export const useAddUniversityEnquiryForm = () => {
     return useMutation({
         mutationKey: ["useAddUniversityEnquiryFormAdd"],
         mutationFn: async (data) => {
-            const { data: res } = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/admin-api/apply-course`,data);
+            const { data: res } = await axios.post(`${import.meta.env.VITE_API_URL}/apply-course`,data);
             return res;
         }
         // onSuccess: async (data, variables) => {

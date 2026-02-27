@@ -5,12 +5,12 @@ import { college_logo } from "../assets/images";
 import { useSelector, useDispatch } from "react-redux";
 import { closeModal ,setBrochureDownloadUrl, setCanBrochureDownload,setCollegeDetails} from "../store/slices/universityModalSlice";
 import { apiImageWrapper } from "@/utils/helpers";
-import { useGetCityState ,useGetCoursesForCollegeWise,useAddUniversityEnquiryForm} from "@/hooks/collegeHook";
+import { useGetCityState ,useGetCoursesForCollegeWise,useAddUniversityEnquiryForm,useGetCourses,useGetCity} from "@/hooks/collegeHook";
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import FullPageLoader from "@/components/FullPageLoader";
 import { useNavigate } from "react-router-dom";
-import { set, z } from "zod";
+import {  z } from "zod";
 const UniversityModal = ({ sectionFrom = "others" }) => {
         const navigate = useNavigate();
     const isOpen = useSelector((state) => state.universityModal.isOpen);
@@ -24,7 +24,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
         email: "",
         phone: "",
         course: null,
-        state: null,
+        // state: null,
         city: null,
         collegeId: college?._id || null,
         appliedFrom: sectionFrom
@@ -54,12 +54,12 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
       message: "Course is required",
     }),
 
-  state: z
-    .string()
-    .nullable()
-    .refine(val => val !== null, {
-      message: "State is required",
-    }),
+//   state: z
+//     .string()
+//     .nullable()
+//     .refine(val => val !== null, {
+//       message: "State is required",
+//     }),
 
   city: z
     .string()
@@ -72,7 +72,9 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
 });
     const dispatch = useDispatch();
     const { data: cityStateData, isFetching } = useGetCityState();
-    const { data: coursesData, isFetching: isFetchingCourses } = useGetCoursesForCollegeWise(college?._id || "");
+    const { data: coursesData, isFetching: isFetchingCourses } = useGetCourses();
+    const { data: cityData, isFetching: isFetchingcity } = useGetCity();
+
     const downloadFile = async (url, filename) => {
         const res = await fetch(url);
         const blob = await res.blob();
@@ -104,18 +106,26 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
         }
     }, [isFetchingCourses, coursesData])
 
+    // const cityOption = useCallback(() => {
+    //     if (cityStateData && form.state) {
+    //         const state = cityStateData.find(s => s._id === form.state?.value);
+    //         if (state) {
+    //             return state.cities.map(city => ({ value: city._id, label: city.name }));
+    //         } else {
+    //             return [];
+    //         }
+    //     } else {
+    //         return [];
+    //     }
+    // }, [form.state, cityStateData])
     const cityOption = useCallback(() => {
-        if (cityStateData && form.state) {
-            const state = cityStateData.find(s => s._id === form.state?.value);
-            if (state) {
-                return state.cities.map(city => ({ value: city._id, label: city.name }));
-            } else {
-                return [];
-            }
+        if (cityData && !isFetchingcity) {
+            return cityData.map(city => ({ value: city._id, label: city.name }));
+            
         } else {
             return [];
         }
-    }, [form.state, cityStateData])
+    }, [isFetchingcity, cityData])
     const handelSubmit = async(e) => {
         
         e.preventDefault();
@@ -266,7 +276,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                         })
                     }} placeholder="Contact No." />
                     {errors.phone && <span className="text-danger">{errors.phone}</span>}
-                    <div className="form-group">
+                    {/* <div className="form-group">
                     <Select
                         name="state"
                         value={form.state}
@@ -278,13 +288,13 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                             setForm({
                                 ...form,
                                 state: selected,
-                                city: null, // 🔥 reset city on state change
+                                city: null, 
                             })
                         }}
                         options={stateOption()}
                     />
                     {errors.state && <span className="text-danger">{errors.state}</span>}
-                    </div>
+                    </div> */}
                     <div className="form-group">
                         <Select
                                 name="city"
@@ -295,7 +305,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                                 onChange={(selected) =>
                                     setForm({ ...form, city: selected })
                                 }
-                                isDisabled={!form.state}
+                                
                                 options={cityOption()}
                             />
                             {errors.city && <span className="text-danger">{errors.city}</span>}
