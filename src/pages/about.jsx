@@ -5,32 +5,35 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 const About = () => {
     const [activeIndex, setActiveIndex] = useState(0);
-
+    const [showModal, setShowModal] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const toggleFAQ = (index) => {
         setActiveIndex(activeIndex === index ? null : index);
     };
 
+    const openGallery = (index) => {
+        setCurrentIndex(index);
+        setShowModal(true);
+    };
     const partners = [
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/93ea745d085c45d18a1c10775d13a3dd/optimized/Asset-1-2.svg",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/c171101356644c19baa387caa516b39a/original/logo-2.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/4f8a9164ee7f470c8010fe85dce0683b/original/Jaipuria_Institute_of_management_logo-1200x319-2.webp",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/a02a36e2cf284b2eb488a1777a280eb6/original/ISBRlogo.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/d03375b1727943e5b1fc747e6f0bb9fe/original/BIBS-Logo-white.webp",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/c15462912ccc40a18bd7991e15311d9f/optimized/AIMS-logo.svg",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/10a32d3af6d840f7a1a9a4b3d81559a9/original/gibs-bangalore-logo.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/763cfc147b9249bdac1d5bfaae8b9bc2/original/Globe-and-ISME-Logo.webp",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/b093f29ce523441292bbf4c51782e5da/original/logo-1.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/4e36c791a17c4fc8b0901225f8969030/original/logo-4.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/ab7785f6825c4262a43b79759ac17f7b/original/logo.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/6b18977271c9438294e68639364fa761/original/logo.webp",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/192553e14c7e48d5ae825dad1365082e/optimized/174df9_1a4f9315e28d4873bb2616c8c041dc9f_mv2.avif",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/6e260505504642faab5bb204a7763b43/original/logo-3.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/ef19aebbd26845b5bae065d600ccd13f/original/logo-4.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/c1bfe691cd6b4faa80c2fbc5d7ecaa16/original/TNU-Logo-Last-01-e1751626402981.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/28833ab97b68462aab0a76183d362e8d/original/au-footer-logo.png",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/61d7f4d84a5b4ac2be8864ea56a87a9a/optimized/nmit-logo.svg",
-        "https://cdn.gamma.app/wgu6c0i1jdpm1pv/d856a46313da4819978b7fe8291e7f9f/original/logo-alliance-university.webp",
+        {
+            name: "dd",
+            logo: "https://cdn.gamma.app/wgu6c0i1jdpm1pv/93ea745d085c45d18a1c10775d13a3dd/optimized/Asset-1-2.svg"
+        },
+        {
+            name: "jhdbbs",
+            logo: "https://cdn.gamma.app/wgu6c0i1jdpm1pv/c171101356644c19baa387caa516b39a/original/logo-2.png"
+        }
     ];
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (prev + 1) % partners.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) =>
+            prev === 0 ? partners.length - 1 : prev - 1
+        );
+    };
     const partnerSettings = {
         dots: false,
         infinite: true,
@@ -301,44 +304,50 @@ const About = () => {
                 </div>
             </section>
 
-            <div className="partner-logo section-padding">
-                <div className="container">
-                    <div className="row">
-                        {/* LEFT CONTENT */}
-                        <div className="col-lg-6">
-                            <div className="partner_title">
-                                <h4>Our Partner</h4>
-                                <h1>Trusted Company Arround The World!</h1>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectur adipiscing elit sed eiusmod
-                                    tempor incididunt.
-                                </p>
-                            </div>
-                        </div>
 
-                        {/* RIGHT LOGOS */}
-                        <div className="col-lg-6">
-  <Slider {...partnerSettings}>
-    {partners.map((logo, index) => (
-      <div key={index} className="px-3">
-        <div className="partner_logo">
-          <a href="#" aria-label={`Partner ${index + 1}`}>
-            <img
-              src={logo}
-              alt={`Partner ${index + 1}`}
-              className="img-fluid"
-            />
-          </a>
-        </div>
-      </div>
-    ))}
-  </Slider>
-</div>
-                    </div>
-                </div>
-            </div>
+
+
+
 
             {/* FAQ SECTION */}
+
+
+
+
+
+
+            <section className="partner_ins_section">
+                <div className="partner_ins_container">
+
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                            Our Partner
+                        </h2>
+                        {/* <p className="text-center">
+                            Hear directly from our students about their transformative journeys and successful placements after choosing Udaan Scholars.
+                        </p> */}
+                    </div>
+
+                    <div className="partner_ins_grid">
+                        {partners.map((partner, index) => (
+                            <div className="partner_ins_card" key={index}>
+                                <div className="partner_ins_logo">
+                                    <img src={partner.logo} alt={partner.name} />
+                                </div>
+                                <p className="partner_ins_name">{partner.name}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="text-center mt-3">
+                        <button className="btn_one " onClick={() => openGallery(0)}>
+                            Read More
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+
+
 
 
             <section className="faq-section">
@@ -371,6 +380,29 @@ const About = () => {
                     </div>
                 </div>
             </section>
+            {showModal && (
+                <div className="gallery-modal">
+                    <div className="gallery-content">
+
+                        <button className="close-btn" onClick={() => setShowModal(false)}>×</button>
+
+                        <button className="nav-btn left" onClick={prevSlide}>❮</button>
+
+                        <div className="image-container">
+                            <img
+                                src={partners[currentIndex].logo}
+                                alt="Selected Alumni"
+                            />
+                            <div className="feedback-box">
+                                <h5>{partners[currentIndex].name}</h5>
+                            </div>
+                        </div>
+
+                        <button className="nav-btn right" onClick={nextSlide}>❯</button>
+
+                    </div>
+                </div>
+            )}
         </div>
 
     );

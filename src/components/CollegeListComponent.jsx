@@ -1,10 +1,16 @@
-import React, { useCallback } from "react";
+import React, { useCallback ,useState} from "react";
 import FullPageLoader from "@/components/FullPageLoader";
 import { Link } from "react-router-dom";
 import { formatINR, apiImageWrapper } from "@/utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { Button, OverlayTrigger, Overlay, Tooltip } from "react-bootstrap";
+import { useSelector,useDispatch } from "react-redux";
+import {setCollegeDetails,openModal,setBrochureDownloadUrl,setCanBrochureDownload} from "../store/slices/universityModalSlice";
+import UniversityModal from "../components/universityModal";
 const CollegeListComponent = ({ isFetching, data }) => {
+    const dispatch = useDispatch();
+    const isModalOpen = useSelector((state) => state.universityModal.isOpen);
+    const [modalOpenFor , setModalOpenFor] = useState("apply");
     const navigate = useNavigate();
     const courseNames = useCallback((college) => {
         let names = college?.flatMap(stream =>
@@ -154,7 +160,11 @@ const CollegeListComponent = ({ isFetching, data }) => {
                                 </p>
 
                                 <div className="action-buttons">
-                                    <button className="apply-btn" onClick={() => navigate(`/college-details/${college._id}`)}>Apply Now</button>
+                                    <button className="apply-btn" onClick={() => {
+                                        setModalOpenFor("apply");
+                                        dispatch(setCollegeDetails(college));
+                                        dispatch(openModal());
+                                    }}>Apply Now</button>
                                     <button className="brochure-btn" onClick={() => navigate(`/college-details/${college._id}`)}>Brochure</button>
                                 </div>
                             </div>
@@ -164,6 +174,7 @@ const CollegeListComponent = ({ isFetching, data }) => {
 
                 </div>
             ))}
+            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor}/>}
         </div>
     )
 };
