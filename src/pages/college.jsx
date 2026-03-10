@@ -22,6 +22,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const College = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [searchParamsAttr, setSearchParamsAttr] = useState(searchParams);
+    const [showMobileFilter, setShowMobileFilter] = useState(false);
     const [pages, setPages] = useState(1);
     const [limit, setLimit] = useState(10);
     const [filterQuery, setFilterQuery] = useState("");
@@ -41,7 +42,7 @@ const College = () => {
     const [stateSearch, setStateSearch] = useState("");
     const [citySearch, setCitySearch] = useState("");
     const [streamSearch, setStreamSearch] = useState("");
-    const { data, isLoading, isFetching, refetch, error,fetchNextPage,hasNextPage } = useGetCollegeList(
+    const { data, isLoading, isFetching, refetch, error, fetchNextPage, hasNextPage } = useGetCollegeList(
         pages,
         limit,
         filterQuery,
@@ -301,7 +302,199 @@ const College = () => {
                     </div>
                 </div> */}
             </section>
+            <div className="row">
+                <div className="mobile_filter_bar mt-5">
 
+                    {/* <div className="mobile_filter_btn">
+                        <i className="fa fa-sort"></i> Sort
+                    </div>
+
+                    <div className="mobile_divider"></div> */}
+
+                    <div
+                        className="mobile_filter_btn"
+                        onClick={() => setShowMobileFilter(true)}
+                    >
+                        <i className="fa fa-filter"></i> Filter
+
+                        {Object.values(checkItems).flat().length > 0 && (
+                            <span className="filter_badge">
+                                {Object.values(checkItems).flat().length}
+                            </span>
+                        )}
+                    </div>
+
+                </div>
+
+                <div className="container">
+                    {showMobileFilter && (
+                        <div className="mobile_filter_overlay">
+
+                            <div className="mobile_filter_drawer">
+
+                                <div className="mobile_filter_header">
+                                    <h5>Filters</h5>
+
+                                    <button onClick={() => setShowMobileFilter(false)}>
+                                        ✕
+                                    </button>
+                                </div>
+
+                                <div className="mobile_filter_body">
+
+                                    <Accordion defaultActiveKey={["0", "1", "2", "3"]} alwaysOpen>
+
+                                        {/* COURSE */}
+                                        <Accordion.Item eventKey="0">
+                                            <Accordion.Header>Course</Accordion.Header>
+                                            <Accordion.Body>
+
+                                                <input
+                                                    type="text"
+                                                    className="filter-search"
+                                                    placeholder="Search course..."
+                                                    value={courseSearch}
+                                                    onChange={(e) => setCourseSearch(e.target.value)}
+                                                />
+
+                                                {filteredCourses.map((course) => (
+                                                    <div key={course._id} className="single_langu">
+
+                                                        <input
+                                                            type="checkbox"
+                                                            value={course._id}
+                                                            name="course"
+                                                            checked={checkItems.course.some(
+                                                                (c) => c.id === course._id
+                                                            )}
+                                                            onChange={handleFilterChange}
+                                                        />
+
+                                                        {course.name}
+
+                                                    </div>
+                                                ))}
+
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+
+                                        {/* STATE */}
+
+                                        <Accordion.Item eventKey="1">
+                                            <Accordion.Header>State</Accordion.Header>
+                                            <Accordion.Body>
+
+                                                <input
+                                                    type="text"
+                                                    className="filter-search"
+                                                    placeholder="Search state..."
+                                                    value={stateSearch}
+                                                    onChange={(e) => setStateSearch(e.target.value)}
+                                                />
+
+                                                {filteredStates.map((state) => (
+                                                    <div key={state._id} className="single_langu">
+
+                                                        <input
+                                                            type="checkbox"
+                                                            value={state._id}
+                                                            name="state"
+                                                            checked={checkItems.state.some(
+                                                                (c) => c.id === state._id
+                                                            )}
+                                                            onChange={handleFilterChange}
+                                                        />
+
+                                                        {state.name}
+
+                                                    </div>
+                                                ))}
+
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+
+                                        {/* CITY */}
+
+                                        <Accordion.Item eventKey="2">
+                                            <Accordion.Header>City</Accordion.Header>
+                                            <Accordion.Body>
+
+                                                <input
+                                                    type="text"
+                                                    className="filter-search"
+                                                    placeholder="Search city..."
+                                                    value={citySearch}
+                                                    onChange={(e) => setCitySearch(e.target.value)}
+                                                />
+
+                                                {filteredCities.map((city) => (
+                                                    <div key={city._id} className="single_langu">
+
+                                                        <input
+                                                            type="checkbox"
+                                                            value={city._id}
+                                                            name="city"
+                                                            checked={checkItems.city.some(
+                                                                (c) => c.id === city._id
+                                                            )}
+                                                            onChange={handleFilterChange}
+                                                        />
+
+                                                        {city.name}
+
+                                                    </div>
+                                                ))}
+
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+
+                                        {/* STREAM */}
+
+                                        <Accordion.Item eventKey="3">
+                                            <Accordion.Header>Stream</Accordion.Header>
+                                            <Accordion.Body>
+
+                                                <input
+                                                    type="text"
+                                                    className="filter-search"
+                                                    placeholder="Search stream..."
+                                                    value={streamSearch}
+                                                    onChange={(e) => setStreamSearch(e.target.value)}
+                                                />
+
+                                                {filteredStreams.map((stream) => (
+                                                    <div key={stream._id} className="single_langu">
+
+                                                        <input
+                                                            type="checkbox"
+                                                            value={stream._id}
+                                                            name="stream"
+                                                            checked={checkItems.stream.some(
+                                                                (c) => c.id === stream._id
+                                                            )}
+                                                            onChange={handleFilterChange}
+                                                        />
+
+                                                        {stream.name}
+
+                                                    </div>
+                                                ))}
+
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+
+                                    </Accordion>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    )}
+                </div>
+
+            </div>
             <div className="best-cpurse section-padding">
                 <div className="container">
                     {Object.keys(checkItems).some(
@@ -350,7 +543,7 @@ const College = () => {
                         {/* LEFT CONTENT */}
 
                         {/* RIGHT SIDEBAR */}
-                        <div className="col-lg-3">
+                        <div className="col-lg-3 filter_sidebar">
                             {/* Search */}
                             <div className="sidebar-post">
                                 <div className="blog_search">

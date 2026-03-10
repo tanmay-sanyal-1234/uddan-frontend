@@ -359,12 +359,12 @@ const Home = () => {
             </section>
             <section className="tp_feature section-padding">
                 <div className="container">
-
-                    <div className="section_top text-center">
-                        <h4>Top Cities</h4>
-                        <h2>Explore the best cities for learning</h2>
-
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                            Top Cities
+                        </h2>
                     </div>
+                    
 
                     <div className="row">
 
@@ -373,24 +373,17 @@ const Home = () => {
                             <Swiper
                                 slidesPerView={5}
                                 spaceBetween={12}
-                                loop={true}
-                                //   autoplay={{ delay: 3000 }}
+                                loop={false}
+                                loopAdditionalSlides={5}
                                 navigation={true}
                                 breakpoints={{
-                                    0: {
-                                        slidesPerView: 2, // 👈 mobile
-                                    },
-                                    768: {
-                                        slidesPerView: 3,
-                                    },
-                                    992: {
-                                        slidesPerView: 4,
-                                    },
-                                    1200: {
-                                        slidesPerView: 5,
-                                    }
+                                    0: { slidesPerView: 2 },
+                                    768: { slidesPerView: 3 },
+                                    992: { slidesPerView: 4 },
+                                    1200: { slidesPerView: 5 }
                                 }}
                                 modules={[Autoplay, Navigation, Pagination]}
+                                onSwiper={(swiper) => swiper.navigation.update()}
                             >
 
 
@@ -500,9 +493,9 @@ const Home = () => {
                         <h2 className="text-center">
                             How It Works
                         </h2>
-                        <p className="text-center">
+                        {/* <p className="text-center">
                             From choosing the right course to securing your admission, we support you at every step of your higher education journey.
-                        </p>
+                        </p> */}
                     </div>
 
                     <div className="col-lg-12 howitsection1 p-4 ps-5 pe-5 rounded-3 mb-4">
@@ -512,8 +505,8 @@ const Home = () => {
                                 <h4>Student Profiling</h4>
                                 <img src={student_profiling} className="img-fluid" alt="Student Profiling" />
                             </div>
-                            <div className="col-lg-3"></div>
-                            <div className="col-lg-6 d-flex align-items-center howitworkT">
+                            <div className="col-lg-1"></div>
+                            <div className="col-lg-8 d-flex align-items-center howitworkT">
                                 <p className="mb-0">
                                     Gather deep insights into student strengths,
                                     weaknesses, interests, and potential through
@@ -530,8 +523,8 @@ const Home = () => {
                                 <h4>One-on-One Counselling</h4>
                                 <img src={One_on_One_Counselling} className="img-fluid" alt="Counselling" />
                             </div>
-                                <div className="col-lg-3"></div>
-                            <div className="col-lg-6 d-flex align-items-center howitworkT">
+                                <div className="col-lg-1"></div>
+                            <div className="col-lg-8 d-flex align-items-center howitworkT">
                                 <p className="mb-0">
                                     Experienced counselors provide tailored guidance by understanding each student's goals,
                                     challenges, and aspirations to create a personalized growth strategy.
@@ -547,8 +540,8 @@ const Home = () => {
                                 <h4>Action Plan Creation</h4>
                                 <img src={Action_Plan_Creation} className="img-fluid" alt="Action Plan" />
                             </div>
-                                <div className="col-lg-3"></div>
-                            <div className="col-lg-6 d-flex align-items-center howitworkT">
+                                <div className="col-lg-1"></div>
+                            <div className="col-lg-8 d-flex align-items-center howitworkT">
                                 <p className="mb-0">
                                     Deliver a detailed and actionable roadmap,
                                     outlining clear steps, goals, and timelines tailored to meet each student's unique objectives.
@@ -630,75 +623,80 @@ const Home = () => {
             </section> */}
             <section className="marketing_content_area section-padding">
                 <div className="container">
-                    <div className="section-title">
-                        <h2>What You’ll Get From Us</h2>
-                        <p>
-                            We're committed to making quality higher education accessible to every Indian student through expert guidance and genuine support.
-                        </p>
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                            What You’ll Get From Us
+                        </h2>
+                        {/* <p className="text-center">
+                            From choosing the right course to securing your admission, we support you at every step of your higher education journey.
+                        </p> */}
                     </div>
-
                     <div className="row">
                         <div className="col-lg-6 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay="0.1s">
                             <div className="single_feature_one">
                                 <div className="sf_top">
-                                    <span className="ti-book ss_one">
+                                    <span className="ti-book ss_one mb-3">
                                         <i class="fa fa-users"></i>
                                     </span>
                                     <h2>
                                         <a href="single-service.html" target="_blank" rel="noreferrer">
-                                            100% Free Expert Counselling: Confused about your career path & college?
+                                            100% Free Expert Counselling:
                                         </a>
                                     </h2>
                                 </div>
-                                <p>Get personalised career counselling in India to identify the right course and college based on your strengths and goals — completely free for Indian students.</p>
+                                <h5 className="what_will_sub_heading">Confused about your career path & college?</h5>
+                                <p className="mt-3"> Get personalised career counselling in India to identify the right course and college based on your strengths and goals — completely free for Indian students.</p>
                             </div>
                         </div>
 
                         <div className="col-lg-6 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay="0.2s">
                             <div className="single_feature_one">
                                 <div className="sf_top">
-                                    <span className="ti-heart ss_two">
+                                    <span className="ti-heart ss_two mb-3">
                                         <i class="fa fa-graduation-cap"></i>
                                     </span>
                                     <h2>
                                         <a href="single-service.html" target="_blank" rel="noreferrer">
-                                            400+ Verified Indian & Global Institutes: Choose from trusted colleges that match your profile
+                                            400+ Verified Indian & Global Institutes: 
                                         </a>
                                     </h2>
                                 </div>
-                                <p>We connect you with 400+ partner institutes across India and abroad, helping you secure admission based on your budget, location preference, and career ambitions.</p>
+                                <h5 className="what_will_sub_heading">Choose from trusted colleges that match your profile</h5>
+                                <p className="mt-3">We connect you with 400+ partner institutes across India and abroad, helping you secure admission based on your budget, location preference, and career ambitions.</p>
                             </div>
                         </div>
 
                         <div className="col-lg-6 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay="0.3s">
                             <div className="single_feature_one">
                                 <div className="sf_top">
-                                    <span className="ti-user ss_three">
+                                    <span className="ti-user ss_three mb-3">
                                         <i class="fa fa-graduation-cap"></i>
                                     </span>
                                     <h2>
                                         <a href="single-service.html" target="_blank" rel="noreferrer">
-                                            Up to ₹50,000 Scholarship & Loan Support: Financial support to reduce your burden.
+                                            Up to ₹50,000 Scholarship & Loan Support:
                                         </a>
                                     </h2>
                                 </div>
-                                <p>Eligible students can receive up to ₹50,000 in scholarship assistance, along with complete education loan guidance for a stress-free admission journey.</p>
+                                <h5 className="what_will_sub_heading">Financial support to reduce your burden</h5>
+                                <p className="mt-3">Eligible students can receive up to ₹50,000 in scholarship assistance, along with complete education loan guidance for a stress-free admission journey.</p>
                             </div>
                         </div>
 
                         <div className="col-lg-6 col-sm-6 col-xs-12 wow fadeInUp" data-wow-delay="0.4s">
                             <div className="single_feature_one">
                                 <div className="sf_top">
-                                    <span className="ti-eye ss_four">
+                                    <span className="ti-eye ss_four mb-3">
                                         <i class="fa fa-phone"></i>
                                     </span>
                                     <h2>
                                         <a href="single-service.html" target="_blank" rel="noreferrer">
-                                            Support Till Course Completion: We stay with you beyond admission.
+                                            Support Till Course Completion:
                                         </a>
                                     </h2>
                                 </div>
-                                <p>From course selection to placements, we provide ongoing academic and career guidance to help you succeed until graduation.</p>
+                                <h5 className="what_will_sub_heading">We stay with you beyond admission</h5>
+                                <p className="mt-3">From course selection to placements, we provide ongoing academic and career guidance to help you succeed until graduation.</p>
                             </div>
                         </div>
                     </div>
@@ -708,10 +706,12 @@ const Home = () => {
 
             <div className="best-cpurse section-padding">
                 <div className="container">
-                    <div className="section-title">
-                        <h2>Explore Your Future College</h2>
-                        {/* <p>
-                            Choose from the best colleges across India to kickstart your higher education journey.
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                            Explore Your Future College
+                        </h2>
+                        {/* <p className="text-center">
+                            From choosing the right course to securing your admission, we support you at every step of your higher education journey.
                         </p> */}
                     </div>
 

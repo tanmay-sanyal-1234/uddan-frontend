@@ -102,7 +102,7 @@ useEffect(() => {
                                 </h1>
 
                                 <p className="meta">
-                                    <i className="fa fa-map-marker"></i> {data?.address?.cityD?.name}, {data?.address?.stateD?.name}
+                                    <i className="fa fa-map-marker mt-1"></i> {data?.address?.cityD?.name}, {data?.address?.stateD?.name}
                                     {/* <span>| Autonomous University</span>
                                     <span>| AACSB, AMBA Approved</span> */}
                                 </p>

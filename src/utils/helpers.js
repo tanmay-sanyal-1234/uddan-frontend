@@ -33,3 +33,12 @@ export const apiImageWrapper = (imagePath) => {
         return no_image;
     }
 }
+export const nameShortAndTootip = (name) => {
+    let displayName = name.length > 30 ? name.slice(0,30) + "..." : name;
+    let tooltip = name || "";
+    return {
+        displayName,
+        tooltip
+    }
+
+}
