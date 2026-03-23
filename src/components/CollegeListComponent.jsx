@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, OverlayTrigger, Overlay, Tooltip } from "react-bootstrap";
 import { useSelector,useDispatch } from "react-redux";
 import {setCollegeDetails,openModal,setBrochureDownloadUrl,setCanBrochureDownload} from "../store/slices/universityModalSlice";
+import {setTabActiveFor} from "../store/slices/collegeFilterSlice";
 import UniversityModal from "../components/universityModal";
 const CollegeListComponent = ({ isFetching, data }) => {
     const dispatch = useDispatch();
@@ -62,7 +63,7 @@ const CollegeListComponent = ({ isFetching, data }) => {
     }
     return (
         <div className="row">
-            {isFetching && <FullPageLoader />}
+            {/* {isFetching && <FullPageLoader />} */}
             {!isFetching && data?.length === 0 && (
                 <div className="col-12 text-center">
                     <p>No colleges found matching the selected filters.</p>
@@ -122,8 +123,14 @@ const CollegeListComponent = ({ isFetching, data }) => {
                             {/* Middle */}
                             <div className="listing-details">
                                 <ul className="quick-links">
-                                    <li><Link to={`/college-details/${college._id}`}>Course Fees</Link></li>
-                                    <li><Link to={`/college-details/${college._id}`}>Admission</Link></li>
+                                    <li><Link  to={`/college-details/${college._id}`} onClick={() => {
+                                        dispatch(setTabActiveFor('course'))
+                                        
+                                    }}>Course Fees</Link></li>
+                                    <li><Link to={`/college-details/${college._id}`} onClick={() => {
+                                        dispatch(setTabActiveFor('admission'))
+                                        
+                                    }}>Admission</Link></li>
                                 </ul>
 
                                 <div className="program-fees ms-3">

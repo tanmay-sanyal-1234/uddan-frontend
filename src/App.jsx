@@ -14,6 +14,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsAppButton from "./components/WhatsAppButton";
+import BlogListing from './pages/blogListing';
+import BlogDetails from './pages/blogDetails';
 function App() {
 
 
@@ -29,6 +31,8 @@ function App() {
           <Route path="/colleges" element={<College />} />
           <Route path="/college-details/:id" element={<CollegeDetails />} />
           <Route path="/refer-and-earn" element={<ReferAndEarn />} />
+          <Route path="/blogs" element={<BlogListing />} />
+          <Route path="/blog-details/:slug" element={<BlogDetails />} />
         </Routes>
       </MainLayout>
       <WhatsAppButton />

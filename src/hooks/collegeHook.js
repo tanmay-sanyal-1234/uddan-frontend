@@ -1,17 +1,17 @@
 import { useQuery ,useMutation, useQueryClient,useInfiniteQuery} from "@tanstack/react-query";
 import axios from "axios";
 
-export const useGetCollegeList = (page = 1, limit = 10, filters = "") => {
-  return useQuery({
-    queryKey: ["useGetCollegeList", page, limit, filters],
-    queryFn: async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/find-collages?page=${page}&limit=${limit}&${filters}`
-      );
-      return res.data;
-    }
-  }); 
-};
+// export const useGetCollegeList = (page = 1, limit = 10, filters = "") => {
+//   return useQuery({
+//     queryKey: ["useGetCollegeList", page, limit, filters],
+//     queryFn: async () => {
+//       const res = await axios.get(
+//         `${import.meta.env.VITE_API_URL}/find-collages?page=${page}&limit=${limit}&${filters}`
+//       );
+//       return res.data;
+//     }
+//   }); 
+// };
 
 // export const useGetCollegeList = (limit = 10, filters = "") => {
 //   return useInfiniteQuery({
@@ -34,6 +34,38 @@ export const useGetCollegeList = (page = 1, limit = 10, filters = "") => {
 //     },
 //   });
 // };
+
+
+export const useGetCollegeList = (page = 1, limit = 4, filters = "") => {
+  return useInfiniteQuery({
+    queryKey: ["useGetCollegeList", page, limit, filters],
+    queryFn: async ({ pageParam }) => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/find-collages?&page=${pageParam}&limit=${limit}&${filters}`
+      );
+      return res.data;
+    },
+    getNextPageParam: (lastPage) => {
+        if (!lastPage?.pagination) return undefined;
+        const { page, totalPage } = lastPage.pagination;
+        const currentPage = parseInt(page);
+        const totalPages = parseInt(totalPage);
+        return currentPage < totalPages ? currentPage + 1 : undefined;
+    },
+    initialPageParam: 1,
+    refetchOnWindowFocus: false,
+    retry: (failureCount, error) => {
+        // If the status is 403, stop retrying immediately
+        if (error?.response?.status === 403) {
+            return false;
+        }
+        // Otherwise, retry up to 3 times (default behavior)
+        return failureCount < 3;
+    },
+  }); 
+};
+
+
 
 export const useGetCollegeListHome = ({page = 1, limit = 10, courseId}) => {
   return useQuery({

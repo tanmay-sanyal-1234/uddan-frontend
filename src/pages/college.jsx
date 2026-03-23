@@ -14,11 +14,12 @@ import {
     useGetCourses,
 } from "../hooks/collegeHook";
 import FullPageLoader from "../components/FullPageLoader";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import CollegeListComponent from "@/components/CollegeListComponent";
 import { Accordion } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ThreeDotLoader from '@/components/ThreeDotLoader';
 const College = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [searchParamsAttr, setSearchParamsAttr] = useState(searchParams);
@@ -42,11 +43,15 @@ const College = () => {
     const [stateSearch, setStateSearch] = useState("");
     const [citySearch, setCitySearch] = useState("");
     const [streamSearch, setStreamSearch] = useState("");
-    const { data, isLoading, isFetching, refetch, error, fetchNextPage, hasNextPage } = useGetCollegeList(
+    const { data, isLoading, isFetching, refetch, error, fetchNextPage, hasNextPage ,isFetchingNextPage,isPending} = useGetCollegeList(
         pages,
         limit,
         filterQuery,
     );
+
+    const allData = useCallback(() => {
+        return data?.pages?.flatMap(page => page.data) || [];
+    },[data])
     const {
         data: cityStateData,
         isLoading: isLoadingCityState,
@@ -302,6 +307,7 @@ const College = () => {
                     </div>
                 </div> */}
             </section>
+            {(isFetchingCourses && isFetchingStreams && isFetchingCityState) && (<FullPageLoader />)}
             <div className="row">
                 <div className="mobile_filter_bar mt-5">
 
@@ -721,18 +727,19 @@ const College = () => {
                             </Accordion>
                         </div>
                         <div className="col-lg-9">
-                            {/* <InfiniteScroll
-                            scrollThreshold={0.8}
                             
-                                dataLength={data?.data?.length || 0}
-                                next={fetchNextPage}
-  hasMore={Boolean(hasNextPage)}
-  loader={<h4>Loading more...</h4>}
-                                
-                                
-                                > */}
-                            <CollegeListComponent data={data?.data} isFetching={isFetching} />
-                            {/* </InfiniteScroll> */}
+                            <CollegeListComponent data={allData()} isFetching={isFetching} />
+                            {(isPending || isFetchingNextPage || isFetching) && (
+                                <div className="justify-content-center mt-4 d-flex text-center"><ThreeDotLoader loader={true}/></div>
+                            )}
+                            {hasNextPage && (
+                            <div className="text-center mt-3">
+                                <button className="btn_one " onClick={fetchNextPage}>
+                                    {isFetchingNextPage ? "Loading..." : "View More"}
+                                </button>
+                            </div>
+                            )}
+                            
                         </div>
                     </div>
                 </div>

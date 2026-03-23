@@ -17,13 +17,15 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import {useGetPopulerBlogList,useGetPopulerBlogFirst,useGetRecentBlogList,useGetPopulerBlogHeading} from "@/hooks/blogHook";
+import moment from "moment";
 const Home = () => {
 
     const navigate = useNavigate();
     const [courseFilterId, setCourseFilterId] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
     
-        
+    const { data:getRecentBlogData, isLoading:isLoadingRecentBlogData, isFetching:isFetchingRecentBlogData, error:errorRecentBlogData ,isFetchingNextPage:isFetchingNextPageRecentBlogData,hasNextPage:hasNextPageRecentBlogData,fetchNextPage:fetchNextFetchRecentBlogData,refetch:refetchRecentBlogData } = useGetRecentBlogList(1,3);
     const { data: coursesData, isLoading: isLoadingCourses, isFetching: isFetchingCourses, error: coursesError } = useGetCourses();
     const { data: citiesData, isLoading: isLoadingCities, isFetching: isFetchingCities, error: citiesError } = useGetCity();
     const { data: collegeListData, isLoading: isCollegeListLoading, isFetching: isCollegeListFetching, refetch: refetchCollegeList, error: collegeListError } = useGetCollegeListHome({ courseId: courseFilterId });
@@ -33,6 +35,9 @@ const Home = () => {
     const toggleFAQ = (index) => {
         setActiveIndex(activeIndex === index ? null : index);
     };
+    const recentBlogs = useMemo(() => {
+            return getRecentBlogData?.pages?.flatMap(page => page.data) || [];
+        }, [getRecentBlogData]);
     const faqs = [
         {
             question: "What is Future Lift, and how can it help me with my career goals ?",
@@ -909,39 +914,56 @@ const Home = () => {
             <section id="blog" className="blog_area section-padding">
                 <div className="container">
                     <div className="section-title">
-                        <h2>News</h2>
+                        
                         <p>
                             Our Latest <span><u>Blogs</u></span>
                         </p>
                     </div>
 
                     <div className="row">
-                        {blogs.map((blog, index) => (
+                        {isFetchingRecentBlogData && (
+                            <>
+                                <div  className="col-lg-4 col-sm-4 col-xs-12">
+                                    <SkeletonLoader count={1} width={'100%'} height={400}/>
+                                </div>
+
+                                <div  className="col-lg-4 col-sm-4 col-xs-12">
+                                    <SkeletonLoader count={1} width={'100%'} height={400}/>
+                                </div>
+
+                                <div  className="col-lg-4 col-sm-4 col-xs-12">
+                                    <SkeletonLoader count={1} width={'100%'} height={400}/>
+                                </div>
+                            </>
+                        )}
+                        {recentBlogs?.map((blog, index) => (
                             <div key={index} className="col-lg-4 col-sm-4 col-xs-12">
                                 <div className="single_blog">
                                     <img
-                                        src={`assets/images/blog/${blog.img}`}
+                                        src={apiImageWrapper(blog?.coverImage)}
                                         className="img-fluid"
-                                        alt={blog.title}
+                                        alt={blog?.title}
                                     />
                                     <div className="content_box">
                                         <span>
-                                            {blog.date} | <a href="#">{blog.category}</a>
+                                            {moment(blog?.publishedAt).format("DD MMM YYYY")}
                                         </span>
                                         <h2>
-                                            <a href="#">{blog.title}</a>
+                                            <Link to={`/blog-details/${blog?.slug}`}>{blog?.title}</Link>
                                         </h2>
-                                        <a href="#" className="cta">
+                                        <Link to={`/blog-details/${blog?.slug}`} className="cta">
                                             <span>READ MORE</span>
                                             <svg width="13" height="10" viewBox="0 0 13 10">
                                                 <path d="M1,5 L11,5"></path>
                                                 <polyline points="8 1 12 5 8 9"></polyline>
                                             </svg>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
                         ))}
+                        
+                        
                     </div>
                 </div>
             </section>
