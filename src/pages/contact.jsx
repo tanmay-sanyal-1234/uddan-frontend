@@ -1,168 +1,301 @@
 import { contact_image } from "../assets/images/index.js";
-
+import React ,{ useState,useCallback} from "react";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import "./contact.css";
+import { FaFacebook, FaInstagram, FaWhatsapp, FaTwitter } from 'react-icons/fa';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import FullPageLoader from "@/components/FullPageLoader";
+import {  email, z } from "zod";
+import { useGetCourses,useGetCity} from "@/hooks/collegeHook";
+import {useContactForm} from "@/hooks/contactUsHook";
 const Contact = () => {
-    return (
-        <div>
-            <section className="section-top" style={{ backgroundImage: `url(${contact_image})` }}>
+    const [loading, setLoading] = useState(false);
+    const [form, setForm] = useState({
+        fName: "",
+        lName: "",
+        email: "",
+        phone: "",
+        course: null,
+        city: null,
+        subject: "",
+        message: ""
+    });
+        const [errors, setErrors] = useState({});
+        const { data: coursesData, isFetching: isFetchingCourses } = useGetCourses();
+    const { data: cityData, isFetching: isFetchingcity } = useGetCity();
+    const { mutateAsync: useContactFormAdd, isPending } = useContactForm();
+    const courseOption = useCallback(() => {
+        if (!isFetchingCourses && coursesData) {
+            return coursesData.map(course => ({ value: course._id, label: course.name }));
+        } else {
+            return [];
+        }
+    }, [isFetchingCourses, coursesData])
+    const cityOption = useCallback(() => {
+        if (cityData && !isFetchingcity) {
+            return cityData.map(city => ({ value: city._id, label: city.name }));
+            
+        } else {
+            return [];
+        }
+    }, [isFetchingcity, cityData])
+    const contactSchema = z.object({
+        fName: z.string().min(1, "First name is required"),
+        lName: z.string().min(1, "Last name is required"),
+        email: z.string().email("Invalid email"),
+        phone: z.string().min(10, "Phone must be at least 10 digits"),
+        city: z.object({
+            value: z.string(),
+            label: z.string()
+        }).nullable().refine(val => val !== null, {
+            message: "City is required"
+        }),
+        course: z.object({
+            value: z.string(),
+            label: z.string()
+        }).nullable().refine(val => val !== null, {
+            message: "Course is required"
+        }),
+
+        // ✅ OPTIONAL FIELDS
+        subject: z.string().optional(),
+        message: z.string().optional()
+    });
+
+    const handleSubmit = async() => {
+        const result = contactSchema.safeParse(form);
+
+    if (!result.success) {
+
+        const fieldErrors = {};
+
+        result.error.issues.forEach(err => {
+            const field = err.path[0];
+            fieldErrors[field] = err.message;
+        });
+
+        setErrors(fieldErrors);
+        return;
+    }
+    setLoading(true);
+    setErrors({});
+
+    let playload = {
+        name:`${form.fName} ${form.lName}`,
+        email:form.email,
+        subject:form.subject,
+        message:form.message,
+        courseId:form.course?.value || null,
+        cityId:form.city?.value || null,
+        phone:form.phone
+    }
+
+    await useContactFormAdd(playload, {
+            onSuccess: (data) => {
+                if(data.success){
+
+                    setLoading(false);
+                    console.log(data, "success")
+                    setForm({
+                        fName: "",
+                        lName: "",
+                        email: "",
+                        phone: "",
+                        course: null,
+                        city: null,
+                        subject: "",
+                        message: ""
+                    })
+                    toast.success("Thanks! Our team will contact you soon 🚀");
+                }else{
+                    toast.error("Failed to send message. Try again ❌");
+                }
                 
+            },
+            onError: (error) => {
+                setLoading(false);
+                    toast.error("Failed to send message. Try again ❌");
+                console.log(error, "error")
+            }
+        })
+
+        
+    }
+    return (
+        <>
+            <section className="section-top" style={{ backgroundImage: `url(${contact_image})` }}>
+
             </section>
+            <div className="contact-us-page-section-all">
+                {loading && <FullPageLoader />}
+                <Container>
+                    <Row className="align-items-stretch contact-main-row">
 
-            <section className="address_area mt-4">
-                <div className="container">
-                    <div className="row text-center">
+                        {/* LEFT FORM */}
+                        <Col lg={8}>
+                            <div className="contact-form-box">
 
-                        <div
-                            className="col-lg-4 col-sm-4 col-xs-12 no-padding wow fadeInUp"
-                            data-wow-duration="1s"
-                            data-wow-delay="0.1s"
-                            data-wow-offset="0"
-                        >
-                            <div className="single_address sa_one">
-                                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                <h4>Our Location</h4>
-                                <p>
-                                    Kolkata
+                                <h2 className="heading">Send us a message</h2>
+                                <p className="sub-heading">
+                                    Do you have a question? A complaint? Or need help choosing the right product?
                                 </p>
-                            </div>
-                        </div>
-                        {/* END COL */}
 
-                        <div
-                            className="col-lg-4 col-sm-4 col-xs-12 no-padding wow fadeInUp"
-                            data-wow-duration="1s"
-                            data-wow-delay="0.2s"
-                            data-wow-offset="0"
-                        >
-                            <div className="single_address sa_two">
-                                <i class="fa fa-phone" aria-hidden="true"></i>
-                                <h4>Telephone</h4>
-                                <p>+91 97341 66618</p>
-                            </div>
-                        </div>
-                        {/* END COL */}
+                                <Row>
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>First Name</Form.Label>
+                                            <Form.Control placeholder="Enter your first name" name="fName" value={form.fName}
+                                            onChange={(e)=> setForm({...form , fName:e.target.value})}/>
+                                            {errors.fName && <span className="text-danger">{errors.fName}</span>}
+                                        </Form.Group>
+                                    </Col>
 
-                        <div
-                            className="col-lg-4 col-sm-4 col-xs-12 no-padding wow fadeInUp"
-                            data-wow-duration="1s"
-                            data-wow-delay="0.3s"
-                            data-wow-offset="0"
-                        >
-                            <div className="single_address sa_three">
-                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                                <h4>Send email</h4>
-                                <p>contact@udaanscholars.com</p>
-                            </div>
-                        </div>
-                        {/* END COL */}
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Last Name</Form.Label>
+                                            <Form.Control placeholder="Enter your last name" name="lName" value={form.lName}
+                                            onChange={(e)=> setForm({...form , lName:e.target.value})}/>
+                                            {errors.lName && <span className="text-danger">{errors.lName}</span>}
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
 
-                    </div>
-                    {/* END ROW */}
-                </div>
-                {/* END CONTAINER */}
-            </section>
+                                <Row>
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Email</Form.Label>
+                                            <Form.Control placeholder="Enter your email" name="email" value={form.email}
+                                            onChange={(e)=> setForm({...form , email:e.target.value})}/>
+                                            {errors.email && <span className="text-danger">{errors.email}</span>}
+                                        </Form.Group>
+                                    </Col>
 
-            <div id="contact" className="contact_area section-padding">
-                <div className="container">
-                    <div className="row">
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Contact</Form.Label>
+                                            <Form.Control type="number" placeholder="Enter your contact number" name="phone" value={form.phone}
+                                            onChange={(e)=> setForm({...form , phone:e.target.value})} />
+                                            {errors.phone && <span className="text-danger">{errors.phone}</span>}
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
 
-                        {/* Contact Form */}
-                        <div
-                            className="col-lg-7 col-sm-12 col-xs-12 wow fadeInUp"
-                            data-wow-duration="1s"
-                            data-wow-delay="0.2s"
-                            data-wow-offset="0"
-                        >
-                            <div className="section-title-two">
-                                <h2>Send your message.</h2>
-                            </div>
-
-                            <div className="contact">
-                                <form className="form">
-                                    <div className="row">
-
-                                        <div className="form-group col-md-6">
-                                            <label>Name</label>
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                className="form-control"
-                                                required
+                                <Row>
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>City</Form.Label>
+                                            <Select
+                                                name="city"
+                                                className="mb-2"
+                                                placeholder="Select City"
+                                                isLoading={isFetchingcity}
+                                                value={form.city}
+                                                onChange={(selected) =>
+                                                    setForm({ ...form, city: selected })
+                                                }
+                                                
+                                                options={cityOption()}
                                             />
-                                        </div>
+                                            {errors.city && <span className="text-danger">{errors.city}</span>}
+                                            </Form.Group>
+                                    </Col>
 
-                                        <div className="form-group col-md-6">
-                                            <label>Your Email</label>
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                className="form-control"
-                                                required
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Course</Form.Label>
+                                            <Select
+                                                name="course"
+                                                className="mb-2"
+                                                placeholder="Select Course"
+                                                isLoading={isFetchingCourses}
+                                                value={form.course}
+                                                onChange={(selected) =>
+                                                    setForm({ ...form, course: selected })
+                                                }
+                                                options={courseOption()}
                                             />
-                                        </div>
+                                            {errors.course && <span className="text-danger">{errors.course}</span>}
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Subject</Form.Label>
+                        
+                                       
+                                    <Form.Control placeholder="Enter Subject" name="subject" value={form.subject}
+                                        onChange={(e)=> setForm({...form , subject:e.target.value})} />
+                                        {errors.subject && <span className="text-danger">{errors.subject}</span>}
+                                   
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Message</Form.Label>
+                                    <Form.Control
+                                        as="textarea"
+                                        rows={4}
+                                        placeholder="Enter your message"
+                                        name="message"
+                                        value={form.message}
+                                        onChange={(e)=> setForm({...form , message:e.target.value})}
+                                    />
+                                    {errors.message && <span className="text-danger">{errors.message}</span>}
+                                </Form.Group>
+                                <button className="btn_one " type="button" onClick={handleSubmit}>
+                                    Send a Message
+                                </button>
+                                {/* <Button className="submit-btn">Send a Message</Button> */}
 
-                                        <div className="form-group col-md-12">
-                                            <label>Your Subject</label>
-                                            <input
-                                                type="text"
-                                                name="subject"
-                                                className="form-control"
-                                                required
-                                            />
-                                        </div>
+                            </div>
+                        </Col>
 
-                                        <div className="form-group col-md-12">
-                                            <label>Your Message</label>
-                                            <textarea
-                                                rows="6"
-                                                name="message"
-                                                className="form-control"
-                                                required
-                                            ></textarea>
-                                        </div>
+                        {/* RIGHT CARD */}
+                        <Col lg={4}>
+                            <div className="contact-info-box">
 
-                                        <div className="col-md-12 text-center">
-                                            <button
-                                                type="submit"
-                                                className="btn_one"
-                                                title="Submit Your Message!"
-                                            >
-                                                Send Message
-                                            </button>
-                                        </div>
+                                <h4 className="info-title">
+                                    Hi! We are always here to help you.
+                                </h4>
+
+                                <div className="info-card">
+                                    <div className="info-label">Hotline</div>
+                                    <div className="info-value">+971 55 409 3456</div>
+                                </div>
+
+                                <div className="info-card">
+                                    <div className="info-label">SMS / Whatsapp</div>
+                                    <div className="info-value">+971 55 343 6433</div>
+                                </div>
+
+                                <div className="info-card">
+                                    <div className="info-label">Email</div>
+                                    <div className="info-value">support@email.com</div>
+                                </div>
+
+                                <div className="social-section">
+                                    <div className="social-title">Connect with us</div>
+
+                                    <div className="social-icons">
+                                        <i className="fa-brands"><FaFacebook width={200} height={200} /></i>
+                                        <i className="fa-brands ">
+                                            <FaTwitter />
+                                        </i>
+                                        <i className="fa-brands ">
+                                            <FaInstagram />
+                                        </i>
+                                        <i className="fa-brands ">
+                                            <FaWhatsapp />
+                                        </i>
 
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-                        {/* END COL */}
+                                </div>
 
-                        {/* Google Map */}
-                        <div
-                            className="col-lg-5 col-sm-12 col-xs-12 wow fadeInUp"
-                            data-wow-duration="1s"
-                            data-wow-delay="0.2s"
-                            data-wow-offset="0"
-                        >
-                            <div className="map">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27661.54464133969!2d88.35180083608293!3d22.529580835696194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a02771346ae015d%3A0xb540e4bce39763!2sVictoria%20Memorial!5e0!3m2!1sen!2sin!4v1766086869094!5m2!1sen!2sin"
-                                    style={{ border: 0 }}
-                                    allowFullScreen
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                    title="Google Map"
-                                ></iframe>
                             </div>
-                        </div>
-                        {/* END COL */}
+                        </Col>
 
-                    </div>
-                    {/* END ROW */}
-                </div>
-                {/* END CONTAINER */}
+                    </Row>
+                </Container>
             </div>
-
-        </div>
+        </>
     );
 };
 

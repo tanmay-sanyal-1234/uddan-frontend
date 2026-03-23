@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect } from "react";
+import React, { useState,useRef,useEffect, useCallback, useMemo } from "react";
 import { college_detail_image, image_2, college_logo } from "../assets/images";
 import { useGetCollegeDetailsById } from "../hooks/collegeHook";
 import { Link, useParams } from "react-router-dom";
@@ -8,12 +8,14 @@ import { useSelector,useDispatch } from "react-redux";
 import {setCollegeDetails,openModal,setBrochureDownloadUrl,setCanBrochureDownload} from "../store/slices/universityModalSlice";
 import UniversityModal from "../components/universityModal";
 import RecentlyViewed from "@/components/RecentlyViewed";
+import {setTabActiveFor} from "../store/slices/collegeFilterSlice";
 const CollegeDetails = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
     const { data, isLoading, isFetching, error } = useGetCollegeDetailsById(id);
     const [activeTab, setActiveTab] = useState(0);
     const isModalOpen = useSelector((state) => state.universityModal.isOpen);
+    const collegeTabFillter = useSelector((state) => state.collegeFilterRedux.collegeTabActive);
     const [modalOpenFor , setModalOpenFor] = useState("brochure"); // 'brochure' or 'enquiry'
     const visitedColleges = [
         {
@@ -42,6 +44,39 @@ const scrollTabs = (direction) => {
     });
   }
 };
+
+// const collegeTabIsActive = useCallback((str) => {
+//     if(collegeTabFillter && str && data && !isFetching){
+//         console.log(collegeTabFillter,"collegeTabFillter")
+//         const regex = new RegExp(collegeTabFillter, "i");
+//         console.log(str,"strstr")
+//         if(regex.test(str)){
+//            let fin = data?.tabs?.findIndex((item) => item?.title == str);
+//            console.log(fin,"fin")
+//            if(fin !== -1){
+//             console.log("ddddddddddddddddddddddddddddddddddddddddddddddddddd")
+//             setActiveTab(fin);
+//            }
+//         }
+//     }
+// },[collegeTabFillter,data,isFetching])
+
+
+useEffect(() => {
+    if(collegeTabFillter && data && !isFetching){
+        const regex = new RegExp(collegeTabFillter, "i");
+        for (let index = 0; index < data?.tabs.length; index++) {
+            if(regex.test(data?.tabs[index]?.title)){
+                setActiveTab(index);
+                dispatch(setTabActiveFor(null))
+                break;
+            }
+            
+        }
+    }
+},[collegeTabFillter,data,isFetching])
+
+
 
 useEffect(() => {
     if (data) {
@@ -167,12 +202,12 @@ useEffect(() => {
   <button className="nav-arrow mt-4 me-3" onClick={() => scrollTabs("left")}>
     ‹
   </button>
-
+    
   <div className="college-tabs" ref={tabsRef}>
     {data?.tabs?.map((tab, index) => (
-      <button
+        <button
         key={index}
-        className={`tab-item ${activeTab === index ? "active" : ""}`}
+        className={`tab-item ${activeTab === index ? "active" :""}`}
         onClick={() => setActiveTab(index)}
       >
         {tab?.title}

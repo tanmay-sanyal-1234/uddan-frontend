@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import FullPageLoader from "@/components/FullPageLoader";
 import { useNavigate } from "react-router-dom";
 import {  z } from "zod";
+import confetti from "canvas-confetti";
 const UniversityModal = ({ sectionFrom = "others" }) => {
         const navigate = useNavigate();
     const isOpen = useSelector((state) => state.universityModal.isOpen);
@@ -19,6 +20,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
     const brochureDownloadUrl = useSelector((state) => state.universityModal.brochureDownloadUrl);
     const { mutateAsync: useAddUniversityEnquiryFormAdd, isPending } = useAddUniversityEnquiryForm();
     const [loading, setLoading] = useState(false);
+    const [interestedOffer , setInterestedOffer] = useState(false)
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -163,7 +165,8 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                 stateId: payload.state,
                 cityId: payload.city,
                 collegeId: payload.collegeId,
-                appliedFrom: payload.appliedFrom
+                appliedFrom: payload.appliedFrom,
+                interestedOffer:interestedOffer
             }
             
             await useAddUniversityEnquiryFormAdd(fullPayload, {
@@ -176,6 +179,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                         downloadFile(brochureDownloadUrl, `${college?.name}_brochure.pdf`);
                     }, 1000);
                 }
+                setInterestedOffer(false)
                 dispatch(closeModal());
                 dispatch(setBrochureDownloadUrl(null));
                 dispatch(setCanBrochureDownload(false));
@@ -189,6 +193,34 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
         })
         }
     }
+
+    const handleApplyCelebration = () => {
+        const duration = 1500;
+        const animationEnd = Date.now() + duration;
+        setInterestedOffer(true);
+        
+
+        const interval = setInterval(() => {
+            const timeLeft = animationEnd - Date.now();
+
+            if (timeLeft <= 0) {
+                return clearInterval(interval);
+            }
+
+            const canvas = document.getElementById("confetti-canvas");
+
+            const myConfetti = confetti.create(canvas, {
+                resize: true,
+                useWorker: true
+            });
+
+            myConfetti({
+  particleCount: 100,
+  spread: 71,
+  origin: { y: 0.6 }
+});
+        }, 300);
+    };
     
     return (
         <Modal
@@ -198,6 +230,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                 dispatch(setBrochureDownloadUrl(null));
                 dispatch(setCanBrochureDownload(false));
                 dispatch(setCollegeDetails(null));
+                setInterestedOffer(false);
             }}
             centered
             backdrop="static"
@@ -334,11 +367,11 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                             Upto ₹20,000 Cashback Available*
                         </div>
                     </div>
-                    <Button size="sm" className="apply-btn">
-                        Tap to apply
+                    <Button size="sm" className="apply-btn" style={{backgroundColor:(interestedOffer)?'#25d366':''}} onClick={handleApplyCelebration}>
+                        {interestedOffer ? '✔ Applied':'Tap to apply'}
                     </Button>
                 </div>
-
+                <canvas id="confetti-canvas" className="confetti-canvas"></canvas>
                 {/* Privacy */}
                 <div className="text-center small text-muted mb-3">
                     🔒 Your personal information is secure with us
