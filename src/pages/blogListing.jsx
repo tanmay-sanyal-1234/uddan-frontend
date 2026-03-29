@@ -1,17 +1,20 @@
-import React, { useCallback ,useMemo} from "react";
+import React, { useCallback ,useMemo,useState} from "react";
 import { Container, Row, Col, Card, Form, InputGroup } from "react-bootstrap";
 import "./blogListing.css";
-import {useGetPopulerBlogList,useGetPopulerBlogFirst,useGetRecentBlogList,useGetPopulerBlogHeading} from "@/hooks/blogHook";
+import {useGetPopulerBlogList,useGetPopulerBlogFirst,useGetRecentBlogList,useGetPopulerBlogHeading,useGetPopulerBlogHeadingSearch} from "@/hooks/blogHook";
 import { apiImageWrapper } from "@/utils/helpers";
 import SkeletonLoader from "@/components/SkeletonLoader";
 import moment from "moment";
 import { Link, useParams,useNavigate } from "react-router-dom";
+import Select from "react-select";
 const BlogListing = () => {
     const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState("");
     const { data, isLoading, isFetching, error ,isFetchingNextPage,hasNextPage,fetchNextPage,refetch } = useGetPopulerBlogList();
     const { data:getFirstPropulerData, isFetching:isFetchinggetFirstPropulerData, error:isErrorgetFirstPropulerData} = useGetPopulerBlogFirst();
     const { data:getPopularHeading, isFetching:isFetchinggetPopularHeading, error:isErrorgetPopularHeading} = useGetPopulerBlogHeading();
     const { data:getRecentBlogData, isLoading:isLoadingRecentBlogData, isFetching:isFetchingRecentBlogData, error:errorRecentBlogData ,isFetchingNextPage:isFetchingNextPageRecentBlogData,hasNextPage:hasNextPageRecentBlogData,fetchNextPage:fetchNextFetchRecentBlogData,refetch:refetchRecentBlogData } = useGetRecentBlogList();
+    const { data:getPopulerBlogHeadingSearch, isFetching:isFetchingGetPopulerBlogHeadingSearch, error:isErrorGetPopulerBlogHeadingSearch} = useGetPopulerBlogHeadingSearch();
     const blogs = useMemo(() => {
         return data?.pages?.flatMap(page => page.data.slice(1)) || [];
     }, [data]);
@@ -29,6 +32,25 @@ const BlogListing = () => {
             return getFirstPropulerData[0];
         }
     },[getFirstPropulerData,isFetchinggetFirstPropulerData])
+
+    const getSearchBlogHeading = useMemo(() => {
+        if(!isFetchingGetPopulerBlogHeadingSearch && getPopulerBlogHeadingSearch){
+            let opt = getPopulerBlogHeadingSearch?.map(item => ({
+                value: item.slug,
+                label: item.title,
+                data: item
+            }));
+            return opt;
+        }else{
+            return [];
+        }
+    },[getPopulerBlogHeadingSearch,isFetchingGetPopulerBlogHeadingSearch])
+
+    const handleChange = (selectedOption) => {
+    if (selectedOption) {
+      navigate(`/blog-details/${selectedOption.value}`);
+    }
+  };
 
     return (
         <>
@@ -95,8 +117,23 @@ const BlogListing = () => {
 
                     {/* SIDEBAR */}
                     <Col lg={4}>
-                        <InputGroup className="mt-3">
-                            <Form.Control placeholder="Search" />
+                        <InputGroup className="mt-3" style={{width:"100%"}}>
+                        <Select
+                            options={inputValue ? getSearchBlogHeading : []}
+                            onInputChange={(value) => setInputValue(value)}
+                            placeholder="Search"
+                            className="form-control"
+                            isLoading={isFetchingGetPopulerBlogHeadingSearch}
+                            onChange={handleChange}
+                            styles={{
+                                control: (base) => ({
+                                    ...base,
+                                    border: "none"
+                                }),
+                            }}
+                            isClearable
+                        />
+                            {/* <Form.Control placeholder="Search" /> */}
                         </InputGroup>
                         <div className="trending_box">
 

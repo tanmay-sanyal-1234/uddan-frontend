@@ -18,17 +18,22 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import {useGetPopulerBlogList,useGetPopulerBlogFirst,useGetRecentBlogList,useGetPopulerBlogHeading} from "@/hooks/blogHook";
+import { toast } from 'react-toastify';
+import FullPageLoader from "@/components/FullPageLoader";
 import moment from "moment";
+import {useNewsLetterSubscribe} from "@/hooks/contactUsHook";
 const Home = () => {
 
     const navigate = useNavigate();
     const [courseFilterId, setCourseFilterId] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [subscribeEmail,setSubscribeEmail] = useState("");
     
     const { data:getRecentBlogData, isLoading:isLoadingRecentBlogData, isFetching:isFetchingRecentBlogData, error:errorRecentBlogData ,isFetchingNextPage:isFetchingNextPageRecentBlogData,hasNextPage:hasNextPageRecentBlogData,fetchNextPage:fetchNextFetchRecentBlogData,refetch:refetchRecentBlogData } = useGetRecentBlogList(1,3);
     const { data: coursesData, isLoading: isLoadingCourses, isFetching: isFetchingCourses, error: coursesError } = useGetCourses();
     const { data: citiesData, isLoading: isLoadingCities, isFetching: isFetchingCities, error: citiesError } = useGetCity();
     const { data: collegeListData, isLoading: isCollegeListLoading, isFetching: isCollegeListFetching, refetch: refetchCollegeList, error: collegeListError } = useGetCollegeListHome({ courseId: courseFilterId });
+    const { mutateAsync: newsLetterSubscribe, isPending } = useNewsLetterSubscribe();
     const [activeTab, setActiveTab] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -276,6 +281,18 @@ const Home = () => {
             }
         }
         navigate(`/colleges?${queryParams}`);
+    }
+
+    const sendSubscribeEmail = async() => {
+        if(subscribeEmail){
+           let submit = await newsLetterSubscribe({email:subscribeEmail});
+           if(submit?.success){
+                setSubscribeEmail("");
+                toast.success("✅ Subscription successful! Stay tuned for updates.");
+           }
+        }else{
+            toast.error("Please enter the email address");
+        }
     }
 
     return (
@@ -982,10 +999,15 @@ const Home = () => {
                                 <form className="home_subs">
                                     <input
                                         type="email"
+                                        name="subscribeEmail"
+                                        value={subscribeEmail}
+                                        onChange={(e) => {
+                                            setSubscribeEmail(e.target.value);
+                                        }}
                                         className="subscribe__input"
                                         placeholder="Enter your Email Address"
                                     />
-                                    <button type="button" className="subscribe__btn">
+                                    <button type="button" className="subscribe__btn" onClick={sendSubscribeEmail}>
                                         <i className="fa fa-paper-plane-o"></i>
                                     </button>
                                 </form>
