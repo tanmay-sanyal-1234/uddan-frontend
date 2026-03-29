@@ -12,3 +12,14 @@ export const useContactForm = () => {
     });
 
 }
+export const useNewsLetterSubscribe = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: ["newsLetterSubscribe"],
+        mutationFn: async (data) => {
+            const { data: res } = await axios.patch(`${import.meta.env.VITE_API_URL}/newsletter/subscribe/${data.email}`);
+            return res;
+        }
+    });
+
+}

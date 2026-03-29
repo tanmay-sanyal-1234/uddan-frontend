@@ -18,7 +18,7 @@ export const formatINR = (amount, compact = false) => {
 
 export const apiImageWrapper = (imagePath) => {
     if (imagePath) {
-        console.log(imagePath,"imagePath")
+        
         // ✅ already a full URL
         if (/^https?:\/\//i.test(imagePath)) {
             return imagePath;

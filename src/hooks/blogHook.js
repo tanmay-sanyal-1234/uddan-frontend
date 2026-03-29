@@ -103,6 +103,22 @@ export const useGetPopulerBlogHeading = () => {
         `${import.meta.env.VITE_API_URL}/populer-blogs-headings`
       );
       return res.data?.data;
-    }
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000 // 10 minutes
+  }); 
+};
+
+export const useGetPopulerBlogHeadingSearch = () => {
+  return useQuery({
+    queryKey: ["useGetPopulerBlogHeadingSearch"],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/populer-blogs-headings?page=&limit=100`
+      );
+      return res.data?.data;
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000 // 10 minutes
   }); 
 };
