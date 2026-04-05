@@ -102,6 +102,63 @@ const About = () => {
 
 
             {/* TOP FEATURES */}
+            
+
+            {/* ABOUT SECTION */}
+            <section className="ab_one section-padding">
+                <div className="container">
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                           VISION & MISSION 
+                        </h2>
+                        {/* <p className="text-center">
+                            From choosing the right course to securing your admission, we support you at every step of your higher education journey.
+                        </p> */}
+                    </div>
+                    <div className="row">
+
+                        <div className="col-lg-12 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+                            <div className="ab_img">
+                                <img
+                                    src={mission_image}
+                                    className="img-fluid"
+                                    alt="About"
+                                />
+                            </div>
+                        </div>
+                        </div>
+                        <div className="row mt-3 text-center">
+                        <div className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
+                            <div className="ab_content p-2">
+                                <h3 className="">
+                                    <strong>Our Vision</strong>
+                                </h3>
+                                <p className="mt-2">
+                                   To make career clarity accessible to every student in India, regardless of their background, location, or financial condition. 
+                                </p>
+                                
+                               
+                                {/* <a className="btn_one" href="/about">
+                                    Read More us
+                                </a> */}
+                            </div>
+                        </div>
+                        <div className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp border-start" data-wow-duration="1s" data-wow-delay="0.1s">
+                            <div className="ab_content p-2">
+                                
+                                <h3>
+                                    <strong>Our Mission </strong>
+                                </h3>
+                                <p className="mt-2">
+                                   To provide personalised, transparent, and affordable career counselling that helps students choose the right course and college — and succeed in their careers. 
+                                </p>
+                               
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
             <section className="tp_feature section-padding">
                 <div className="container-fluid">
                     <div className="ab_content">
@@ -186,55 +243,6 @@ const About = () => {
                     </div>
                 </div>
             </section>
-
-            {/* ABOUT SECTION */}
-            <section className="ab_one section-padding">
-                <div className="container">
-                    <div className="ab_content">
-                        <h2 className="text-center">
-                           VISION & MISSION 
-                        </h2>
-                        {/* <p className="text-center">
-                            From choosing the right course to securing your admission, we support you at every step of your higher education journey.
-                        </p> */}
-                    </div>
-                    <div className="row">
-
-                        <div className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
-                            <div className="ab_img">
-                                <img
-                                    src={mission_image}
-                                    className="img-fluid"
-                                    alt="About"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
-                            <div className="ab_content">
-                                <h3 className="">
-                                    <strong>Our Vision</strong>
-                                </h3>
-                                <p className="mt-2">
-                                   To make career clarity accessible to every student in India, regardless of their background, location, or financial condition. 
-                                </p>
-                                <h3>
-                                    <strong>Our Mission </strong>
-                                </h3>
-                                <p className="mt-2">
-                                   To provide personalised, transparent, and affordable career counselling that helps students choose the right course and college — and succeed in their careers. 
-                                </p>
-                               
-                                <a className="btn_one" href="/about">
-                                    Read More us
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
             {/* WHY CHOOSE US */}
             <section className="marketing_content_area section-padding">
                 <div className="container">
@@ -315,7 +323,7 @@ const About = () => {
             </section>
 
             {/* FUN FACT / COUNTS */}
-            <section id="counts" className="counts section-padding">
+            {/* <section id="counts" className="counts section-padding">
                 <div className="container" data-aos="fade-up">
                     <div className="section-title">
                         <h2>Some Fun Fact</h2>
@@ -343,7 +351,7 @@ const About = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
 
 
 
