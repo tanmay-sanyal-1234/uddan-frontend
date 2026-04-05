@@ -997,6 +997,7 @@ box-shadow:none;
   align-items: center;
   gap: 10px;
   box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+  border: 1px solid #1a2d6217;
 }
 @media only screen and (max-width:480px){
 .banner_subs {display: none;}
@@ -1043,7 +1044,7 @@ background-color: #ffffff;
     border-radius: 100px;
     color: #4d54fd;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 17px;
     border: 1px solid #4d54fd;
 }
 .home_sb button:hover{
@@ -5261,6 +5262,7 @@ border: 1px solid #4d54fd!important;
 
 .refer-hero-right img {
   max-width: 420px;
+  border-radius: 60px 20px 60px 20px;
 }
 
 /* HOW IT WORKS */
@@ -5396,12 +5398,12 @@ img {
   }
 
   .home_content h1 {
-    font-size: 26px;
+    font-size: 20px;
     line-height: 38px;
   }
 
   .home_content p {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   /* Show search form on mobile */
@@ -5423,8 +5425,9 @@ img {
 
 @media (max-width: 480px) {
   .home_content h1 {
-    font-size: 22px;
+    font-size: 14px;
     line-height: 32px;
+    font-weight: 700;
   }
 }
 
@@ -5507,7 +5510,7 @@ img {
   .single_tp,
   .single_feature_one {
     padding: 30px;
-    height: 430px;
+    /* height: 430px; */
   }
 }
 
@@ -5516,7 +5519,7 @@ img {
   .single_feature_one {
     padding: 25px;
     text-align: center;
-    height: 430px;
+    /* height: 430px; */
   }
 
   .single_feature_one span {
@@ -6453,5 +6456,334 @@ box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 
 
 
+
+/* MOBILE DESIGN */
+.home_sb .mobile-filter-card {
+  background: #fff;
+  border-radius: 16px;
+  /* padding: 10px; */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  /* margin-top: 20px; */
+  width: 100%;
+}
+
+/* Each Select */
+.home_sb .filter-item_home {
+  /* margin-bottom: 12px; */
+  padding: 4px;
+}
+
+.home_sb .filter-item_home .react-select__control {
+  min-height: 50px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  box-shadow: none;
+}
+
+
+/* 🔥 Sticky Button for Mobile */
+@media (max-width: 768px) {
+
+
+  .home_content h1 {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  .home_content p {
+    font-size: 14px;
+  }
+
+  .howitworkT {
+    font-size: 17px;
+    line-height: 29px;
+  }
+}
+
+/* DESKTOP (keep inline layout) */
+@media (min-width: 769px) {
+  .banner_subs {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .mobile-filter-card {
+    display: contents; /* removes card look on desktop */
+  }
+
+  .filter-item_home {
+    flex: 1;
+  }
+
+  .search_home_btn {
+    width: auto;
+    padding: 12px 20px;
+  }
+}
+
+
+
+/* MOBILE VIEW */
+@media (max-width: 768px) {
+
+  /* Center whole section */
+  .impact-section .impact-wrapper {
+    display: block;
+    text-align: center;
+  }
+
+  .impact-section .impact-left {
+    margin-bottom: 20px;
+  }
+
+  .impact-section .impact-title {
+    font-size: 22px;
+    line-height: 1.4;
+  }
+
+  .impact-section .impact-description {
+    font-size: 14px;
+  }
+
+  /* Cards */
+  .impact-section .impact-right {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .impact-section .impact-card {
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+  }
+
+  /* 🔥 ICON + HEADING SAME LINE */
+  .impact-section .impact-card h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .impact-section .impact-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  /* Remove extra spacing */
+  .impact-section .impact-card p {
+    font-size: 13px;
+  }
+}
+
+
+
+
+
+
+.tp_feature {
+  padding: 80px 20px;
+}
+
+.ab_content h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+/* CARD DESIGN */
+.single_tp {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  height: 100%;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.single_tp:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.single_tp h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.single_tp p {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* CTA BUTTON */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.cta svg {
+  transition: transform 0.3s;
+}
+
+.cta:hover svg {
+  transform: translateX(5px);
+}
+
+/* ROW SPACING FIX */
+.tp_feature .row > div {
+  margin-bottom: 10px;
+}
+
+/* =========================
+   RESPONSIVE BREAKPOINTS
+   ========================= */
+
+/* Large devices (Desktops) */
+@media (min-width: 992px) {
+  .single_tp {
+    padding: 35px 25px;
+  }
+}
+
+/* Medium devices (Tablets) */
+@media (max-width: 991px) {
+  .ab_content h2 {
+    font-size: 28px;
+  }
+
+  .single_tp {
+    padding: 25px 20px;
+  }
+
+  /* 2 columns */
+  .tp_feature .row > div {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/* Small devices (Mobile) */
+@media (max-width: 576px) {
+  .ab_content h2 {
+    font-size: 24px;
+  }
+
+  .single_tp h3 {
+    font-size: 18px;
+  }
+
+  .single_tp p {
+    font-size: 14px;
+  }
+
+  /* 1 column */
+  .tp_feature .row > div {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .single_tp {
+    padding: 20px 15px;
+  }
+  .refer-hero-right{
+    display: none;
+  }
+}
+
+
+
+
+
+
+
+
+/* Section Titles */
+.section-title-refer {
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* Win List */
+.win-list-refer {
+  padding-left: 20px;
+}
+
+.win-list-refer li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Help Section */
+.help-section-refer {
+  margin-top: 40px;
+}
+
+.subtext-title-refer,
+.cta-title-refer {
+  font-weight: 600;
+  margin-top: 15px;
+}
+
+.subtext-refer {
+  color: #555;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+/* WhatsApp Button */
+.whatsapp-btn-refer {
+  margin-top: 15px;
+  background-color: #25d366;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 500;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.whatsapp-btn-refer:hover {
+  background-color: #1ebe5d;
+}
+
+/* Image Section */
+.image-section-refer {
+  margin-top: 30px;
+}
+
+.support-img-refer {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title-refer {
+    font-size: 18px;
+  }
+
+  .support-img-refer {
+    height: 140px;
+  }
+}
 
 

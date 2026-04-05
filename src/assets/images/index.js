@@ -19,6 +19,8 @@ import One_on_One_Counselling from "./One-on-One_Counselling.png";
 import Action_Plan_Creation from "./Action_Plan_Creation.png";
 import footer_logo from "./all-img/footer_logo.png";
 import no_image from "./no_image.png";
+import mission_image from "./mission_image.png";
+import referaearn from "./referaearn.png";
 export {
   logo,
   image_2,
@@ -39,5 +41,7 @@ export {
   One_on_One_Counselling,
   Action_Plan_Creation,
   footer_logo,
-  no_image
+  no_image,
+  mission_image,
+  referaearn
 };
