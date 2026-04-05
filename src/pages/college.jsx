@@ -321,7 +321,9 @@ const College = () => {
                         className="mobile_filter_btn"
                         onClick={() => setShowMobileFilter(true)}
                     >
+                        <button className="btn btn-dark">
                         <i className="fa fa-filter"></i> Filter
+                        </button>
 
                         {Object.values(checkItems).flat().length > 0 && (
                             <span className="filter_badge">

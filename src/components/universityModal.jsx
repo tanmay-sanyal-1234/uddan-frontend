@@ -1,5 +1,5 @@
 import React ,{useState,useCallback} from "react";
-import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { Modal, Button, Form, Row, Col,Tooltip,OverlayTrigger } from "react-bootstrap";
 import "./universityModal.css";
 import { college_logo } from "../assets/images";
 import { useSelector, useDispatch } from "react-redux";
@@ -221,6 +221,16 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
 });
         }, 300);
     };
+
+    const getName = useCallback(() => {
+            let displayName = college?.name.length > 30 ? college?.name.slice(0,30) + "..." : college?.name;
+            let tooltip = college?.name || "";
+            return {
+                displayName,
+                tooltip
+            }
+    
+        },[college])
     
     return (
         <Modal
@@ -276,8 +286,10 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
 
     {/* College Details */}
     <div className="text-start">
-      <h6 className="fw-semibold mb-1">
-        {college?.name}
+      <h6 className="fw-semibold mb-1 um_fSize">
+        <OverlayTrigger placement="top" overlay={<Tooltip>{getName().tooltip}</Tooltip>}>
+                            <p>{getName().displayName}</p>
+                        </OverlayTrigger>
       </h6>
       <p className="text-muted mb-0 small">
         {college?.address?.cityD?.name}, {college?.address?.stateD?.name}

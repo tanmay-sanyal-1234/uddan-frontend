@@ -177,7 +177,33 @@ const Home = () => {
 
 
 
-
+const customSelectStyles = {
+  control: (base) => ({
+    ...base,
+  }),
+  option: (base, state) => ({
+    ...base,
+    fontSize: "11px",   // 👈 reduce dropdown item text
+    padding: "0px",
+    borderBottom: "2px solid #eee", // 👈 border between items
+    backgroundColor: state.isFocused ? "#f5f7ff" : "#fff",
+    color: "#333",
+    cursor: "pointer",
+    fontWeight: state.isFocused ? "bold" : "normal", // 👈 bold selected item
+  }),
+  menu: (base) => ({
+    ...base,
+    fontSize: "8px",   // 👈 fallback for menu
+  }),
+  singleValue: (base) => ({
+    ...base,
+    // fontSize: "8px",   // 👈 selected value text
+  }),
+  placeholder: (base) => ({
+    ...base,
+    fontSize: "13px",
+  }),
+};
 
 
     const alumni = [
@@ -295,90 +321,84 @@ const Home = () => {
         }
     }
 
+        const getNameBlog = (name) => {
+            let displayName = name.length > 30 ? name.slice(0, 30) + "..." : name;
+            let tooltip = name || "";
+            return {
+                displayName,
+                tooltip
+            }
+    
+        }
+
     return (
         <div>
-            <section id="home" className="home_bg mb-4" >
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12 col-sm-12 col-xs-12 text-center">
+            <section id="home" className="home_bg mb-4">
+  <div className="container">
+    <div className="row">
+      <div className="col-lg-12 text-center">
 
-                            <div className="home_content">
-                                <h1>
-                                    Find the Right College & Career Path - With <br/>Expert Guidance
-                                </h1>
-                                <p>
-                                    Udaan Scholars helps you make smart, stress-free decisions with expert counselling,
-                                    verified institutes, and real student benefits.
-                                </p>
-                            </div>
-                            <div className="home_sb">
-                                <form className="banner_subs" onSubmit={(e) => e.preventDefault()}>
-                                    <Select
-                                        options={getCourseData}
-                                        className="form-control home_si"
-                                        placeholder="Courses"
-                                        name="course"
-                                        isLoading={isFetchingCourses}
-                                        onChange={(e) => handleChangeForSearch(e, "course")}
-                                        styles={{
-                                            control: (base) => ({
-                                                ...base,
-                                                border: "none"
-                                            }),
-                                        }}
-                                        isClearable
-                                    />
-                                    <Select
-                                        options={getCities}
-                                        className="form-control home_si"
-                                        placeholder="Cities"
-                                        name="city"
-                                        isLoading={isFetchingCities}
-                                        onChange={(e) => handleChangeForSearch(e, "city")}
-                                        styles={{
-                                            control: (base) => ({
-                                                ...base,
-                                                border: "none"
-                                            }),
-                                        }}
-                                        isClearable
-                                    />
-                                    <Select
-                                        options={budgetRanges}
-                                        className="form-control home_si"
-                                        placeholder="Budget Range"
-                                        name="budget"
-                                        onChange={(e) => handleChangeForSearch(e, "budget")}
-                                        styles={{
-                                            control: (base) => ({
-                                                ...base,
-                                                border: "none"
-                                            }),
-                                        }}
-                                        isClearable
-                                    />
+        <div className="home_content">
+          <h1>
+            Find the Right College & Career Path <br className="d-none d-md-block" />
+            With Expert Guidance
+          </h1>
+          <p>
+            Udaan Scholars helps you make smart, stress-free decisions with expert counselling,
+            verified institutes, and real student benefits.
+          </p>
+        </div>
 
-                                    <button type="button" className="search_home_btn d-flex justify-content-center align-items-center" onClick={handleSearch}>
+        <div className="home_sb">
+          <form className="banner_subs" onSubmit={(e) => e.preventDefault()}>
+
+            <div className="mobile-filter-card">
+
+              <div className="filter-item_home">
+                <Select
+                  options={getCourseData}
+                  placeholder="📘 Select Course"
+                  isLoading={isFetchingCourses}
+                  onChange={(e) => handleChangeForSearch(e, "course")}
+                  isClearable
+                  styles={customSelectStyles}
+                />
+              </div>
+
+              <div className="filter-item_home">
+                <Select
+                  options={getCities}
+                  placeholder="📍 Select City"
+                  isLoading={isFetchingCities}
+                  onChange={(e) => handleChangeForSearch(e, "city")}
+                  isClearable
+                  styles={customSelectStyles}
+                />
+              </div>
+
+              <div className="filter-item_home">
+                <Select
+                  options={budgetRanges}
+                  placeholder="💰 Budget Range"
+                  onChange={(e) => handleChangeForSearch(e, "budget")}
+                  isClearable
+                  styles={customSelectStyles}
+                />
+              </div>
+
+            </div>
+
+            <button type="button" className="search_home_btn d-flex justify-content-center align-items-center" onClick={handleSearch}>
                                         Explore College <i className="fa fa-search"></i>
                                     </button>
-                                </form>
-                            </div>
 
+          </form>
+        </div>
 
-                            <div className="home_tag">
-                                <span>Popular Topic:</span>
-                                {isFetchingCourses && (
-                                    <SkeletonLoader count={1} width={300} height={20} />
-                                )}
-                                {getCourseData?.slice(0, 5).map((course) => (
-                                    <Link key={course._id} to={`/colleges?course=${course.value}`}>{course.label}</Link>
-                                ))}
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </section>
+      </div>
+    </div>
+  </div>
+</section>
             <section className="tp_feature section-padding">
                 <div className="container">
                     <div className="ab_content">
@@ -471,34 +491,42 @@ const Home = () => {
                         <div className="impact-right">
 
                             <div className="impact-card">
-                                <div className="impact-icon">
+                                
+                                <h4>
+                                    <span className="impact-icon">
                                     <i className="fa fa-heart-o"></i>
-                                </div>
-                                <h4>5,500+ Students Counselled</h4>
+                                </span>
+                                    5,500+ Students Counselled</h4>
                                 <p>Helping students across India make confident career decisions through personalised guidance and real insights.</p>
                             </div>
 
                             <div className="impact-card">
-                                <div className="impact-icon">
+                                
+                                <h4>
+                                    <span className="impact-icon">
                                     <i className="fa fa-thumbs-o-up"></i>
-                                </div>
-                                <h4>93% Student Satisfaction Rate</h4>
+                                </span>
+                                    93% Student Satisfaction Rate</h4>
                                 <p>Because we don’t sell colleges — we recommend what actually fits the student.</p>
                             </div>
 
                             <div className="impact-card">
-                                <div className="impact-icon">
+                                
+                                <h4>
+                                    <span className="impact-icon">
                                     <i className="fa fa-line-chart"></i>
-                                </div>
-                                <h4>Up to ₹25,000 Cashback After Admission</h4>
+                                </span>
+                                    Up to ₹25,000 Cashback After Admission</h4>
                                 <p>Every successful enrolment comes with financial benefits, not hidden charges.</p>
                             </div>
 
                             <div className="impact-card">
-                                <div className="impact-icon">
+                                
+                                <h4>
+                                    <span className="impact-icon">
                                     <i className="fa fa-star-o"></i>
-                                </div>
-                                <h4>End-to-End Personalised Support</h4>
+                                </span>
+                                    End-to-End Personalised Support</h4>
                                 <p>From counselling to admission — and even support till course completion.</p>
                             </div>
 
@@ -970,10 +998,7 @@ const Home = () => {
                                         </h2>
                                         <Link to={`/blog-details/${blog?.slug}`} className="cta">
                                             <span>READ MORE</span>
-                                            <svg width="13" height="10" viewBox="0 0 13 10">
-                                                <path d="M1,5 L11,5"></path>
-                                                <polyline points="8 1 12 5 8 9"></polyline>
-                                            </svg>
+                                            
                                         </Link>
                                     </div>
                                 </div>

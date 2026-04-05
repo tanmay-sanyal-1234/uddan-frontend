@@ -13,7 +13,10 @@
 /* ===== HERO BLOG ===== */
 
 .hero_blog {
-  border: none;
+     border: 1px solid #0577da2b;
+  border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    background-color: #0000000a;
 }
 
 .hero_blog img {
@@ -32,10 +35,15 @@
 /* ===== BLOG GRID ===== */
 
 .blog_card {
-  border: none;
+   border: 1px solid #0577da2b;
+  border-radius: 16px;
   transition: 0.25s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  background-color: #0000000a;
 }
-
+/* .blog_page .card-body{
+  background-color: #0000000a;
+} */
 .blog_card:hover {
   transform: translateY(-6px);
 }

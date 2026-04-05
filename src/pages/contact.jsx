@@ -182,7 +182,7 @@ const Contact = () => {
                                 </Row>
 
                                 <Row>
-                                    <Col md={6}>
+                                    <Col md={3}>
                                         <Form.Group className="mb-3">
                                             <Form.Label>City</Form.Label>
                                             <Select
@@ -201,7 +201,7 @@ const Contact = () => {
                                             </Form.Group>
                                     </Col>
 
-                                    <Col md={6}>
+                                    <Col md={3}>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Course</Form.Label>
                                             <Select
@@ -218,16 +218,18 @@ const Contact = () => {
                                             {errors.course && <span className="text-danger">{errors.course}</span>}
                                         </Form.Group>
                                     </Col>
-                                </Row>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Subject</Form.Label>
+                                    <Col md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Subject</Form.Label>
                         
                                        
                                     <Form.Control placeholder="Enter Subject" name="subject" value={form.subject}
                                         onChange={(e)=> setForm({...form , subject:e.target.value})} />
                                         {errors.subject && <span className="text-danger">{errors.subject}</span>}
-                                   
-                                </Form.Group>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                            
                                 <Form.Group className="mb-3">
                                     <Form.Label>Message</Form.Label>
                                     <Form.Control

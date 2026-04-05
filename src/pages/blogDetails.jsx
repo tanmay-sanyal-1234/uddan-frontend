@@ -178,12 +178,12 @@ const BlogDetails = () => {
                             <div className="blog_author_row">
 
                                 <div className="author_box">
-                                    <Image
+                                    {/* <Image
                                         src={apiImageWrapper(blog?.author?.image)}
                                         roundedCircle
-                                    />
+                                    /> */}
                                     <div>
-                                        <div className="author_name">{blog?.author?.name}</div>
+                                        {/* <div className="author_name">{blog?.author?.name}</div> */}
                                         <div className="author_date">{moment(blog?.publishedAt).format("DD MMM YYYY")}</div>
                                     </div>
                                 </div>
@@ -356,13 +356,13 @@ const BlogDetails = () => {
                                                     {item?.heading}
                                                 </p>
                                                 <div className="blog_meta">
-                                                    <div className="author">
+                                                    {/* <div className="author">
                                                         <img
                                                             src={apiImageWrapper(item?.author?.image)}
                                                             alt=""
                                                         />
                                                         <span>{item?.author?.name}</span>
-                                                    </div>
+                                                    </div> */}
 
                                                     <span className="read_time">{moment(item?.publishedAt).format("DD MMM YYYY")}</span>
                                                 </div>

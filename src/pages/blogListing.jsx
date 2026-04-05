@@ -94,13 +94,13 @@ const BlogListing = () => {
                                 </p>
 
                                 <div className="blog_meta mt-2">
-                                    <div className="author">
+                                    {/* <div className="author">
                                         <img
                                             src={apiImageWrapper(blogOne()?.author?.image)}
                                             alt=""
                                         />
                                         <span>{blogOne()?.author?.name}</span>
-                                    </div>
+                                    </div> */}
 
                                     <span className="read_time"> 
                                         {moment(blogOne()?.publishedAt).format("DD MMM YYYY")}
@@ -186,13 +186,13 @@ const BlogListing = () => {
                                     </p>
 
                                     <div className="blog_meta">
-                                        <div className="author">
+                                        {/* <div className="author">
                                             <img
                                                 src={apiImageWrapper(item?.author?.image)}
                                                 alt=""
                                             />
                                             <span>{item?.author?.name}</span>
-                                        </div>
+                                        </div> */}
 
                                         <span className="read_time">{moment(item?.publishedAt).format("DD MMM YYYY")}</span>
                                     </div>
@@ -252,13 +252,13 @@ const BlogListing = () => {
                                     {item?.heading}
                                 </p>
                                 <div className="blog_meta">
-                                    <div className="author">
+                                    {/* <div className="author">
                                         <img
                                             src={apiImageWrapper(item?.author?.image)}
                                             alt=""
                                         />
                                         <span>{item?.author?.name}</span>
-                                    </div>
+                                    </div> */}
 
                                     <span className="read_time">{moment(item?.publishedAt).format("DD MMM YYYY")}</span>
                                 </div>

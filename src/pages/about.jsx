@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { about_banner, skillImage, faq_img } from "../assets/images";
+import { about_banner, skillImage, mission_image } from "../assets/images";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -104,14 +104,23 @@ const About = () => {
             {/* TOP FEATURES */}
             <section className="tp_feature section-padding">
                 <div className="container-fluid">
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                           Our Impact So Far
+                        </h2>
+                        {/* <p className="text-center">
+                            From choosing the right course to securing your admission, we support you at every step of your higher education journey.
+                        </p> */}
+                    </div>
                     <div className="row">
 
-                        <div className="col-lg-4 col-sm-4 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+                        <div className="col-lg-3 col-sm-3 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
                             <div className="single_tp">
-                                <h3>Quality Education</h3>
+                                <h3>6000+ Students Enrolled</h3>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur notted adipisicing elit sed do eiusmod tempor incididunt ut labore.
+                                    Helping thousands of students across India take confident career decisions
                                 </p>
+                                <br/>
                                 <a href="#" className="cta">
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
@@ -122,12 +131,13 @@ const About = () => {
                             </div>
                         </div>
 
-                        <div className="col-lg-4 col-sm-4 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
+                        <div className="col-lg-3 col-sm-3 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s">
                             <div className="single_tp">
-                                <h3>Experienced Teachers</h3>
+                                <h3>93% Satisfaction Rate</h3>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur notted adipisicing elit sed do eiusmod tempor incididunt ut labore.
+                                    Trusted by students and parents for honest and personalised guidance 
                                 </p>
+                                <br/>
                                 <a href="#" className="cta">
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
@@ -138,12 +148,31 @@ const About = () => {
                             </div>
                         </div>
 
-                        <div className="col-lg-4 col-sm-4 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
+                        <div className="col-lg-3 col-sm-3 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
                             <div className="single_tp">
-                                <h3>Life Time Support</h3>
+                                <h3>400+ Partner Institutes</h3>
+                                
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur notted adipisicing elit sed do eiusmod tempor incididunt ut labore.
+                                    Access to verified colleges in India and abroad
                                 </p>
+                                <br/>
+                                <a href="#" className="cta">
+                                    <span>Explore</span>
+                                    <svg width="13px" height="10px" viewBox="0 0 13 10">
+                                        <path d="M1,5 L11,5"></path>
+                                        <polyline points="8 1 12 5 8 9"></polyline>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div className="col-lg-3 col-sm-3 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
+                            <div className="single_tp">
+                                <h3>Up to ₹50,000 Scholarships after Admission</h3>
+                                
+                                <p>
+                                    Financial support to make quality education more accessible
+                                </p>
+                                
                                 <a href="#" className="cta">
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
@@ -161,12 +190,20 @@ const About = () => {
             {/* ABOUT SECTION */}
             <section className="ab_one section-padding">
                 <div className="container">
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                           VISION & MISSION 
+                        </h2>
+                        {/* <p className="text-center">
+                            From choosing the right course to securing your admission, we support you at every step of your higher education journey.
+                        </p> */}
+                    </div>
                     <div className="row">
 
                         <div className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
                             <div className="ab_img">
                                 <img
-                                    src={skillImage}
+                                    src={mission_image}
                                     className="img-fluid"
                                     alt="About"
                                 />
@@ -175,17 +212,19 @@ const About = () => {
 
                         <div className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
                             <div className="ab_content">
-                                <h2>
-                                    Learn new skills to go <u><span>ahead for your </span></u> career.
-                                </h2>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur notted adipisicing elit sed do eiusmod tempor incididunt ut labore et simply.
+                                <h3 className="">
+                                    <strong>Our Vision</strong>
+                                </h3>
+                                <p className="mt-2">
+                                   To make career clarity accessible to every student in India, regardless of their background, location, or financial condition. 
                                 </p>
-                                <p>
-                                    <strong>
-                                        Auto-generate catchy original and high-converting copies in popular tones languages.
-                                    </strong>
+                                <h3>
+                                    <strong>Our Mission </strong>
+                                </h3>
+                                <p className="mt-2">
+                                   To provide personalised, transparent, and affordable career counselling that helps students choose the right course and college — and succeed in their careers. 
                                 </p>
+                               
                                 <a className="btn_one" href="/about">
                                     Read More us
                                 </a>
@@ -199,13 +238,15 @@ const About = () => {
             {/* WHY CHOOSE US */}
             <section className="marketing_content_area section-padding">
                 <div className="container">
-
-                    <div className="section-title">
-                        <h2>Why Choose Udaan Scholars</h2>
-                        <p>
-                            Find the <span><u>best features</u></span> of Udaan Scholars.
-                        </p>
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                           What Makes Udaan Scholars Different 
+                        </h2>
+                        {/* <p className="text-center">
+                            From choosing the right course to securing your admission, we support you at every step of your higher education journey.
+                        </p> */}
                     </div>
+                   
 
                     <div className="row">
 
@@ -213,9 +254,9 @@ const About = () => {
                             <div className="single_feature_one">
                                 <div className="sf_top">
                                     <span className="ti-book ss_one"><i class="fa fa-info-circle"></i></span>
-                                    <h2><a href="/single-service">Learn More Anywhere</a></h2>
+                                    <h2><a href="/single-service"> Guidance That Feels Personal</a></h2>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor ut labore.</p>
+                                <p>We don’t give template advice — every recommendation is tailored to your goals, strengths, and situation. </p>
                             </div>
                         </div>
 
@@ -223,9 +264,9 @@ const About = () => {
                             <div className="single_feature_one">
                                 <div className="sf_top">
                                     <span className="ti-heart ss_two"><i class="fa fa-user"></i></span>
-                                    <h2><a href="/single-service">Expert Instructor</a></h2>
+                                    <h2><a href="/single-service">Clarity Over Confusion</a></h2>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor ut labore.</p>
+                                <p>No overwhelming options. We simplify choices so you can take clear, confident decisions.</p>
                             </div>
                         </div>
 
@@ -233,9 +274,9 @@ const About = () => {
                             <div className="single_feature_one">
                                 <div className="sf_top">
                                     <span className="ti-user ss_three"><i class="fa fa-group"></i></span>
-                                    <h2><a href="/single-service">Team Management</a></h2>
+                                    <h2><a href="/single-service">We Recommend, Not Sell</a></h2>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor ut labore.</p>
+                                <p>Our focus is your future — not promoting random colleges.</p>
                             </div>
                         </div>
 
@@ -243,9 +284,9 @@ const About = () => {
                             <div className="single_feature_one">
                                 <div className="sf_top">
                                     <span className="ti-eye ss_four"><i class="fa fa-list-alt"></i></span>
-                                    <h2><a href="/single-service">Course Planning</a></h2>
+                                    <h2><a href="/single-service">Opportunities Beyond Limits</a></h2>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor ut labore.</p>
+                                <p>From local colleges to global institutes — we open doors you didn’t know existed.</p>
                             </div>
                         </div>
 
@@ -253,9 +294,9 @@ const About = () => {
                             <div className="single_feature_one">
                                 <div className="sf_top">
                                     <span className="ti-light-bulb ss_five"><i class="fa fa-graduation-cap"></i></span>
-                                    <h2><a href="/single-service">Teacher Monitoring</a></h2>
+                                    <h2><a href="/single-service"> Career-Focused Approach</a></h2>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor ut labore.</p>
+                                <p>We don’t just help you get admission — we help you build a long-term career path.</p>
                             </div>
                         </div>
 
@@ -263,9 +304,9 @@ const About = () => {
                             <div className="single_feature_one">
                                 <div className="sf_top">
                                     <span className="ti-email ss_six"><i class="fa fa-life-ring fa-2x" aria-hidden="true"></i></span>
-                                    <h2><a href="/single-service">24/7 Strong Support</a></h2>
+                                    <h2><a href="/single-service">Support That Stays With You</a></h2>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor ut labore.</p>
+                                <p>From counselling to course completion — we stay connected at every step.</p>
                             </div>
                         </div>
 
@@ -316,16 +357,14 @@ const About = () => {
 
 
 
-            <section className="partner_ins_section">
+            {/* <section className="partner_ins_section">
                 <div className="partner_ins_container">
 
                     <div className="ab_content">
                         <h2 className="text-center">
                             Our Partner
                         </h2>
-                        {/* <p className="text-center">
-                            Hear directly from our students about their transformative journeys and successful placements after choosing Udaan Scholars.
-                        </p> */}
+                        
                     </div>
 
                     <div className="partner_ins_grid">
@@ -344,7 +383,7 @@ const About = () => {
                         </button>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
 
 
