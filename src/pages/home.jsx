@@ -22,6 +22,7 @@ import { toast } from 'react-toastify';
 import FullPageLoader from "@/components/FullPageLoader";
 import moment from "moment";
 import {useNewsLetterSubscribe} from "@/hooks/contactUsHook";
+import CTASection from "@/components/CtaSection";
 const Home = () => {
 
     const navigate = useNavigate();
@@ -534,9 +535,7 @@ const customSelectStyles = {
                     </div>
                 </div>
             </section>
-
-
-
+            
             <section className="ab_one section-padding">
                 <div className="container">
                     <div className="ab_content">
@@ -671,6 +670,9 @@ const customSelectStyles = {
                     </div>
                 </div>
             </section> */}
+            <section>
+            <CTASection/>
+            </section>
             <section className="marketing_content_area section-padding">
                 <div className="container">
                     <div className="ab_content">

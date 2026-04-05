@@ -1,0 +1,49 @@
+.cta_section {
+  background: #a0cbf1;
+  padding: 30px 0;
+}
+
+/* Button Group */
+.cta_group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Base Button */
+.cta_btn {
+  background: #d9d9d9 !important;
+  color: #333 !important;
+  border: 2px solid #0d2c6c !important;
+  padding: 14px 28px !important;
+  font-weight: 600;
+  border-radius: 8px !important;
+  min-width: 260px;
+  transition: all 0.3s ease;
+}
+
+/* Active Button */
+.cta_btn.active {
+  background: #0d2c6c !important;
+  color: #fff !important;
+}
+
+/* Hover */
+.cta_btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .cta_group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta_btn {
+    width: 100%;
+    max-width: 320px;
+  }
+}
