@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { logo } from "../../assets/images/index";
 import { NavLink } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -85,11 +85,11 @@ const Header = () => {
                 {/* Mobile Menu */}
                 <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
                     <ul>
-                        <li><a href="/" onClick={() => setMenuOpen(false)}>Home</a></li>
-                        <li><a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a></li>
-                        <li><a href="/colleges" onClick={() => setMenuOpen(false)}>Colleges</a></li>
-                        <li><a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a></li>
-                        <li><a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a></li>
+                        <li><Link to="/" onClick={() => setMenuOpen(false)}>Home</Link></li>
+                        <li><Link to="/about-us" onClick={() => setMenuOpen(false)}>About Us</Link></li>
+                        <li><Link to="/colleges" onClick={() => setMenuOpen(false)}>Colleges</Link></li>
+                        <li><Link to="/contact-us" onClick={() => setMenuOpen(false)}>Contact</Link></li>
+                        <li><Link to="/blogs" onClick={() => setMenuOpen(false)}>Blogs</Link></li>
                         <li className="mobile-cta">
                             <a className="btn_two" href="/refer-and-earn">
                                 Refer & Earn 🎁

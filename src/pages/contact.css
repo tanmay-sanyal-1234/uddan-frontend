@@ -93,6 +93,9 @@
   justify-content: center;
   cursor: pointer;
 }
+.contact-us-page-section-all .conatat_us_link_color{
+  color: #ffffff;
+}
 
 /* RESPONSIVE */
 
