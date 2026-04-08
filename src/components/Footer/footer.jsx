@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { footer_logo } from "../../assets/images/index";
+import { Link } from "react-router-dom";
 const Footer = () => {
     const [showTop, setShowTop] = useState(false);
 
@@ -34,22 +35,22 @@ const Footer = () => {
                                     />
                                 </a>
                                 <p>
-                                    Udaan Scholars is a student-first career counselling and admission guidance platform helping students across India choose the right future.
+                                    A modern education platform offering Free career counselling, college admissions & scholarships up to ₹30,000 — all in one place.Udaan Scholars helps you choose the right future, not just a college.
                                 </p>
                             </div>
 
                             <div className="foot_social">
                                 <ul>
-                                    <li><a href="http://">
-                                        <img src="https://img.icons8.com/ios-filled/50/ffffff/twitter.png" alt="Twitter" />
+                                    <li><a href="https://www.linkedin.com/company/udaan-scholars/" target="_blank">
+                                        <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn" />
                                     </a></li>
-                                    <li><a href="http://">
+                                    <li><a href="https://www.facebook.com/UdaanScholars" target="_blank">
                                         <img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" alt="Facebook" />
                                     </a></li>
-                                    <li><a href="http://">
+                                    <li><a href="https://www.instagram.com/udaanscholars?igsh=MTk3NThqM2tlOG1rbA==" target="_blank">
                                         <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Instagram" />
                                     </a></li>
-                                    <li><a href="http://">
+                                    <li><a href="https://www.youtube.com/@UdaanScholars" target="_blank">
                                         <img src="https://img.icons8.com/ios-filled/50/ffffff/youtube-play.png" alt="YouTube" />
                                     </a></li>
                                 </ul>
@@ -61,11 +62,11 @@ const Footer = () => {
                             <div className="single_footer">
                                 <h4>Quick Links</h4>
                                 <ul>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                    <li><a href="#">Refer & Earn</a></li>
-                                    <li><a href="#">Blog</a></li>
+                                    <li><Link to="/">Home</Link></li>
+                                    <li><Link to="/about-us">About</Link></li>
+                                    <li><Link to="/contact-us">Contact</Link></li>
+                                    <li><Link to="/refer-and-earn">Refer & Earn</Link></li>
+                                    <li><Link to="/blogs">Blog</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -77,7 +78,7 @@ const Footer = () => {
                                 <h4>Contact Info</h4>
 
                                 <div className="sf_contact">
-                                    <p>Damani Bhawan , Chinar Park , Kolkata , India</p>
+                                    <p>Shivanna Building – 31, Dasarahalli, Byatarayanapura, Bengaluru, Karnataka 560024</p>
                                     <p><i class="fa fa-phone" aria-hidden="true"></i>  <a href="tel:+919734166618">+91 9734166618</a></p>
                                     <p><i class="fa fa-envelope" aria-hidden="true"></i>  <a href="mailto:uddanscholars@gmail.com">uddanscholars@gmail.com</a></p>
                                 </div>

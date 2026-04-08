@@ -107,14 +107,7 @@ const About = () => {
             {/* ABOUT SECTION */}
             <section className="ab_one section-padding">
                 <div className="container">
-                    <div className="ab_content">
-                        <h2 className="text-center">
-                           VISION & MISSION 
-                        </h2>
-                        {/* <p className="text-center">
-                            From choosing the right course to securing your admission, we support you at every step of your higher education journey.
-                        </p> */}
-                    </div>
+                    
                     <div className="row">
 
                         <div className="col-lg-12 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">

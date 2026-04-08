@@ -2,7 +2,7 @@ import { contact_image } from "../assets/images/index.js";
 import React ,{ useState,useCallback} from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "./contact.css";
-import { FaFacebook, FaInstagram, FaWhatsapp, FaTwitter } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaWhatsapp, FaTwitter, FaLinkedin, FaYoutube } from 'react-icons/fa';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import FullPageLoader from "@/components/FullPageLoader";
@@ -277,16 +277,24 @@ const Contact = () => {
                                     <div className="social-title">Connect with us</div>
 
                                     <div className="social-icons">
+                                        <a href="https://www.facebook.com/UdaanScholars" target="_blank" className="conatat_us_link_color">
                                         <i className="fa-brands"><FaFacebook width={200} height={200} /></i>
+                                        </a>
+                                        <a href="https://www.linkedin.com/company/udaan-scholars/" target="_blank" className="conatat_us_link_color">
                                         <i className="fa-brands ">
-                                            <FaTwitter />
+                                            <FaLinkedin />
                                         </i>
+                                        </a>
+                                        <a href="https://www.instagram.com/udaanscholars?igsh=MTk3NThqM2tlOG1rbA==" target="_blank" className="conatat_us_link_color">
                                         <i className="fa-brands ">
                                             <FaInstagram />
                                         </i>
+                                        </a>
+                                        <a href="https://www.youtube.com/@UdaanScholars" target="_blank" className="conatat_us_link_color">
                                         <i className="fa-brands ">
-                                            <FaWhatsapp />
+                                            <FaYoutube />
                                         </i>
+                                        </a>
 
                                     </div>
                                 </div>

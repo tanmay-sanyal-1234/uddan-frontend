@@ -358,7 +358,7 @@ const customSelectStyles = {
               <div className="filter-item_home">
                 <Select
                   options={getCourseData}
-                  placeholder="📘 Select Course"
+                  placeholder="Search Course"
                   isLoading={isFetchingCourses}
                   onChange={(e) => handleChangeForSearch(e, "course")}
                   isClearable
@@ -369,7 +369,7 @@ const customSelectStyles = {
               <div className="filter-item_home">
                 <Select
                   options={getCities}
-                  placeholder="📍 Select City"
+                  placeholder="Search City"
                   isLoading={isFetchingCities}
                   onChange={(e) => handleChangeForSearch(e, "city")}
                   isClearable
@@ -380,7 +380,7 @@ const customSelectStyles = {
               <div className="filter-item_home">
                 <Select
                   options={budgetRanges}
-                  placeholder="💰 Budget Range"
+                  placeholder="Budget Range"
                   onChange={(e) => handleChangeForSearch(e, "budget")}
                   isClearable
                   styles={customSelectStyles}
