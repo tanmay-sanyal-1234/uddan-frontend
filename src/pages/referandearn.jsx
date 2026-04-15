@@ -54,7 +54,7 @@ const ReferAndEarn = () => {
                         </p>
 
                         <div className="refer-buttons">
-                            <button className="btn-primary">Ask Now <FaWhatsapp size={28} /></button>
+                            <button className="btn btn-success">Ask Now <FaWhatsapp size={28} /></button>
                             <button className="btn-outline">Know More</button>
                         </div>
                     </div>
@@ -98,7 +98,7 @@ const ReferAndEarn = () => {
 
                 {/* FRIEND BENEFITS */}
                 <div className="friend-benefits">
-                    <h2 className="text-center">WHAT YOUR FRIENDS GET</h2>
+                    <h2 className="text-center">What Your Friends Get</h2>
                          <p className="sub-text text-center">
                         Your Friends Get Real Benefits Too
                     </p>
@@ -125,7 +125,7 @@ const ReferAndEarn = () => {
                     </div>
                 </div>
                 <div className="how-it-works">
-                    <h2 className="text-center">WHY THIS IS A WIN-WIN</h2>
+                    <h2 className="text-center">Why This Is A Win-Win</h2>
                          
                     <div className="steps">
                         <div className="step">

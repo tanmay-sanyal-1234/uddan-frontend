@@ -332,6 +332,16 @@ const customSelectStyles = {
     
         }
 
+        const getName =(name) => {
+        let displayName = name.length > 30 ? name.slice(0, 30) + "..." : name;
+        let tooltip = name || "";
+        return {
+            displayName,
+            tooltip
+        }
+
+    }
+
     return (
         <div>
             <section id="home" className="home_bg mb-4">
@@ -341,12 +351,11 @@ const customSelectStyles = {
 
         <div className="home_content">
           <h1>
-            Find the Right College & Career Path <br className="d-none d-md-block" />
-            With Expert Guidance
+            Discover the Reality  <br className="d-none d-md-block" />
+            of Colleges for Your Career
           </h1>
           <p>
-            Udaan Scholars helps you make smart, stress-free decisions with expert counselling,
-            verified institutes, and real student benefits.
+            Get real, student-driven college insights — not marketing — plus free expert career counselling <br/> to help you make the right decision with confidence.
           </p>
         </div>
 
@@ -497,7 +506,7 @@ const customSelectStyles = {
                                     <span className="impact-icon">
                                     <i className="fa fa-heart-o"></i>
                                 </span>
-                                    5,500+ Students Counselled</h4>
+                                   <strong className="fs-3">5,500+</strong> Students Counselled</h4>
                                 <p>Helping students across India make confident career decisions through personalised guidance and real insights.</p>
                             </div>
 
@@ -507,7 +516,7 @@ const customSelectStyles = {
                                     <span className="impact-icon">
                                     <i className="fa fa-thumbs-o-up"></i>
                                 </span>
-                                    93% Student Satisfaction Rate</h4>
+                                    <strong className="fs-3">93%</strong> Student Satisfaction Rate</h4>
                                 <p>Because we don’t sell colleges — we recommend what actually fits the student.</p>
                             </div>
 
@@ -517,7 +526,7 @@ const customSelectStyles = {
                                     <span className="impact-icon">
                                     <i className="fa fa-line-chart"></i>
                                 </span>
-                                    Up to ₹25,000 Cashback After Admission</h4>
+                                    Up to <strong className="fs-3">₹25,000</strong> Cashback After Admission</h4>
                                 <p>Every successful enrolment comes with financial benefits, not hidden charges.</p>
                             </div>
 
@@ -527,7 +536,7 @@ const customSelectStyles = {
                                     <span className="impact-icon">
                                     <i className="fa fa-star-o"></i>
                                 </span>
-                                    End-to-End Personalised Support</h4>
+                                     <strong className="fs-3">End-to-End</strong> Personalised Support</h4>
                                 <p>From counselling to admission — and even support till course completion.</p>
                             </div>
 
@@ -996,7 +1005,7 @@ const customSelectStyles = {
                                             {moment(blog?.publishedAt).format("DD MMM YYYY")}
                                         </span>
                                         <h2>
-                                            <Link to={`/blog-details/${blog?.slug}`}>{blog?.title}</Link>
+                                            <Link to={`/blog-details/${blog?.slug}`}>{getName(blog?.title)?.displayName}</Link>
                                         </h2>
                                         <Link to={`/blog-details/${blog?.slug}`} className="cta">
                                             <span>READ MORE</span>
