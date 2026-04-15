@@ -120,7 +120,7 @@ const About = () => {
                             </div>
                         </div>
                         </div>
-                        <div className="row mt-3 text-center">
+                        <div className="row mt-5 text-center">
                         <div className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
                             <div className="ab_content p-2">
                                 <h3 className="">

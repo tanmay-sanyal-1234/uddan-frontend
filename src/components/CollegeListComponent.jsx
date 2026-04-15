@@ -33,15 +33,15 @@ const CollegeListComponent = ({ isFetching, data }) => {
         }
 
     }, [data])
-    const getName = useCallback((college) => {
-        let displayName = college?.name.length > 30 ? college?.name.slice(0, 30) + "..." : college?.name;
-        let tooltip = college?.name || "";
+    const getName =(name) => {
+        let displayName = name.length > 30 ? name.slice(0, 30) + "..." : name;
+        let tooltip = name || "";
         return {
             displayName,
             tooltip
         }
 
-    }, [data])
+    }
 
     const feesDisplay = useCallback((college) => {
         let feesList = college?.flatMap(stream =>
@@ -109,7 +109,7 @@ const CollegeListComponent = ({ isFetching, data }) => {
                                     />
                                     <div className="ms-3">
                                         <Link className="view-more-course" to={`/college-details/${college._id}`}><h3>
-                                            {college.name}</h3></Link>
+                                            {getName(college.name)?.displayName}</h3></Link>
                                         <p className="location">
                                             <i className="fa fa-map-marker"></i>
                                             <span className="location-name ms-2"></span>{college?.address?.cityD?.name}, {college?.address?.stateD?.name}

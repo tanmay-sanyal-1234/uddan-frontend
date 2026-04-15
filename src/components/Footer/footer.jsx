@@ -28,12 +28,12 @@ const Footer = () => {
                         {/* Logo & About */}
                         <div className="col-lg-4 col-sm-6 col-xs-12">
                             <div className="single_footer">
-                                <a href="/">
+                                {/* <a href="/">
                                     <img
                                         src={footer_logo}
                                         alt="Footer Logo"
                                     />
-                                </a>
+                                </a> */}
                                 <p>
                                     A modern education platform offering Free career counselling, college admissions & scholarships up to ₹30,000 — all in one place.Udaan Scholars helps you choose the right future, not just a college.
                                 </p>
@@ -95,7 +95,7 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        <div className="col-lg-6 col-sm-6 col-xs-12">
+                        {/* <div className="col-lg-6 col-sm-6 col-xs-12">
                             <div className="footer_menu">
                                 <ul>
                                     <li><a href="#">Terms of use</a></li>
@@ -103,7 +103,7 @@ const Footer = () => {
                                     <li><a href="#">Cookie Policy</a></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                 </div>

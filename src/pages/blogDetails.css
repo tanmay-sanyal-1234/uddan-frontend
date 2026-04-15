@@ -82,7 +82,7 @@
 /* ================= SIDEBAR ================= */
 
 .blog_details_page .toc_box {
-  position: sticky;
+  position: relative;
   /* top: 110px; */
 }
 
@@ -162,18 +162,19 @@
 
 .blog_details_page .blog_left_fixed {
   position: sticky;
-  top: 120px;
-  height: fit-content;
+  top: 110px; /* adjust based on header */
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 }
-.blog_details_page .blog_main_row {
+/* .blog_details_page .blog_main_row {
   align-items: stretch;
-}
-.blog_details_page .blog_main_row > div {
+} */
+/* .blog_details_page .blog_main_row > div {
   min-height: 100%;
-}
-.blog_details_page .blog_main_row {
+} */
+/* .blog_details_page .blog_main_row {
   align-items: flex-start;
-}
+} */
 
 
 /* default */
