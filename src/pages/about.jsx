@@ -3,7 +3,14 @@ import { about_banner, skillImage, mission_image } from "../assets/images";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import FaqComponent from "@/components/FaqComponent";
+import {openModal} from "@/store/slices/universityModalSlice";
+import { useSelector,useDispatch } from "react-redux";
+import UniversityModal from "@/components/universityModal";
 const About = () => {
+    const dispatch = useDispatch();
+    const isModalOpen = useSelector((state) => state.universityModal.isOpen);
+    const [modalOpenFor , setModalOpenFor] = useState("apply");
     const [activeIndex, setActiveIndex] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -171,7 +178,10 @@ const About = () => {
                                     Helping thousands of students across India take confident career decisions
                                 </p>
                                 <br/>
-                                <a href="#" className="cta">
+                                <a href="#" className="cta" onClick={() => {
+                                setModalOpenFor("explore");
+                                dispatch(openModal());
+                            }}>
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
                                         <path d="M1,5 L11,5"></path>
@@ -188,7 +198,10 @@ const About = () => {
                                     Trusted by students and parents for honest and personalised guidance 
                                 </p>
                                 <br/>
-                                <a href="#" className="cta">
+                                <a href="#" className="cta" onClick={() => {
+                                setModalOpenFor("explore");
+                                dispatch(openModal());
+                            }}>
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
                                         <path d="M1,5 L11,5"></path>
@@ -206,7 +219,10 @@ const About = () => {
                                     Access to verified colleges in India and abroad
                                 </p>
                                 <br/>
-                                <a href="#" className="cta">
+                                <a href="#" className="cta" onClick={() => {
+                                setModalOpenFor("explore");
+                                dispatch(openModal());
+                            }}>
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
                                         <path d="M1,5 L11,5"></path>
@@ -223,7 +239,10 @@ const About = () => {
                                     Financial support to make quality education more accessible
                                 </p>
                                 
-                                <a href="#" className="cta">
+                                <a href="#" className="cta" onClick={() => {
+                                setModalOpenFor("explore");
+                                dispatch(openModal());
+                            }}>
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
                                         <path d="M1,5 L11,5"></path>
@@ -390,36 +409,7 @@ const About = () => {
 
 
 
-            <section className="faq-section">
-                <div className="container">
-                    <h2 className="faq-title">FAQs</h2>
-
-                    <div className="faq-list">
-                        {faqs.map((faq, index) => (
-                            <div
-                                key={index}
-                                className={`faq-item ${activeIndex === index ? "active" : ""}`}
-                            >
-                                <div
-                                    className="faq-question"
-                                    onClick={() => toggleFAQ(index)}
-                                >
-                                    <span>{faq.question}</span>
-                                    <span className="faq-icon">
-                                        {activeIndex === index ? "−" : "+"}
-                                    </span>
-                                </div>
-
-                                {activeIndex === index && (
-                                    <div className="faq-answer">
-                                        {faq.answer}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <FaqComponent/>
             {showModal && (
                 <div className="gallery-modal">
                     <div className="gallery-content">
@@ -443,7 +433,10 @@ const About = () => {
                     </div>
                 </div>
             )}
+            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor}/>}
         </div>
+
+        
 
     );
 };

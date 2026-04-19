@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Button, ButtonGroup } from "react-bootstrap";
+import { whatsappLink } from "../utils/helpers";
 import "./cta.css";
 
 const CTASection = () => {
@@ -12,14 +13,14 @@ const CTASection = () => {
           
           <Button
             className={`cta_btn ${active === "career" ? "active" : ""}`}
-            onClick={() => setActive("career")}
+            onClick={whatsappLink}
           >
             Talk to a Career Expert
           </Button>
 
           <Button
             className={`cta_btn ${active === "college" ? "active" : ""}`}
-            onClick={() => setActive("college")}
+            onClick={whatsappLink}
           >
             Talk to a College Expert
           </Button>

@@ -176,3 +176,60 @@ export const useAddUniversityEnquiryForm = () => {
     });
 
 }
+
+export const useGetFaqList = (page = 1, limit = 10) => {
+  return useInfiniteQuery({
+    queryKey: ["useGetFaqList", page, limit],
+    queryFn: async ({ pageParam }) => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/faqs?&page=${pageParam}&limit=${limit}`
+      );
+      return res.data;
+    },
+    getNextPageParam: (lastPage) => {
+        if (!lastPage?.pagination) return undefined;
+        const { page, totalPage } = lastPage.pagination;
+        const currentPage = parseInt(page);
+        const totalPages = parseInt(totalPage);
+        return currentPage < totalPages ? currentPage + 1 : undefined;
+    },
+    initialPageParam: 1,
+    refetchOnWindowFocus: false,
+    retry: (failureCount, error) => {
+        // If the status is 403, stop retrying immediately
+        if (error?.response?.status === 403) {
+            return false;
+        }
+        // Otherwise, retry up to 3 times (default behavior)
+        return failureCount < 3;
+    },
+  }); 
+};
+export const useGetTestimonialsList = (page = 1, limit = 10) => {
+  return useInfiniteQuery({
+    queryKey: ["useGetTestimonialsList", page, limit],
+    queryFn: async ({ pageParam }) => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/testimonials?&page=${pageParam}&limit=${limit}`
+      );
+      return res.data;
+    },
+    getNextPageParam: (lastPage) => {
+        if (!lastPage?.pagination) return undefined;
+        const { page, totalPage } = lastPage.pagination;
+        const currentPage = parseInt(page);
+        const totalPages = parseInt(totalPage);
+        return currentPage < totalPages ? currentPage + 1 : undefined;
+    },
+    initialPageParam: 1,
+    refetchOnWindowFocus: false,
+    retry: (failureCount, error) => {
+        // If the status is 403, stop retrying immediately
+        if (error?.response?.status === 403) {
+            return false;
+        }
+        // Otherwise, retry up to 3 times (default behavior)
+        return failureCount < 3;
+    },
+  }); 
+};

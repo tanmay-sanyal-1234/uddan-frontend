@@ -1,0 +1,95 @@
+/* Section */
+.why_refer_win_win {
+  padding: 60px 0;
+  background: #f8f9fc;
+}
+
+/* Header */
+
+
+
+
+.why_refer_win_win_header p {
+  max-width: 700px;
+  margin: 10px auto 40px;
+  color: #666;
+  font-size: 15px;
+}
+
+/* Card */
+.why_refer_win_win_card {
+  /* border: none; */
+  border-radius: 16px;
+  padding: 30px 20px;
+  text-align: center;
+  margin-bottom: 25px;
+  transition: 0.3s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+.why_refer_win_win_card:hover {
+  transform: translateY(-6px);
+}
+
+/* Icon */
+.why_refer_win_win_icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+/* Icon Colors */
+.why_refer_win_win_icon.blue {
+  background: #e3ebff;
+}
+
+.why_refer_win_win_icon.yellow {
+  background: #fff4cc;
+}
+
+.why_refer_win_win_icon.green {
+  background: #d9f7ec;
+}
+
+/* Text */
+.why_refer_win_win_card h5 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.why_refer_win_win_card p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* ========== Responsive ========== */
+
+/* Tablet */
+
+
+/* Mobile */
+@media (max-width: 576px) {
+  .why_refer_win_win {
+    padding: 40px 0;
+  }
+
+  .why_refer_win_win_header p {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+
+  .why_refer_win_win_card {
+    padding: 12px 15px;
+  }
+
+  .why_refer_win_win_icon {
+    width: 55px;
+    height: 55px;
+    font-size: 22px;
+  }
+}
