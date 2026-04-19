@@ -20,6 +20,7 @@ import CollegeListComponent from "@/components/CollegeListComponent";
 import { Accordion } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ThreeDotLoader from '@/components/ThreeDotLoader';
+import Select from "react-select";
 const College = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [searchParamsAttr, setSearchParamsAttr] = useState(searchParams);
@@ -32,6 +33,7 @@ const College = () => {
         state: [],
         city: [],
         stream: [],
+        collegeType: [],
     });
     const [openSections, setOpenSections] = useState({
         course: true,
@@ -43,12 +45,25 @@ const College = () => {
     const [stateSearch, setStateSearch] = useState("");
     const [citySearch, setCitySearch] = useState("");
     const [streamSearch, setStreamSearch] = useState("");
+    const [collegeTypeSearch, setCollegeTypeSearch] = useState("");
     const { data, isLoading, isFetching, refetch, error, fetchNextPage, hasNextPage ,isFetchingNextPage,isPending} = useGetCollegeList(
         pages,
         limit,
         filterQuery,
     );
-
+    const collegeType = [
+    {
+        value:"GOVT" , label:"Government"},{
+        value:"S_GOVT" , label:"Semi Government"},{
+        value:"PVT" , label:"Private",
+    }
+]
+ const filteredCollegeTypes = useMemo(() => {
+        if (!collegeTypeSearch) return collegeType || [];
+        return collegeType?.filter((ct) =>
+            ct.label.toLowerCase().includes(collegeTypeSearch.toLowerCase()),
+        );
+    }, [collegeType, collegeTypeSearch]);
     const allData = useCallback(() => {
         return data?.pages?.flatMap(page => page.data) || [];
     },[data])
@@ -188,13 +203,18 @@ const College = () => {
                 id,
                 name: streamsData?.find((s) => s._id === id)?.name || "",
             })),
+            collegeType: getIds("collegeType").map((value) => ({
+                value,
+                name: collegeType.find((ct) => ct.value === value)?.label || "",
+            })),
+
         });
     };
 
     useEffect(() => {
         const params = new URLSearchParams();
 
-        ["course", "state", "city", "stream", "minPrice", "maxPrice"].forEach(
+        ["course", "state", "city", "stream", "minPrice", "maxPrice","collegeType"].forEach(
             (key) => {
                 searchParams.getAll(`${key}`).forEach((id) => {
                     params.append(key, id);
@@ -259,6 +279,16 @@ const College = () => {
             s.name.toLowerCase().includes(streamSearch.toLowerCase()),
         );
     }, [streamsData, streamSearch]);
+   
+    const budgetRanges = [
+        {value:"Select", label:"Select Budget Range"},
+        { value: "<100000", label: "Under ₹1,00,000" },
+        { value: "100000-200000", label: "₹1,00,000 – ₹2,00,000" },
+        { value: "200000-300000", label: "₹2,00,000 – ₹3,00,000" },
+        { value: "300000-500000", label: "₹3,00,000 – ₹5,00,000" },
+        { value: "500000-800000", label: "₹5,00,000 – ₹8,00,000" },
+        { value: ">800000", label: "Above ₹8,00,000" },
+    ];
 
     useEffect(() => {
         if (
@@ -284,6 +314,18 @@ const College = () => {
             [section]: !prev[section],
         }));
     };
+
+    const customStyles = {
+  clearIndicator: (base) => ({
+    ...base,
+    pointerEvents: "auto", // important
+    cursor: "pointer"
+  })
+};
+
+
+
+
 
     return (
         <div>
@@ -350,10 +392,62 @@ const College = () => {
 
                                 <div className="mobile_filter_body">
 
-                                    <Accordion defaultActiveKey={["0", "1", "2", "3"]} alwaysOpen>
+                                    <Accordion defaultActiveKey={["0", "1", "2", "3","4","5"]} alwaysOpen>
 
                                         {/* COURSE */}
                                         <Accordion.Item eventKey="0">
+                                            <Accordion.Header>Price Filter</Accordion.Header>
+                                            <Accordion.Body>
+
+                                                <div className="">
+                                   
+                                        <Select
+                                                          options={budgetRanges}
+                                                          placeholder="Budget Range"
+                                                          value={budgetRanges.find(option => {
+                                                            const minPrice = searchParams.get("minPrice");
+                                                            const maxPrice = searchParams.get("maxPrice");
+                                                            return minPrice && maxPrice && option.value === `${minPrice}-${maxPrice}`;
+                                                          })}
+
+                                                          onChange={(e) => {
+                                                            const params = new URLSearchParams(searchParams);
+                                                            if (e.value) {
+                                                                if(e.value == "Select"){
+                                                                    params.delete("minPrice");
+                                                                    params.delete("maxPrice");
+                                                                }else{
+
+                                                                params.set("minPrice", e.value.split("-")[0]);
+                                                                params.set("maxPrice", (e.value.split("-")[1] || e.value.replace(">","")) );
+                                                                }
+
+                                                            } else {
+                                                                params.delete("minPrice");
+                                                                params.delete("maxPrice");
+                                                            }
+                                                            setSearchParams(params);
+                                                        }}
+                                                          isClearable={true}
+                                                          styles={customStyles}
+                                                        
+                                                          
+                                                        />
+                                                        {(searchParams.get("minPrice") || searchParams.get("maxPrice")) && (
+                                                        <button className="mt-3 btn-sm" onClick={() => {
+                                                            const params = new URLSearchParams(searchParams);
+                                                            params.delete("minPrice");
+                                                            params.delete("maxPrice");
+                                                            setSearchParams(params);
+                                                        }}>
+                                                            Clear X
+                                                        </button>
+                                                        )}
+                                                        </div>
+
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                        <Accordion.Item eventKey="1">
                                             <Accordion.Header>Course</Accordion.Header>
                                             <Accordion.Body>
 
@@ -388,7 +482,7 @@ const College = () => {
 
                                         {/* STATE */}
 
-                                        <Accordion.Item eventKey="1">
+                                        <Accordion.Item eventKey="2">
                                             <Accordion.Header>State</Accordion.Header>
                                             <Accordion.Body>
 
@@ -423,7 +517,7 @@ const College = () => {
 
                                         {/* CITY */}
 
-                                        <Accordion.Item eventKey="2">
+                                        <Accordion.Item eventKey="3">
                                             <Accordion.Header>City</Accordion.Header>
                                             <Accordion.Body>
 
@@ -458,7 +552,7 @@ const College = () => {
 
                                         {/* STREAM */}
 
-                                        <Accordion.Item eventKey="3">
+                                        <Accordion.Item eventKey="4">
                                             <Accordion.Header>Stream</Accordion.Header>
                                             <Accordion.Body>
 
@@ -484,6 +578,38 @@ const College = () => {
                                                         />
 
                                                         {stream.name}
+
+                                                    </div>
+                                                ))}
+
+                                            </Accordion.Body>
+                                        </Accordion.Item>
+                                        <Accordion.Item eventKey="5">
+                                            <Accordion.Header>College Type</Accordion.Header>
+                                            <Accordion.Body>
+
+                                                <input
+                                                    type="text"
+                                                    className="filter-search"
+                                                    placeholder="Search College Type..."
+                                                    value={collegeTypeSearch}
+                                                    onChange={(e) => setCollegeTypeSearch(e.target.value)}
+                                                />
+
+                                                {filteredCollegeTypes.map((collegeType) => (
+                                                    <div key={collegeType.value} className="single_langu">
+
+                                                        <input
+                                                            type="checkbox"
+                                                            value={collegeType.value}
+                                                            name="collegeType"
+                                                            checked={checkItems.collegeType?.some(
+                                                                (c) => c.value === collegeType.value
+                                                            )}
+                                                            onChange={handleFilterChange}
+                                                        />
+
+                                                        {collegeType.label}
 
                                                     </div>
                                                 ))}
@@ -529,13 +655,23 @@ const College = () => {
                                                     });
                                                     // Update URL with new filter state
                                                     const params = new URLSearchParams(searchParams);
-                                                    const current =
-                                                        params.get(key)?.split(",").filter(Boolean) || [];
-                                                    const updated = current.filter((id) => id !== item.id);
-                                                    if (updated.length > 0) {
-                                                        params.set(key, updated.join(","));
-                                                    } else {
-                                                        params.delete(key);
+                                                    if(key === "collegeType"){
+                                                        const current = params.get(key)?.split(",").filter(Boolean) || [];
+                                                        const updated = current.filter((id) => id !== item.value);
+                                                        if (updated.length > 0) {
+                                                            params.set(key, updated.join(","));
+                                                        } else {
+                                                            params.delete(key);
+                                                        }
+                                                    }else{
+                                                        const current =
+                                                            params.get(key)?.split(",").filter(Boolean) || [];
+                                                        const updated = current.filter((id) => id !== item.id);
+                                                        if (updated.length > 0) {
+                                                            params.set(key, updated.join(","));
+                                                        } else {
+                                                            params.delete(key);
+                                                        }
                                                     }
                                                     setSearchParams(params);
                                                 }}
@@ -553,7 +689,7 @@ const College = () => {
                         {/* RIGHT SIDEBAR */}
                         <div className="col-lg-3 filter_sidebar">
                             {/* Search */}
-                            <div className="sidebar-post">
+                            {/* <div className="sidebar-post">
                                 <div className="blog_search">
                                     <input
                                         type="text"
@@ -561,7 +697,7 @@ const College = () => {
                                         placeholder="Type & Press Enter"
                                     />
                                 </div>
-                            </div>
+                            </div> */}
 
                             {/* Price Filter */}
                             <div className="rs-slider">
@@ -571,29 +707,39 @@ const College = () => {
                                     <span className="range-value">500</span>
                                 </div> */}
                                 <div className="range-slider">
-                                    <input
-                                        type="range"
-                                        className="price-input"
-                                        placeholder="Min Price"
-                                        value={searchParams.get("minPrice") || ""}
-                                        onChange={(e) => {
-                                            const params = new URLSearchParams(searchParams);
-                                            if (e.target.value) {
-                                                params.set("minPrice", e.target.value);
-                                            } else {
-                                                params.delete("minPrice");
-                                            }
-                                            setSearchParams(params);
-                                        }}
-                                    />
-                                    <span className="range-value">
-                                        {searchParams.get("minPrice") || 0}
-                                    </span>
+                                   
+                                        <Select
+                                                          options={budgetRanges}
+                                                          placeholder="Budget Range"
+                                                          onChange={(e) => {
+                                                            console.log(e,"eeeee")
+                                                            const params = new URLSearchParams(searchParams);
+                                                            if (e.value) {
+                                                                if(e.value == "Select"){
+                                                                    params.delete("minPrice");
+                                                                    params.delete("maxPrice");
+                                                                }else{
+
+                                                                params.set("minPrice", e.value.split("-")[0]);
+                                                                params.set("maxPrice", (e.value.split("-")[1] || e.value.replace(">","")) );
+                                                                }
+
+                                                            } else {
+                                                                params.delete("minPrice");
+                                                                params.delete("maxPrice");
+                                                            }
+                                                            setSearchParams(params);
+                                                        }}
+                                                          isClearable
+                                                        
+                                                          
+                                                        />
+
                                 </div>
                             </div>
 
                             {/* Skill Level */}
-                            <Accordion defaultActiveKey={["0", "1", "2", "3"]} alwaysOpen>
+                            <Accordion defaultActiveKey={["0", "1", "2", "3","4"]} alwaysOpen>
                                 <Accordion.Item eventKey="0" >
                                     <Accordion.Header>Course</Accordion.Header>
                                     <Accordion.Body>
@@ -724,6 +870,38 @@ const College = () => {
                                                     ))}
                                             </div>
                                         </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                                <Accordion.Item eventKey="4">
+                                    <Accordion.Header>College Type</Accordion.Header>
+                                    <Accordion.Body>
+
+                                        <input
+                                            type="text"
+                                            className="filter-search"
+                                            placeholder="Search College Type..."
+                                            value={collegeTypeSearch}
+                                            onChange={(e) => setCollegeTypeSearch(e.target.value)}
+                                        />
+
+                                        {filteredCollegeTypes.map((collegeTypeAttr) => (
+                                            <div key={collegeType.value} className="single_langu">
+
+                                                <input
+                                                    type="checkbox"
+                                                    value={collegeTypeAttr.value}
+                                                    name="collegeType"
+                                                    checked={checkItems.collegeType?.some(
+                                                        (c) => c.value === collegeTypeAttr.value
+                                                    )}
+                                                    onChange={handleFilterChange}
+                                                />
+
+                                                {collegeTypeAttr.label}
+
+                                            </div>
+                                        ))}
+
                                     </Accordion.Body>
                                 </Accordion.Item>
                             </Accordion>

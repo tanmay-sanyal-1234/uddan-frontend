@@ -3,14 +3,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { student_profiling, One_on_One_Counselling, Action_Plan_Creation } from "../assets/images";
 import Cities from "../components/cities";
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect,useCallback } from "react";
 import InstituteCard from "../components/instituteComponent";
 import { Link, useNavigate } from "react-router-dom";
-import { useGetCourses, useGetCollegeListHome, useGetCity } from "../hooks/collegeHook";
+import { useGetCourses, useGetCollegeListHome, useGetCity,useGetTestimonialsList } from "../hooks/collegeHook";
 import SkeletonLoader from "@/components/SkeletonLoader";
 import { Button , OverlayTrigger ,Overlay } from "react-bootstrap";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
-import { apiImageWrapper } from "../utils/helpers";
+import { apiImageWrapper,whatsappLink } from "../utils/helpers";
 import Select from "react-select";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -23,13 +23,20 @@ import FullPageLoader from "@/components/FullPageLoader";
 import moment from "moment";
 import {useNewsLetterSubscribe} from "@/hooks/contactUsHook";
 import CTASection from "@/components/CtaSection";
+import FaqComponent from "@/components/FaqComponent";
+import {openModal} from "@/store/slices/universityModalSlice";
+import { useSelector,useDispatch } from "react-redux";
+import UniversityModal from "@/components/universityModal";
 const Home = () => {
-
+    const dispatch = useDispatch();
+    const isModalOpen = useSelector((state) => state.universityModal.isOpen);
+    const [modalOpenFor , setModalOpenFor] = useState("apply");
     const navigate = useNavigate();
     const [courseFilterId, setCourseFilterId] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const [subscribeEmail,setSubscribeEmail] = useState("");
-    
+     const [pages, setPages] = useState(1);
+        const [limit, setLimit] = useState(10);
     const { data:getRecentBlogData, isLoading:isLoadingRecentBlogData, isFetching:isFetchingRecentBlogData, error:errorRecentBlogData ,isFetchingNextPage:isFetchingNextPageRecentBlogData,hasNextPage:hasNextPageRecentBlogData,fetchNextPage:fetchNextFetchRecentBlogData,refetch:refetchRecentBlogData } = useGetRecentBlogList(1,3);
     const { data: coursesData, isLoading: isLoadingCourses, isFetching: isFetchingCourses, error: coursesError } = useGetCourses();
     const { data: citiesData, isLoading: isLoadingCities, isFetching: isFetchingCities, error: citiesError } = useGetCity();
@@ -76,20 +83,29 @@ const Home = () => {
         setShowModal(true);
     };
 
-    const nextSlide = () => {
-        setCurrentIndex((prev) => (prev + 1) % alumni.length);
-    };
-
-    const prevSlide = () => {
-        setCurrentIndex((prev) =>
-            prev === 0 ? alumni.length - 1 : prev - 1
-        );
-    };
+    
     const [homeBannerSearch, setHomeBannerSearch] = useState({
         course: null,
         city: null,
         budget: null
     })
+
+     const { data:testimonial, isLoading, isFetching, refetch, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetTestimonialsList(
+            pages,
+            limit
+        );
+        const alumni = useCallback(() => {
+            return testimonial?.pages?.flatMap(page => page?.data) || [];
+        }, [testimonial])
+        const nextSlide = () => {
+        setCurrentIndex((prev) => (prev + 1) % alumni().length);
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) =>
+            prev === 0 ? alumni().length - 1 : prev - 1
+        );
+    };
 
     const partners = [
         "https://cdn.gamma.app/wgu6c0i1jdpm1pv/93ea745d085c45d18a1c10775d13a3dd/optimized/Asset-1-2.svg",
@@ -207,21 +223,7 @@ const customSelectStyles = {
 };
 
 
-    const alumni = [
-        { id: 1, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[0], feedback: "Udaan Scholars transformed my college search experience. The personalized guidance and genuine support helped me find the perfect fit for my higher education journey.", name: "Rahul Sharma" },
-        { id: 2, avatar: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&q=80", companyLogo: partners[1], feedback: "I was overwhelmed with the college admission process, but Udaan Scholars made it so much easier. Their expert counseling and real student benefits gave me the confidence to make informed decisions.", name: "Anjali Verma" },
-        { id: 3, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[2], feedback: "Udaan Scholars is a game-changer for students like me. The end-to-end personalized support and verified institutes made my college admission process stress-free and successful.", name: "Suresh Kumar" },
-        { id: 4, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80", companyLogo: partners[3], feedback: "I can't thank Udaan Scholars enough for their guidance and support. The scholarships and financial benefits they offered made a significant difference in my higher education journey.", name: "Priya Patel" },
-        { id: 5, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[4], feedback: "Udaan Scholars provided me with the clarity and trust I needed to navigate the college admission process. Their expert counseling and genuine support helped me make smart decisions for my future.", name: "Rajesh Gupta" },
-        { id: 6, avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=80", companyLogo: partners[5], feedback: "Udaan Scholars is more than just a college counseling service. They truly care about their students and go above and beyond to ensure their success. I'm grateful for the personalized support I received throughout my higher education journey.", name: "Neha Singh" },
-        { id: 7, avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80", companyLogo: partners[6], feedback: "Udaan Scholars made my college admission process seamless and stress-free. Their expert guidance and real student benefits helped me find the right college and career path for my future.", name: "Amitabh Choudhary" },
-        { id: 8, avatar: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=400&q=80", companyLogo: partners[7], feedback: "I highly recommend Udaan Scholars to any student looking for guidance in their higher education journey. Their personalized support and verified institutes helped me make informed decisions and secure my admission to the college of my dreams.", name: "Deepika Sharma" },
-        { id: 9, avatar: "https://images.unsplash.com/photo-1524503033411-c9566986fc8f?w=400&q=80", companyLogo: partners[8], feedback: "Udaan Scholars is a trusted partner for students seeking guidance in their higher education journey. Their expert counseling and genuine support helped me navigate the college admission process with confidence and ease.", name: "Rohit Mehta" },
-        { id: 10, avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80", companyLogo: partners[9], feedback: "Udaan Scholars provided me with the clarity and trust I needed to navigate the college admission process. Their expert counseling and genuine support helped me make smart decisions for my future.", name: "Sneha Agarwal" },
-        { id: 11, avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400&q=80", companyLogo: partners[10], feedback: "Udaan Scholars is more than just a college counseling service. They truly care about their students and go above and beyond to ensure their success. I'm grateful for the personalized support I received throughout my higher education journey.", name: "Vikram Singh" },
-        { id: 12, avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&q=80", companyLogo: partners[11], feedback: "Udaan Scholars made my college admission process seamless and stress-free. Their expert guidance and real student benefits helped me find the right college and career path for my future.", name: "Ananya Reddy" },
-        { id: 13, avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80", companyLogo: partners[12], feedback: "Udaan Scholars is a trusted partner for students seeking guidance in their higher education journey. Their expert counseling and genuine support helped me navigate the college admission process with confidence and ease.", name: "Karan Sharma" },
-    ];
+
     const scrollRef = useRef(null);
 
     const scrollCourse = (direction) => {
@@ -351,8 +353,8 @@ const customSelectStyles = {
 
         <div className="home_content">
           <h1>
-            Discover the Reality  <br className="d-none d-md-block" />
-            of Colleges for Your Career
+            Discover the Reality of Colleges 
+            <br className="d-none d-md-block" />for Your Career
           </h1>
           <p>
             Get real, student-driven college insights — not marketing — plus free expert career counselling <br/> to help you make the right decision with confidence.
@@ -492,7 +494,10 @@ const customSelectStyles = {
                                 solutions for unparalleled success.
                             </p>
 
-                            <a href="#callback" className="impact-cta">
+                            <a href="#callback" className="impact-cta" onClick={() => {
+                                setModalOpenFor("request_callback");
+                                dispatch(openModal());
+                            }}>
                                 Request a callback <span className="arrow">→</span>
                             </a>
                         </div>
@@ -934,17 +939,17 @@ const customSelectStyles = {
                             Hear directly from our students about their transformative journeys and successful placements after choosing Udaan Scholars.
                         </p> */}
                     </div>
-
+                            
                     <div className="row justify-content-center mt-4">
                         <div className="col-12">
                             <div className="alumni-grid d-flex flex-wrap justify-content-center gap-4">
-                                {alumni.map((a, index) => (
-                                    <div key={a.id} className="alumni-card text-center">
+                                {alumni().map((a, index) => (
+                                    <div key={a._id} className="alumni-card text-center">
 
                                         <div className="avatar" onClick={() => openGallery(index)}>
                                             <img
-                                                src={a.avatar}
-                                                alt={`Alumni ${a.id}`}
+                                                src={apiImageWrapper(a.image)}
+                                                alt={`Alumni ${a._id}`}
                                                 className="img-fluid"
                                             />
                                         </div>
@@ -955,7 +960,16 @@ const customSelectStyles = {
 
                                     </div>
                                 ))}
+                                {isFetching && (<SkeletonLoader count={1} width={'100%'} height={200} />)}
+                                                    
                             </div>
+                                {hasNextPage && (
+                                    <div className="text-center mt-3">
+                                        <button className="btn_one " onClick={fetchNextPage}>
+                                            {isFetchingNextPage ? "Loading..." : "View More"}
+                                        </button>
+                                    </div>
+                                )}
                         </div>
                     </div>
 
@@ -969,11 +983,11 @@ const customSelectStyles = {
 
             <section id="blog" className="blog_area section-padding">
                 <div className="container">
-                    <div className="section-title">
+                    <div className="ab_content">
+                        <h2 className="text-center">
+                             Our Latest Blogs
+                        </h2>
                         
-                        <p>
-                            Our Latest <span><u>Blogs</u></span>
-                        </p>
                     </div>
 
                     <div className="row">
@@ -1025,12 +1039,16 @@ const customSelectStyles = {
                     <div className="row text-center">
                         <div className="col-lg-6 offset-lg-3">
                             <div className="subs_form">
-                                <h3>
-                                    Subscribe to our Newsletter
-                                </h3>
-                                <p>
+                                <div className="ab_content">
+                                    <h2 className="text-center mb-0">
+                                        Subscribe to our Newsletter
+                                    </h2>
+                                    <p>
                                     We don’t make any spam.
                                 </p>
+                                </div>
+                               
+                                
 
                                 <form className="home_subs">
                                     <input
@@ -1053,36 +1071,7 @@ const customSelectStyles = {
                 </div>
             </section>
 
-            <section className="faq-section">
-                <div className="container">
-                    <h2 className="faq-title">FAQs</h2>
-
-                    <div className="faq-list">
-                        {faqs.map((faq, index) => (
-                            <div
-                                key={index}
-                                className={`faq-item ${activeIndex === index ? "active" : ""}`}
-                            >
-                                <div
-                                    className="faq-question"
-                                    onClick={() => toggleFAQ(index)}
-                                >
-                                    <span>{faq.question}</span>
-                                    <span className="faq-icon">
-                                        {activeIndex === index ? "−" : "+"}
-                                    </span>
-                                </div>
-
-                                {activeIndex === index && (
-                                    <div className="faq-answer">
-                                        {faq.answer}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <FaqComponent/>
 
             {showModal && (
                 <div className="gallery-modal">
@@ -1094,12 +1083,12 @@ const customSelectStyles = {
 
                         <div className="image-container">
                             <img
-                                src={alumni[currentIndex].avatar}
+                                src={apiImageWrapper(alumni()[currentIndex].image)}
                                 alt="Selected Alumni"
                             />
                             <div className="feedback-box">
-                                <h5>{alumni[currentIndex].name}</h5>
-                                <p>{alumni[currentIndex].feedback}</p>
+                                <h5>{alumni()[currentIndex].name}</h5>
+                                <p>{alumni()[currentIndex].message}</p>
                             </div>
                         </div>
 
@@ -1108,6 +1097,8 @@ const customSelectStyles = {
                     </div>
                 </div>
             )}
+
+            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor}/>}
 
         </div>
     );

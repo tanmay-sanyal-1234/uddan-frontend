@@ -42,3 +42,12 @@ export const nameShortAndTootip = (name) => {
     }
 
 }
+export const whatsappLink = () => {
+    const phoneNumber = "+919734166618"; // Your WhatsApp number (with country code)
+    const message = "Hello, I want more information.";
+     window.open(
+      `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+
+}

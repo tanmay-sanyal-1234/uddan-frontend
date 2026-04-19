@@ -1,26 +1,26 @@
-import React ,{useState,useCallback} from "react";
-import { Modal, Button, Form, Row, Col,Tooltip,OverlayTrigger } from "react-bootstrap";
+import React, { useState, useCallback } from "react";
+import { Modal, Button, Form, Row, Col, Tooltip, OverlayTrigger } from "react-bootstrap";
 import "./universityModal.css";
 import { college_logo } from "../assets/images";
 import { useSelector, useDispatch } from "react-redux";
-import { closeModal ,setBrochureDownloadUrl, setCanBrochureDownload,setCollegeDetails} from "../store/slices/universityModalSlice";
+import { closeModal, setBrochureDownloadUrl, setCanBrochureDownload, setCollegeDetails } from "../store/slices/universityModalSlice";
 import { apiImageWrapper } from "@/utils/helpers";
-import { useGetCityState ,useGetCoursesForCollegeWise,useAddUniversityEnquiryForm,useGetCourses,useGetCity} from "@/hooks/collegeHook";
+import { useGetCityState, useGetCoursesForCollegeWise, useAddUniversityEnquiryForm, useGetCourses, useGetCity } from "@/hooks/collegeHook";
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import FullPageLoader from "@/components/FullPageLoader";
 import { useNavigate } from "react-router-dom";
-import {  z } from "zod";
+import { z } from "zod";
 import confetti from "canvas-confetti";
 const UniversityModal = ({ sectionFrom = "others" }) => {
-        const navigate = useNavigate();
+    const navigate = useNavigate();
     const isOpen = useSelector((state) => state.universityModal.isOpen);
     const college = useSelector((state) => state.universityModal.collegeDetails);
     const canBrochureDownload = useSelector((state) => state.universityModal.canBrochureDownload);
     const brochureDownloadUrl = useSelector((state) => state.universityModal.brochureDownloadUrl);
     const { mutateAsync: useAddUniversityEnquiryFormAdd, isPending } = useAddUniversityEnquiryForm();
     const [loading, setLoading] = useState(false);
-    const [interestedOffer , setInterestedOffer] = useState(false)
+    const [interestedOffer, setInterestedOffer] = useState(false)
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -33,45 +33,45 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
     });
     const [errors, setErrors] = useState({});
     const formSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Name is required")
-    .min(3, "Name must be at least 3 characters"),
+        name: z
+            .string()
+            .min(1, "Name is required")
+            .min(3, "Name must be at least 3 characters"),
 
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Invalid email address"),
+        email: z
+            .string()
+            .min(1, "Email is required")
+            .email("Invalid email address"),
 
-  phone: z
-    .string()
-    .min(10, "Phone number must be 10 digits")
-    .max(10, "Phone number must be 10 digits")
-    .regex(/^[0-9]+$/, "Phone must contain only numbers"),
+        phone: z
+            .string()
+            .min(10, "Phone number must be 10 digits")
+            .max(10, "Phone number must be 10 digits")
+            .regex(/^[0-9]+$/, "Phone must contain only numbers"),
 
-  course: z
-    .string()
-    .nullable()
-    .refine(val => val !== null, {
-      message: "Course is required",
-    }),
+        course: z
+            .string()
+            .nullable()
+            .refine(val => val !== null, {
+                message: "Course is required",
+            }),
 
-//   state: z
-//     .string()
-//     .nullable()
-//     .refine(val => val !== null, {
-//       message: "State is required",
-//     }),
+        //   state: z
+        //     .string()
+        //     .nullable()
+        //     .refine(val => val !== null, {
+        //       message: "State is required",
+        //     }),
 
-  city: z
-    .string()
-    .nullable()
-    .refine(val => val !== null, {
-      message: "City is required",
-    }),
+        city: z
+            .string()
+            .nullable()
+            .refine(val => val !== null, {
+                message: "City is required",
+            }),
 
-  collegeId: z.string().nullable()
-});
+        collegeId: z.string().nullable()
+    });
     const dispatch = useDispatch();
     const { data: cityStateData, isFetching } = useGetCityState();
     const { data: coursesData, isFetching: isFetchingCourses } = useGetCourses();
@@ -123,13 +123,13 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
     const cityOption = useCallback(() => {
         if (cityData && !isFetchingcity) {
             return cityData.map(city => ({ value: city._id, label: city.name }));
-            
+
         } else {
             return [];
         }
     }, [isFetchingcity, cityData])
-    const handelSubmit = async(e) => {
-        
+    const handelSubmit = async (e) => {
+
         e.preventDefault();
         let payload = {
             name: form.name,
@@ -164,33 +164,36 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                 courseId: payload.course,
                 stateId: payload.state,
                 cityId: payload.city,
-                collegeId: payload.collegeId,
                 appliedFrom: payload.appliedFrom,
-                interestedOffer:interestedOffer
+                interestedOffer: interestedOffer
             }
-            
+
+            if( payload.collegeId){
+                fullPayload.collegeId = payload.collegeId
+            }
+
             await useAddUniversityEnquiryFormAdd(fullPayload, {
-            onSuccess: (data) => {
-                setLoading(false);
-                console.log(data, "success")
-                toast.success("Enquiry form submitted successfully!");
-                if (canBrochureDownload && brochureDownloadUrl) {
-                    setTimeout(() => {
-                        downloadFile(brochureDownloadUrl, `${college?.name}_brochure.pdf`);
-                    }, 1000);
-                }
-                setInterestedOffer(false)
-                dispatch(closeModal());
-                dispatch(setBrochureDownloadUrl(null));
-                dispatch(setCanBrochureDownload(false));
-                dispatch(setCollegeDetails(null));
-            },
-            onError: (error) => {
-                setLoading(false);
+                onSuccess: (data) => {
+                    setLoading(false);
+                    console.log(data, "success")
+                    toast.success("Enquiry form submitted successfully!");
+                    if (canBrochureDownload && brochureDownloadUrl) {
+                        setTimeout(() => {
+                            downloadFile(brochureDownloadUrl, `${college?.name}_brochure.pdf`);
+                        }, 1000);
+                    }
+                    setInterestedOffer(false)
+                    dispatch(closeModal());
+                    dispatch(setBrochureDownloadUrl(null));
+                    dispatch(setCanBrochureDownload(false));
+                    dispatch(setCollegeDetails(null));
+                },
+                onError: (error) => {
+                    setLoading(false);
                     toast.error("Failed to submit university enquiry form. Please try again.");
-                console.log(error, "error")
-            }
-        })
+                    console.log(error, "error")
+                }
+            })
         }
     }
 
@@ -198,7 +201,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
         const duration = 1500;
         const animationEnd = Date.now() + duration;
         setInterestedOffer(true);
-        
+
 
         const interval = setInterval(() => {
             const timeLeft = animationEnd - Date.now();
@@ -215,23 +218,50 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
             });
 
             myConfetti({
-  particleCount: 100,
-  spread: 71,
-  origin: { y: 0.6 }
-});
+                particleCount: 100,
+                spread: 71,
+                origin: { y: 0.6 }
+            });
         }, 300);
     };
 
     const getName = useCallback(() => {
-            let displayName = college?.name.length > 30 ? college?.name.slice(0,30) + "..." : college?.name;
-            let tooltip = college?.name || "";
-            return {
-                displayName,
-                tooltip
-            }
-    
-        },[college])
-    
+        let displayName = college?.name.length > 30 ? college?.name.slice(0, 30) + "..." : college?.name;
+        let tooltip = college?.name || "";
+        return {
+            displayName,
+            tooltip
+        }
+
+    }, [college])
+
+    const setNameDisplay = (type) => {
+        console.log(type,"type")
+        let name = "";
+        switch (type) {
+            case 'apply':
+               return "Register Now To Apply";
+                 
+            case 'request_callback':
+               return "Request a Callback";
+                  
+            case 'brochure':
+               return "Download Brochure";
+                
+            case 'explore':
+              return "Explore College";
+                  
+            case 'others':
+              return "Get in Touch";
+                
+            default:
+               return "Register Now To Apply";
+                 
+            
+
+        }
+    }
+
     return (
         <Modal
             show={isOpen}
@@ -247,58 +277,52 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
             size="md"
         >
             <Modal.Header closeButton>
-                <Modal.Title className="w-100 text-center">
-                    <h5 className="text-center text-primary fw-bold">
-                        Compare & Select from 100+
-                    </h5>
-                </Modal.Title>
+
             </Modal.Header>
             <Modal.Body className="p-4 position-relative">
 
                 {/* Header */}
 
-                <p className="text-center text-muted small mb-3">
-                    Best University for your Online Courses Course
-                </p>
+
 
 
                 {loading && <FullPageLoader />}
                 {/* Form */}
+                    <div className="card shadow-sm border-0 rounded-4 p-4 text-center mx-auto border-top border-4 border-primary">
+
+
+                        <h5 className="fw-bold text-primary mb-4">
+                            {setNameDisplay(sectionFrom)}
+                        </h5>
+
                 {college && (
-                   <div className="card shadow-sm border-0 rounded-4 p-4 text-center mx-auto border-top border-4 border-primary">
+                        <div className="d-flex align-items-center justify-content-center gap-3">
 
-  
-  <h5 className="fw-bold text-primary mb-4">
-    Register Now To Apply
-  </h5>
+                            {/* Logo */}
+                            <div className="bg-light rounded-3 p-2 d-flex align-items-center justify-content-center">
+                                <img
+                                    src={apiImageWrapper(college?.logo)}
+                                    alt={college?.name}
+                                    className="img-fluid"
+                                    style={{ width: "60px", height: "60px", objectFit: "contain" }}
+                                />
+                            </div>
 
-  <div className="d-flex align-items-center justify-content-center gap-3">
-    
-    {/* Logo */}
-    <div className="bg-light rounded-3 p-2 d-flex align-items-center justify-content-center">
-      <img
-        src={apiImageWrapper(college?.logo)}
-        alt={college?.name}
-        className="img-fluid"
-        style={{ width: "60px", height: "60px", objectFit: "contain" }}
-      />
-    </div>
+                            {/* College Details */}
+                            <div className="text-start">
+                                <h6 className="fw-semibold mb-1 um_fSize">
+                                    <OverlayTrigger placement="top" overlay={<Tooltip>{getName().tooltip}</Tooltip>}>
+                                        <p>{getName().displayName}</p>
+                                    </OverlayTrigger>
+                                </h6>
+                                <p className="text-muted mb-0 small">
+                                    {college?.address?.cityD?.name}, {college?.address?.stateD?.name}
+                                </p>
+                            </div>
 
-    {/* College Details */}
-    <div className="text-start">
-      <h6 className="fw-semibold mb-1 um_fSize">
-        <OverlayTrigger placement="top" overlay={<Tooltip>{getName().tooltip}</Tooltip>}>
-                            <p>{getName().displayName}</p>
-                        </OverlayTrigger>
-      </h6>
-      <p className="text-muted mb-0 small">
-        {college?.address?.cityD?.name}, {college?.address?.stateD?.name}
-      </p>
-    </div>
-
-  </div>
-</div>
-                )}
+                        </div>
+                    )}
+                    </div>
                 <Form>
                     <Form.Control className="mb-2" name="name" onChange={(e) => {
                         setForm({
@@ -342,32 +366,32 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                     </div> */}
                     <div className="form-group">
                         <Select
-                                name="city"
-                                className="mb-2"
-                                placeholder="Select City"
-                                isLoading={isFetching}
-                                value={form.city}
-                                onChange={(selected) =>
-                                    setForm({ ...form, city: selected })
-                                }
-                                
-                                options={cityOption()}
-                            />
-                            {errors.city && <span className="text-danger">{errors.city}</span>}
+                            name="city"
+                            className="mb-2"
+                            placeholder="Select City"
+                            isLoading={isFetching}
+                            value={form.city}
+                            onChange={(selected) =>
+                                setForm({ ...form, city: selected })
+                            }
+
+                            options={cityOption()}
+                        />
+                        {errors.city && <span className="text-danger">{errors.city}</span>}
                     </div>
                     <div className="form-group">
                         <Select
-                                name="course"
-                                className="mb-2"
-                                placeholder="Select Course"
-                                isLoading={isFetchingCourses}
-                                value={form.course}
-                                onChange={(selected) =>
-                                    setForm({ ...form, course: selected })
-                                }
-                                options={courseOption()}
-                            />
-                            {errors.course && <span className="text-danger">{errors.course}</span>}
+                            name="course"
+                            className="mb-2"
+                            placeholder="Select Course"
+                            isLoading={isFetchingCourses}
+                            value={form.course}
+                            onChange={(selected) =>
+                                setForm({ ...form, course: selected })
+                            }
+                            options={courseOption()}
+                        />
+                        {errors.course && <span className="text-danger">{errors.course}</span>}
                     </div>
                 </Form>
 
@@ -376,11 +400,11 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                     <div>
                         <strong>CV Exclusive Offer!</strong>
                         <div className="small text-muted">
-                            Upto ₹20,000 Cashback Available*
+                            Upto ₹50,000 Cashback Available*
                         </div>
                     </div>
-                    <Button size="sm" className="apply-btn" style={{backgroundColor:(interestedOffer)?'#25d366':''}} onClick={handleApplyCelebration}>
-                        {interestedOffer ? '✔ Applied':'Tap to apply'}
+                    <Button size="sm" className="apply-btn" style={{ backgroundColor: (interestedOffer) ? '#25d366' : '' }} onClick={handleApplyCelebration}>
+                        {interestedOffer ? '✔ Applied' : 'Tap to apply'}
                     </Button>
                 </div>
                 <canvas id="confetti-canvas" className="confetti-canvas"></canvas>
@@ -391,7 +415,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
 
                 {/* CTA */}
                 <Button className="w-100 main-cta" onClick={handelSubmit}>
-                    Find best University
+                    Apply Now
                 </Button>
             </Modal.Body>
         </Modal>

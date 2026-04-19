@@ -5,7 +5,7 @@ import { formatINR, apiImageWrapper } from "@/utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { Button, OverlayTrigger, Overlay, Tooltip } from "react-bootstrap";
 import { useSelector,useDispatch } from "react-redux";
-import {setCollegeDetails,openModal,setBrochureDownloadUrl,setCanBrochureDownload} from "../store/slices/universityModalSlice";
+import {setCollegeDetails,openModal,setBrochureDownloadUrl,setCanBrochureDownload} from "@/store/slices/universityModalSlice";
 import {setTabActiveFor} from "../store/slices/collegeFilterSlice";
 import UniversityModal from "../components/universityModal";
 const CollegeListComponent = ({ isFetching, data }) => {
@@ -34,7 +34,7 @@ const CollegeListComponent = ({ isFetching, data }) => {
 
     }, [data])
     const getName =(name) => {
-        let displayName = name.length > 30 ? name.slice(0, 30) + "..." : name;
+        let displayName = name.length > 60 ? name.slice(0, 60) + "..." : name;
         let tooltip = name || "";
         return {
             displayName,
