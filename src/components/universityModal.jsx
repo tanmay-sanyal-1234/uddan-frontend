@@ -168,7 +168,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
                 interestedOffer: interestedOffer
             }
 
-            if( payload.collegeId){
+            if (payload.collegeId) {
                 fullPayload.collegeId = payload.collegeId
             }
 
@@ -236,28 +236,28 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
     }, [college])
 
     const setNameDisplay = (type) => {
-        console.log(type,"type")
+        console.log(type, "type")
         let name = "";
         switch (type) {
             case 'apply':
-               return "Register Now To Apply";
-                 
+                return "Register Now To Apply";
+
             case 'request_callback':
-               return "Request a Callback";
-                  
+                return "Request a Callback";
+
             case 'brochure':
-               return "Download Brochure";
-                
+                return "Download Brochure";
+
             case 'explore':
-              return "Explore College";
-                  
+                return "Explore College";
+
             case 'others':
-              return "Get in Touch";
-                
+                return "Get in Touch";
+
             default:
-               return "Register Now To Apply";
-                 
-            
+                return "Register Now To Apply";
+
+
 
         }
     }
@@ -288,14 +288,14 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
 
                 {loading && <FullPageLoader />}
                 {/* Form */}
-                    <div className="card shadow-sm border-0 rounded-4 p-4 text-center mx-auto border-top border-4 border-primary">
+                <div className="card shadow-sm border-0 rounded-4 p-4 text-center mx-auto border-top border-4 border-primary">
 
 
-                        <h5 className="fw-bold text-primary mb-4">
-                            {setNameDisplay(sectionFrom)}
-                        </h5>
+                    <h5 className="fw-bold text-primary mb-4">
+                        {setNameDisplay(sectionFrom)}
+                    </h5>
 
-                {college && (
+                    {college && (
                         <div className="d-flex align-items-center justify-content-center gap-3">
 
                             {/* Logo */}
@@ -322,7 +322,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
 
                         </div>
                     )}
-                    </div>
+                </div>
                 <Form>
                     <Form.Control className="mb-2" name="name" onChange={(e) => {
                         setForm({
@@ -415,7 +415,7 @@ const UniversityModal = ({ sectionFrom = "others" }) => {
 
                 {/* CTA */}
                 <Button className="w-100 main-cta" onClick={handelSubmit}>
-                    Apply Now
+                    {sectionFrom == "brochure" ? 'Download Now' : 'Apply Now'}
                 </Button>
             </Modal.Body>
         </Modal>

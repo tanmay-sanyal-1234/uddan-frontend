@@ -35,7 +35,7 @@ const Footer = () => {
                                     />
                                 </a> */}
                                 <p>
-                                    A modern education platform offering Free career counselling, college admissions & scholarships up to ₹30,000 — all in one place.Udaan Scholars helps you choose the right future, not just a college.
+                                    A modern education platform offering Free career counselling, college admissions & scholarships up to ₹50,000 — all in one place.Udaan Scholars helps you choose the right future, not just a college.
                                 </p>
                             </div>
 
@@ -71,7 +71,7 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        
+
                         {/* Contact Info */}
                         <div className="col-lg-4 col-sm-6 col-xs-12">
                             <div className="single_footer">

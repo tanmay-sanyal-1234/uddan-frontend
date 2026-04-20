@@ -3,41 +3,41 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { student_profiling, One_on_One_Counselling, Action_Plan_Creation } from "../assets/images";
 import Cities from "../components/cities";
-import { useState, useMemo, useRef, useEffect,useCallback } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import InstituteCard from "../components/instituteComponent";
 import { Link, useNavigate } from "react-router-dom";
-import { useGetCourses, useGetCollegeListHome, useGetCity,useGetTestimonialsList } from "../hooks/collegeHook";
+import { useGetCourses, useGetCollegeListHome, useGetCity, useGetTestimonialsList } from "../hooks/collegeHook";
 import SkeletonLoader from "@/components/SkeletonLoader";
-import { Button , OverlayTrigger ,Overlay } from "react-bootstrap";
+import { Button, OverlayTrigger, Overlay } from "react-bootstrap";
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons";
-import { apiImageWrapper,whatsappLink } from "../utils/helpers";
+import { apiImageWrapper, whatsappLink } from "../utils/helpers";
 import Select from "react-select";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import {useGetPopulerBlogList,useGetPopulerBlogFirst,useGetRecentBlogList,useGetPopulerBlogHeading} from "@/hooks/blogHook";
+import { useGetPopulerBlogList, useGetPopulerBlogFirst, useGetRecentBlogList, useGetPopulerBlogHeading } from "@/hooks/blogHook";
 import { toast } from 'react-toastify';
 import FullPageLoader from "@/components/FullPageLoader";
 import moment from "moment";
-import {useNewsLetterSubscribe} from "@/hooks/contactUsHook";
+import { useNewsLetterSubscribe } from "@/hooks/contactUsHook";
 import CTASection from "@/components/CtaSection";
 import FaqComponent from "@/components/FaqComponent";
-import {openModal} from "@/store/slices/universityModalSlice";
-import { useSelector,useDispatch } from "react-redux";
+import { openModal } from "@/store/slices/universityModalSlice";
+import { useSelector, useDispatch } from "react-redux";
 import UniversityModal from "@/components/universityModal";
 const Home = () => {
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.universityModal.isOpen);
-    const [modalOpenFor , setModalOpenFor] = useState("apply");
+    const [modalOpenFor, setModalOpenFor] = useState("apply");
     const navigate = useNavigate();
     const [courseFilterId, setCourseFilterId] = useState(null);
     const [activeIndex, setActiveIndex] = useState(0);
-    const [subscribeEmail,setSubscribeEmail] = useState("");
-     const [pages, setPages] = useState(1);
-        const [limit, setLimit] = useState(10);
-    const { data:getRecentBlogData, isLoading:isLoadingRecentBlogData, isFetching:isFetchingRecentBlogData, error:errorRecentBlogData ,isFetchingNextPage:isFetchingNextPageRecentBlogData,hasNextPage:hasNextPageRecentBlogData,fetchNextPage:fetchNextFetchRecentBlogData,refetch:refetchRecentBlogData } = useGetRecentBlogList(1,3);
+    const [subscribeEmail, setSubscribeEmail] = useState("");
+    const [pages, setPages] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const { data: getRecentBlogData, isLoading: isLoadingRecentBlogData, isFetching: isFetchingRecentBlogData, error: errorRecentBlogData, isFetchingNextPage: isFetchingNextPageRecentBlogData, hasNextPage: hasNextPageRecentBlogData, fetchNextPage: fetchNextFetchRecentBlogData, refetch: refetchRecentBlogData } = useGetRecentBlogList(1, 3);
     const { data: coursesData, isLoading: isLoadingCourses, isFetching: isFetchingCourses, error: coursesError } = useGetCourses();
     const { data: citiesData, isLoading: isLoadingCities, isFetching: isFetchingCities, error: citiesError } = useGetCity();
     const { data: collegeListData, isLoading: isCollegeListLoading, isFetching: isCollegeListFetching, refetch: refetchCollegeList, error: collegeListError } = useGetCollegeListHome({ courseId: courseFilterId });
@@ -49,8 +49,8 @@ const Home = () => {
         setActiveIndex(activeIndex === index ? null : index);
     };
     const recentBlogs = useMemo(() => {
-            return getRecentBlogData?.pages?.flatMap(page => page.data) || [];
-        }, [getRecentBlogData]);
+        return getRecentBlogData?.pages?.flatMap(page => page.data) || [];
+    }, [getRecentBlogData]);
     const faqs = [
         {
             question: "What is Future Lift, and how can it help me with my career goals ?",
@@ -83,21 +83,21 @@ const Home = () => {
         setShowModal(true);
     };
 
-    
+
     const [homeBannerSearch, setHomeBannerSearch] = useState({
         course: null,
         city: null,
         budget: null
     })
 
-     const { data:testimonial, isLoading, isFetching, refetch, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetTestimonialsList(
-            pages,
-            limit
-        );
-        const alumni = useCallback(() => {
-            return testimonial?.pages?.flatMap(page => page?.data) || [];
-        }, [testimonial])
-        const nextSlide = () => {
+    const { data: testimonial, isLoading, isFetching, refetch, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetTestimonialsList(
+        pages,
+        limit
+    );
+    const alumni = useCallback(() => {
+        return testimonial?.pages?.flatMap(page => page?.data) || [];
+    }, [testimonial])
+    const nextSlide = () => {
         setCurrentIndex((prev) => (prev + 1) % alumni().length);
     };
 
@@ -194,33 +194,33 @@ const Home = () => {
 
 
 
-const customSelectStyles = {
-  control: (base) => ({
-    ...base,
-  }),
-  option: (base, state) => ({
-    ...base,
-    fontSize: "11px",   // 👈 reduce dropdown item text
-    padding: "0px",
-    borderBottom: "2px solid #eee", // 👈 border between items
-    backgroundColor: state.isFocused ? "#f5f7ff" : "#fff",
-    color: "#333",
-    cursor: "pointer",
-    fontWeight: state.isFocused ? "bold" : "normal", // 👈 bold selected item
-  }),
-  menu: (base) => ({
-    ...base,
-    fontSize: "8px",   // 👈 fallback for menu
-  }),
-  singleValue: (base) => ({
-    ...base,
-    // fontSize: "8px",   // 👈 selected value text
-  }),
-  placeholder: (base) => ({
-    ...base,
-    fontSize: "13px",
-  }),
-};
+    const customSelectStyles = {
+        control: (base) => ({
+            ...base,
+        }),
+        option: (base, state) => ({
+            ...base,
+            fontSize: "11px",   // 👈 reduce dropdown item text
+            padding: "0px",
+            borderBottom: "2px solid #eee", // 👈 border between items
+            backgroundColor: state.isFocused ? "#f5f7ff" : "#fff",
+            color: "#333",
+            cursor: "pointer",
+            fontWeight: state.isFocused ? "bold" : "normal", // 👈 bold selected item
+        }),
+        menu: (base) => ({
+            ...base,
+            fontSize: "8px",   // 👈 fallback for menu
+        }),
+        singleValue: (base) => ({
+            ...base,
+            // fontSize: "8px",   // 👈 selected value text
+        }),
+        placeholder: (base) => ({
+            ...base,
+            fontSize: "13px",
+        }),
+    };
 
 
 
@@ -312,29 +312,29 @@ const customSelectStyles = {
         navigate(`/colleges?${queryParams}`);
     }
 
-    const sendSubscribeEmail = async() => {
-        if(subscribeEmail){
-           let submit = await newsLetterSubscribe({email:subscribeEmail});
-           if(submit?.success){
+    const sendSubscribeEmail = async () => {
+        if (subscribeEmail) {
+            let submit = await newsLetterSubscribe({ email: subscribeEmail });
+            if (submit?.success) {
                 setSubscribeEmail("");
                 toast.success("✅ Subscription successful! Stay tuned for updates.");
-           }
-        }else{
+            }
+        } else {
             toast.error("Please enter the email address");
         }
     }
 
-        const getNameBlog = (name) => {
-            let displayName = name.length > 30 ? name.slice(0, 30) + "..." : name;
-            let tooltip = name || "";
-            return {
-                displayName,
-                tooltip
-            }
-    
+    const getNameBlog = (name) => {
+        let displayName = name.length > 30 ? name.slice(0, 30) + "..." : name;
+        let tooltip = name || "";
+        return {
+            displayName,
+            tooltip
         }
 
-        const getName =(name) => {
+    }
+
+    const getName = (name) => {
         let displayName = name.length > 30 ? name.slice(0, 30) + "..." : name;
         let tooltip = name || "";
         return {
@@ -347,70 +347,70 @@ const customSelectStyles = {
     return (
         <div>
             <section id="home" className="home_bg mb-4">
-  <div className="container">
-    <div className="row">
-      <div className="col-lg-12 text-center">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 text-center">
 
-        <div className="home_content">
-          <h1>
-            Discover the Reality of Colleges 
-            <br className="d-none d-md-block" />for Your Career
-          </h1>
-          <p>
-            Get real, student-driven college insights — not marketing — plus free expert career counselling <br/> to help you make the right decision with confidence.
-          </p>
-        </div>
+                            <div className="home_content">
+                                <h1>
+                                    Discover the Reality of Colleges
+                                    <br className="d-none d-md-block" /> for Your Career
+                                </h1>
+                                <p>
+                                    Real college insights with free career counselling for the right career choice.
+                                </p>
+                            </div>
 
-        <div className="home_sb">
-          <form className="banner_subs" onSubmit={(e) => e.preventDefault()}>
+                            <div className="home_sb">
+                                <form className="banner_subs" onSubmit={(e) => e.preventDefault()}>
 
-            <div className="mobile-filter-card">
+                                    <div className="mobile-filter-card">
 
-              <div className="filter-item_home">
-                <Select
-                  options={getCourseData}
-                  placeholder="Search Course"
-                  isLoading={isFetchingCourses}
-                  onChange={(e) => handleChangeForSearch(e, "course")}
-                  isClearable
-                  styles={customSelectStyles}
-                />
-              </div>
+                                        <div className="filter-item_home">
+                                            <Select
+                                                options={getCourseData}
+                                                placeholder="Search Course"
+                                                isLoading={isFetchingCourses}
+                                                onChange={(e) => handleChangeForSearch(e, "course")}
+                                                isClearable
+                                                styles={customSelectStyles}
+                                            />
+                                        </div>
 
-              <div className="filter-item_home">
-                <Select
-                  options={getCities}
-                  placeholder="Search City"
-                  isLoading={isFetchingCities}
-                  onChange={(e) => handleChangeForSearch(e, "city")}
-                  isClearable
-                  styles={customSelectStyles}
-                />
-              </div>
+                                        <div className="filter-item_home">
+                                            <Select
+                                                options={getCities}
+                                                placeholder="Search City"
+                                                isLoading={isFetchingCities}
+                                                onChange={(e) => handleChangeForSearch(e, "city")}
+                                                isClearable
+                                                styles={customSelectStyles}
+                                            />
+                                        </div>
 
-              <div className="filter-item_home">
-                <Select
-                  options={budgetRanges}
-                  placeholder="Budget Range"
-                  onChange={(e) => handleChangeForSearch(e, "budget")}
-                  isClearable
-                  styles={customSelectStyles}
-                />
-              </div>
+                                        <div className="filter-item_home">
+                                            <Select
+                                                options={budgetRanges}
+                                                placeholder="Budget Range"
+                                                onChange={(e) => handleChangeForSearch(e, "budget")}
+                                                isClearable
+                                                styles={customSelectStyles}
+                                            />
+                                        </div>
 
-            </div>
+                                    </div>
 
-            <button type="button" className="search_home_btn d-flex justify-content-center align-items-center" onClick={handleSearch}>
+                                    <button type="button" className="search_home_btn d-flex justify-content-center align-items-center" onClick={handleSearch}>
                                         Explore College <i className="fa fa-search"></i>
                                     </button>
 
-          </form>
-        </div>
+                                </form>
+                            </div>
 
-      </div>
-    </div>
-  </div>
-</section>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section className="tp_feature section-padding">
                 <div className="container">
                     <div className="ab_content">
@@ -418,7 +418,7 @@ const customSelectStyles = {
                             Top Cities
                         </h2>
                     </div>
-                    
+
 
                     <div className="row">
 
@@ -506,42 +506,46 @@ const customSelectStyles = {
                         <div className="impact-right">
 
                             <div className="impact-card">
-                                
+
                                 <h4>
                                     <span className="impact-icon">
-                                    <i className="fa fa-heart-o"></i>
-                                </span>
-                                   <strong className="fs-3">5,500+</strong> Students Counselled</h4>
+                                        <i className="fa fa-heart-o"></i>
+                                    </span>
+                                    <span><strong className="fs-3">5,500+</strong> Students Counselled</span>
+                                </h4>
                                 <p>Helping students across India make confident career decisions through personalised guidance and real insights.</p>
                             </div>
 
                             <div className="impact-card">
-                                
+
                                 <h4>
                                     <span className="impact-icon">
-                                    <i className="fa fa-thumbs-o-up"></i>
-                                </span>
-                                    <strong className="fs-3">93%</strong> Student Satisfaction Rate</h4>
+                                        <i className="fa fa-thumbs-o-up"></i>
+                                    </span>
+                                    <span><strong className="fs-3">93%</strong> Student Satisfaction Rate</span>
+                                </h4>
                                 <p>Because we don’t sell colleges — we recommend what actually fits the student.</p>
                             </div>
 
                             <div className="impact-card">
-                                
+
                                 <h4>
                                     <span className="impact-icon">
-                                    <i className="fa fa-line-chart"></i>
-                                </span>
-                                    Up to <strong className="fs-3">₹25,000</strong> Cashback After Admission</h4>
+                                        <i className="fa fa-line-chart"></i>
+                                    </span>
+                                    <span>Up to <strong className="fs-3">₹25,000</strong> Cashback After Admission</span>
+                                </h4>
                                 <p>Every successful enrolment comes with financial benefits, not hidden charges.</p>
                             </div>
 
                             <div className="impact-card">
-                                
+
                                 <h4>
                                     <span className="impact-icon">
-                                    <i className="fa fa-star-o"></i>
-                                </span>
-                                     <strong className="fs-3">End-to-End</strong> Personalised Support</h4>
+                                        <i className="fa fa-star-o"></i>
+                                    </span>
+                                    <span><strong className="fs-3">End-to-End</strong> Personalised Support</span>
+                                </h4>
                                 <p>From counselling to admission — and even support till course completion.</p>
                             </div>
 
@@ -549,7 +553,7 @@ const customSelectStyles = {
                     </div>
                 </div>
             </section>
-            
+
             <section className="ab_one section-padding">
                 <div className="container">
                     <div className="ab_content">
@@ -586,7 +590,7 @@ const customSelectStyles = {
                                 <h4>One-on-One Counselling</h4>
                                 <img src={One_on_One_Counselling} className="img-fluid" alt="Counselling" />
                             </div>
-                                <div className="col-lg-1"></div>
+                            <div className="col-lg-1"></div>
                             <div className="col-lg-8 d-flex align-items-center howitworkT">
                                 <p className="mb-0">
                                     Experienced counselors provide tailored guidance by understanding each student's goals,
@@ -603,7 +607,7 @@ const customSelectStyles = {
                                 <h4>Action Plan Creation</h4>
                                 <img src={Action_Plan_Creation} className="img-fluid" alt="Action Plan" />
                             </div>
-                                <div className="col-lg-1"></div>
+                            <div className="col-lg-1"></div>
                             <div className="col-lg-8 d-flex align-items-center howitworkT">
                                 <p className="mb-0">
                                     Deliver a detailed and actionable roadmap,
@@ -685,7 +689,7 @@ const customSelectStyles = {
                 </div>
             </section> */}
             <section>
-            <CTASection/>
+                <CTASection />
             </section>
             <section className="marketing_content_area section-padding">
                 <div className="container">
@@ -723,7 +727,7 @@ const customSelectStyles = {
                                     </span>
                                     <h2>
                                         <a href="single-service.html" target="_blank" rel="noreferrer">
-                                            400+ Verified Indian & Global Institutes: 
+                                            400+ Verified Indian & Global Institutes:
                                         </a>
                                     </h2>
                                 </div>
@@ -939,7 +943,7 @@ const customSelectStyles = {
                             Hear directly from our students about their transformative journeys and successful placements after choosing Udaan Scholars.
                         </p> */}
                     </div>
-                            
+
                     <div className="row justify-content-center mt-4">
                         <div className="col-12">
                             <div className="alumni-grid d-flex flex-wrap justify-content-center gap-4">
@@ -961,15 +965,15 @@ const customSelectStyles = {
                                     </div>
                                 ))}
                                 {isFetching && (<SkeletonLoader count={1} width={'100%'} height={200} />)}
-                                                    
+
                             </div>
-                                {hasNextPage && (
-                                    <div className="text-center mt-3">
-                                        <button className="btn_one " onClick={fetchNextPage}>
-                                            {isFetchingNextPage ? "Loading..." : "View More"}
-                                        </button>
-                                    </div>
-                                )}
+                            {hasNextPage && (
+                                <div className="text-center mt-3">
+                                    <button className="btn_one " onClick={fetchNextPage}>
+                                        {isFetchingNextPage ? "Loading..." : "View More"}
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -985,24 +989,24 @@ const customSelectStyles = {
                 <div className="container">
                     <div className="ab_content">
                         <h2 className="text-center">
-                             Our Latest Blogs
+                            Our Latest Blogs
                         </h2>
-                        
+
                     </div>
 
                     <div className="row">
                         {isFetchingRecentBlogData && (
                             <>
-                                <div  className="col-lg-4 col-sm-4 col-xs-12">
-                                    <SkeletonLoader count={1} width={'100%'} height={400}/>
+                                <div className="col-lg-4 col-sm-4 col-xs-12">
+                                    <SkeletonLoader count={1} width={'100%'} height={400} />
                                 </div>
 
-                                <div  className="col-lg-4 col-sm-4 col-xs-12">
-                                    <SkeletonLoader count={1} width={'100%'} height={400}/>
+                                <div className="col-lg-4 col-sm-4 col-xs-12">
+                                    <SkeletonLoader count={1} width={'100%'} height={400} />
                                 </div>
 
-                                <div  className="col-lg-4 col-sm-4 col-xs-12">
-                                    <SkeletonLoader count={1} width={'100%'} height={400}/>
+                                <div className="col-lg-4 col-sm-4 col-xs-12">
+                                    <SkeletonLoader count={1} width={'100%'} height={400} />
                                 </div>
                             </>
                         )}
@@ -1023,14 +1027,14 @@ const customSelectStyles = {
                                         </h2>
                                         <Link to={`/blog-details/${blog?.slug}`} className="cta">
                                             <span>READ MORE</span>
-                                            
+
                                         </Link>
                                     </div>
                                 </div>
                             </div>
                         ))}
-                        
-                        
+
+
                     </div>
                 </div>
             </section>
@@ -1044,11 +1048,11 @@ const customSelectStyles = {
                                         Subscribe to our Newsletter
                                     </h2>
                                     <p>
-                                    We don’t make any spam.
-                                </p>
+                                        We don't send spam or No spam, ever
+                                    </p>
                                 </div>
-                               
-                                
+
+
 
                                 <form className="home_subs">
                                     <input
@@ -1071,7 +1075,7 @@ const customSelectStyles = {
                 </div>
             </section>
 
-            <FaqComponent/>
+            <FaqComponent />
 
             {showModal && (
                 <div className="gallery-modal">
@@ -1098,7 +1102,7 @@ const customSelectStyles = {
                 </div>
             )}
 
-            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor}/>}
+            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor} />}
 
         </div>
     );

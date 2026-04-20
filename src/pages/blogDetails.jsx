@@ -347,22 +347,22 @@ const BlogDetails = () => {
                         <Row className="g-4">
                             {recentBlogs?.map((item, index) => (
                                 <Col md={6} key={index}>
-                                    <Link to={`/blog-details/${item?.slug}`}>
-                                        <Card className="hero_blog">
+                                    <Link to={`/blog-details/${item?.slug}`} className="d-block h-100">
+                                        <Card className="hero_blog h-100">
                                             <Card.Img src={apiImageWrapper(item?.coverImage)} />
-                                            <Card.Body>
+                                            <Card.Body className="d-flex flex-column">
                                                 <h5 className="blog_title">{item.title}</h5>
                                                 <p className="blog_desc">
                                                     {item?.heading}
                                                 </p>
-                                                <div className="blog_meta">
+                                                <div className="blog_meta mt-auto">
                                                     {/* <div className="author">
-                                                        <img
-                                                            src={apiImageWrapper(item?.author?.image)}
-                                                            alt=""
-                                                        />
-                                                        <span>{item?.author?.name}</span>
-                                                    </div> */}
+                                                                    <img
+                                                                        src={apiImageWrapper(item?.author?.image)}
+                                                                        alt=""
+                                                                    />
+                                                                    <span>{item?.author?.name}</span>
+                                                                </div> */}
 
                                                     <span className="read_time">{moment(item?.publishedAt).format("DD MMM YYYY")}</span>
                                                 </div>
