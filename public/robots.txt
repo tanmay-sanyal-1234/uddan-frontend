@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://uddandev.site/sitemap.xml

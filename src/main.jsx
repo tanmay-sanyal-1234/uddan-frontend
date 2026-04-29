@@ -10,14 +10,17 @@ import { Provider } from "react-redux";
 import './index.css'
 import App from './App.jsx'
 import { store } from "./store";
+import { HelmetProvider } from "react-helmet-async";
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-    <QueryClientProvider client={queryClient}>
-    <App />
-    </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </QueryClientProvider>
     </Provider>
   </StrictMode>,
 )

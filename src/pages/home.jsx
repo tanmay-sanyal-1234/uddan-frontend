@@ -1,4 +1,5 @@
 import Slider from "react-slick";
+import SEO from "../components/SEO";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { student_profiling, One_on_One_Counselling, Action_Plan_Creation } from "../assets/images";
@@ -346,6 +347,7 @@ const Home = () => {
 
     return (
         <div>
+            <SEO title="Home - Uddan Scholars" description="Welcome to Uddan Scholars." />
             <section id="home" className="home_bg mb-4">
                 <div className="container">
                     <div className="row">
@@ -1048,7 +1050,7 @@ const Home = () => {
                                         Subscribe to our Newsletter
                                     </h2>
                                     <p>
-                                        We don't send spam or No spam, ever
+                                        We don't send any spam.
                                     </p>
                                 </div>
 
@@ -1075,7 +1077,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <FaqComponent />
+            <FaqComponent section="home" />
 
             {showModal && (
                 <div className="gallery-modal">

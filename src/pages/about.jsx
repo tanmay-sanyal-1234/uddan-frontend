@@ -1,16 +1,17 @@
 import React, { useState } from "react";
+import SEO from "../components/SEO";
 import { about_banner, skillImage, mission_image } from "../assets/images";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import FaqComponent from "@/components/FaqComponent";
-import {openModal} from "@/store/slices/universityModalSlice";
-import { useSelector,useDispatch } from "react-redux";
+import { openModal } from "@/store/slices/universityModalSlice";
+import { useSelector, useDispatch } from "react-redux";
 import UniversityModal from "@/components/universityModal";
 const About = () => {
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.universityModal.isOpen);
-    const [modalOpenFor , setModalOpenFor] = useState("apply");
+    const [modalOpenFor, setModalOpenFor] = useState("apply");
     const [activeIndex, setActiveIndex] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -86,6 +87,7 @@ const About = () => {
 
     return (
         <div>
+            <SEO title="About Us - Uddan Scholars" description="Learn more about Uddan Scholars." />
             <section className="section-top" style={{ backgroundImage: `url(${about_banner})` }}>
                 {/* <div className="container">
                     <div className="col-lg-10 offset-lg-1 text-center">
@@ -109,12 +111,12 @@ const About = () => {
 
 
             {/* TOP FEATURES */}
-            
+
 
             {/* ABOUT SECTION */}
             <section className="ab_one section-padding">
                 <div className="container">
-                    
+
                     <div className="row">
 
                         <div className="col-lg-12 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
@@ -126,18 +128,18 @@ const About = () => {
                                 />
                             </div>
                         </div>
-                        </div>
-                        <div className="row mt-5 text-center">
+                    </div>
+                    <div className="row mt-5 text-center">
                         <div className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s">
                             <div className="ab_content p-2">
                                 <h3 className="">
                                     <strong>Our Vision</strong>
                                 </h3>
                                 <p className="mt-2">
-                                   To make career clarity accessible to every student in India, regardless of their background, location, or financial condition. 
+                                    To make career clarity accessible to every student in India, regardless of their background, location, or financial condition.
                                 </p>
-                                
-                               
+
+
                                 {/* <a className="btn_one" href="/about">
                                     Read More us
                                 </a> */}
@@ -145,14 +147,14 @@ const About = () => {
                         </div>
                         <div className="col-lg-6 col-sm-12 col-xs-12 wow fadeInUp border-start" data-wow-duration="1s" data-wow-delay="0.1s">
                             <div className="ab_content p-2">
-                                
+
                                 <h3>
                                     <strong>Our Mission </strong>
                                 </h3>
                                 <p className="mt-2">
-                                   To provide personalised, transparent, and affordable career counselling that helps students choose the right course and college — and succeed in their careers. 
+                                    To provide personalised, transparent, and affordable career counselling that helps students choose the right course and college — and succeed in their careers.
                                 </p>
-                               
+
                             </div>
                         </div>
 
@@ -163,7 +165,7 @@ const About = () => {
                 <div className="container-fluid">
                     <div className="ab_content">
                         <h2 className="text-center">
-                           Our Impact So Far
+                            Our Impact So Far
                         </h2>
                         {/* <p className="text-center">
                             From choosing the right course to securing your admission, we support you at every step of your higher education journey.
@@ -177,11 +179,11 @@ const About = () => {
                                 <p>
                                     Helping thousands of students across India take confident career decisions
                                 </p>
-                                <br/>
+                                <br />
                                 <a href="#" className="cta" onClick={() => {
-                                setModalOpenFor("explore");
-                                dispatch(openModal());
-                            }}>
+                                    setModalOpenFor("explore");
+                                    dispatch(openModal());
+                                }}>
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
                                         <path d="M1,5 L11,5"></path>
@@ -195,13 +197,13 @@ const About = () => {
                             <div className="single_tp">
                                 <h3>93% Satisfaction Rate</h3>
                                 <p>
-                                    Trusted by students and parents for honest and personalised guidance 
+                                    Trusted by students and parents for honest and personalised guidance
                                 </p>
-                                <br/>
+                                <br />
                                 <a href="#" className="cta" onClick={() => {
-                                setModalOpenFor("explore");
-                                dispatch(openModal());
-                            }}>
+                                    setModalOpenFor("explore");
+                                    dispatch(openModal());
+                                }}>
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
                                         <path d="M1,5 L11,5"></path>
@@ -214,15 +216,15 @@ const About = () => {
                         <div className="col-lg-3 col-sm-3 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
                             <div className="single_tp">
                                 <h3>400+ Partner Institutes</h3>
-                                
+
                                 <p>
                                     Access to verified colleges in India and abroad
                                 </p>
-                                <br/>
+                                <br />
                                 <a href="#" className="cta" onClick={() => {
-                                setModalOpenFor("explore");
-                                dispatch(openModal());
-                            }}>
+                                    setModalOpenFor("explore");
+                                    dispatch(openModal());
+                                }}>
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
                                         <path d="M1,5 L11,5"></path>
@@ -234,15 +236,15 @@ const About = () => {
                         <div className="col-lg-3 col-sm-3 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.4s">
                             <div className="single_tp">
                                 <h3>Up to ₹50,000 Scholarships after Admission</h3>
-                                
+
                                 <p>
                                     Financial support to make quality education more accessible
                                 </p>
-                                
+
                                 <a href="#" className="cta" onClick={() => {
-                                setModalOpenFor("explore");
-                                dispatch(openModal());
-                            }}>
+                                    setModalOpenFor("explore");
+                                    dispatch(openModal());
+                                }}>
                                     <span>Explore</span>
                                     <svg width="13px" height="10px" viewBox="0 0 13 10">
                                         <path d="M1,5 L11,5"></path>
@@ -260,13 +262,13 @@ const About = () => {
                 <div className="container">
                     <div className="ab_content">
                         <h2 className="text-center">
-                           What Makes Udaan Scholars Different 
+                            What Makes Udaan Scholars Different
                         </h2>
                         {/* <p className="text-center">
                             From choosing the right course to securing your admission, we support you at every step of your higher education journey.
                         </p> */}
                     </div>
-                   
+
 
                     <div className="row">
 
@@ -409,7 +411,7 @@ const About = () => {
 
 
 
-            <FaqComponent/>
+            <FaqComponent section="about_us" />
             {showModal && (
                 <div className="gallery-modal">
                     <div className="gallery-content">
@@ -433,10 +435,10 @@ const About = () => {
                     </div>
                 </div>
             )}
-            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor}/>}
+            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor} />}
         </div>
 
-        
+
 
     );
 };
