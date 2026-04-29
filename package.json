@@ -10,6 +10,10 @@
     "preview": "vite preview",
     "pm2:start": "pm2 start 'serve -s dist -l 5000' --name uddan-frontend"
   },
+  "reactSnap": {
+    "inlineCss": true,
+    "crawl": true
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@reduxjs/toolkit": "^2.11.2",

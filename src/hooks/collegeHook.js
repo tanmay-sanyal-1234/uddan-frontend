@@ -177,6 +177,8 @@ export const useAddUniversityEnquiryForm = () => {
 
 }
 
+
+
 export const useGetFaqList = ({ page = 1, limit = 10, section = "" }) => {
   return useInfiniteQuery({
     queryKey: ["useGetFaqList", page, limit, section],
