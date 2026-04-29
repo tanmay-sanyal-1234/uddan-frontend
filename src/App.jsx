@@ -15,12 +15,20 @@ import ScrollToTop from "./components/ScrollToTop";
 import WhatsAppButton from "./components/WhatsAppButton";
 import BlogListing from './pages/blogListing';
 import BlogDetails from './pages/blogDetails';
+import ReactGA from "react-ga4";
+import AnalyticsTracker from "./components/AnalyticsTracker";
+
+// Initialize Google Analytics outside the component tree
+const MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || "G-XXXXXXXXXX";
+ReactGA.initialize(MEASUREMENT_ID);
+
 function App() {
 
 
   return (
     <BrowserRouter>
     <ScrollToTop />
+    <AnalyticsTracker />
       <MainLayout>
         <ToastContainer />
         <Routes>

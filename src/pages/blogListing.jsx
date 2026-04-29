@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
+import SEO from "../components/SEO";
 import { Container, Row, Col, Card, Form, InputGroup } from "react-bootstrap";
 import "./blogListing.css";
 import { useGetPopulerBlogList, useGetPopulerBlogFirst, useGetRecentBlogList, useGetPopulerBlogHeading, useGetPopulerBlogHeadingSearch } from "@/hooks/blogHook";
@@ -54,6 +55,7 @@ const BlogListing = () => {
 
     return (
         <>
+            <SEO title="Blogs - Uddan Scholars" description="Read the latest blogs and updates from Uddan Scholars." />
             <section className="section-top mt-3">
                 {/* <div className="container">
                     <div className="col-lg-10 offset-lg-1 text-center">

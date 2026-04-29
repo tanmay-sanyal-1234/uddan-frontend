@@ -1,5 +1,6 @@
 import { contact_image } from "../assets/images/index.js";
 import React, { useState, useCallback } from "react";
+import SEO from "../components/SEO";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "./contact.css";
 import { FaFacebook, FaInstagram, FaWhatsapp, FaTwitter, FaLinkedin, FaYoutube } from 'react-icons/fa';
@@ -124,6 +125,7 @@ const Contact = () => {
     }
     return (
         <>
+            <SEO title="Contact Us - Uddan Scholars" description="Get in touch with Uddan Scholars." />
             <section className="section-top" style={{ backgroundImage: `url(${contact_image})` }}>
 
             </section>

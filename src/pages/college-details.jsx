@@ -1,14 +1,15 @@
-import React, { useState,useRef,useEffect, useCallback, useMemo } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import SEO from "../components/SEO";
 import { college_detail_image, image_2, college_logo } from "../assets/images";
 import { useGetCollegeDetailsById } from "../hooks/collegeHook";
 import { Link, useParams } from "react-router-dom";
 import FullPageLoader from "../components/FullPageLoader";
-import {apiImageWrapper} from "@/utils/helpers";
-import { useSelector,useDispatch } from "react-redux";
-import {setCollegeDetails,openModal,setBrochureDownloadUrl,setCanBrochureDownload} from "../store/slices/universityModalSlice";
+import { apiImageWrapper } from "@/utils/helpers";
+import { useSelector, useDispatch } from "react-redux";
+import { setCollegeDetails, openModal, setBrochureDownloadUrl, setCanBrochureDownload } from "../store/slices/universityModalSlice";
 import UniversityModal from "../components/universityModal";
 import RecentlyViewed from "@/components/RecentlyViewed";
-import {setTabActiveFor} from "../store/slices/collegeFilterSlice";
+import { setTabActiveFor } from "../store/slices/collegeFilterSlice";
 const CollegeDetails = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
@@ -16,7 +17,7 @@ const CollegeDetails = () => {
     const [activeTab, setActiveTab] = useState(0);
     const isModalOpen = useSelector((state) => state.universityModal.isOpen);
     const collegeTabFillter = useSelector((state) => state.collegeFilterRedux.collegeTabActive);
-    const [modalOpenFor , setModalOpenFor] = useState("brochure"); // 'brochure' or 'enquiry'
+    const [modalOpenFor, setModalOpenFor] = useState("brochure"); // 'brochure' or 'enquiry'
     const visitedColleges = [
         {
             name: "IIM Shillong Indian Institute of Management",
@@ -36,68 +37,73 @@ const CollegeDetails = () => {
     ];
     const tabsRef = useRef(null);
 
-const scrollTabs = (direction) => {
-  if (tabsRef.current) {
-    tabsRef.current.scrollBy({
-      left: direction === "left" ? -200 : 200,
-      behavior: "smooth",
-    });
-  }
-};
-
-// const collegeTabIsActive = useCallback((str) => {
-//     if(collegeTabFillter && str && data && !isFetching){
-//         console.log(collegeTabFillter,"collegeTabFillter")
-//         const regex = new RegExp(collegeTabFillter, "i");
-//         console.log(str,"strstr")
-//         if(regex.test(str)){
-//            let fin = data?.tabs?.findIndex((item) => item?.title == str);
-//            console.log(fin,"fin")
-//            if(fin !== -1){
-//             console.log("ddddddddddddddddddddddddddddddddddddddddddddddddddd")
-//             setActiveTab(fin);
-//            }
-//         }
-//     }
-// },[collegeTabFillter,data,isFetching])
-
-
-useEffect(() => {
-    if(collegeTabFillter && data && !isFetching){
-        const regex = new RegExp(collegeTabFillter, "i");
-        for (let index = 0; index < data?.tabs.length; index++) {
-            if(regex.test(data?.tabs[index]?.title)){
-                setActiveTab(index);
-                dispatch(setTabActiveFor(null))
-                break;
-            }
-            
+    const scrollTabs = (direction) => {
+        if (tabsRef.current) {
+            tabsRef.current.scrollBy({
+                left: direction === "left" ? -200 : 200,
+                behavior: "smooth",
+            });
         }
-    }
-},[collegeTabFillter,data,isFetching])
+    };
+
+    // const collegeTabIsActive = useCallback((str) => {
+    //     if(collegeTabFillter && str && data && !isFetching){
+    //         console.log(collegeTabFillter,"collegeTabFillter")
+    //         const regex = new RegExp(collegeTabFillter, "i");
+    //         console.log(str,"strstr")
+    //         if(regex.test(str)){
+    //            let fin = data?.tabs?.findIndex((item) => item?.title == str);
+    //            console.log(fin,"fin")
+    //            if(fin !== -1){
+    //             console.log("ddddddddddddddddddddddddddddddddddddddddddddddddddd")
+    //             setActiveTab(fin);
+    //            }
+    //         }
+    //     }
+    // },[collegeTabFillter,data,isFetching])
+
+
+    useEffect(() => {
+        if (collegeTabFillter && data && !isFetching) {
+            const regex = new RegExp(collegeTabFillter, "i");
+            for (let index = 0; index < data?.tabs.length; index++) {
+                if (regex.test(data?.tabs[index]?.title)) {
+                    setActiveTab(index);
+                    dispatch(setTabActiveFor(null))
+                    break;
+                }
+
+            }
+        }
+    }, [collegeTabFillter, data, isFetching])
 
 
 
-useEffect(() => {
-    if (data) {
-      let viewedColleges = JSON.parse(localStorage.getItem("viewedColleges")) || [];
+    useEffect(() => {
+        if (data) {
+            let viewedColleges = JSON.parse(localStorage.getItem("viewedColleges")) || [];
 
-      // Remove if already exists (avoid duplicate)
-      viewedColleges = viewedColleges.filter(
-        (item) => item._id !== data._id
-      );
+            // Remove if already exists (avoid duplicate)
+            viewedColleges = viewedColleges.filter(
+                (item) => item._id !== data._id
+            );
 
-      // Add new college at beginning
-      viewedColleges.unshift(data);
+            // Add new college at beginning
+            viewedColleges.unshift(data);
 
-      // Keep only last 5 viewed
-      viewedColleges = viewedColleges.slice(0, 5);
+            // Keep only last 5 viewed
+            viewedColleges = viewedColleges.slice(0, 5);
 
-      localStorage.setItem("viewedColleges", JSON.stringify(viewedColleges));
-    }
-  }, [data]);
+            localStorage.setItem("viewedColleges", JSON.stringify(viewedColleges));
+        }
+    }, [data]);
     return (
         <div>
+            <SEO
+                key={data?._id || "loading"}
+                title={data?.name ? `${data.name} - Uddan Scholars` : "College Details - Uddan Scholars"}
+                description={`Discover details about ${data?.name || 'this college'} on Uddan Scholars.`}
+            />
             <section className="section-top">
                 {/* <div className="container">
                     <div className="col-lg-10 offset-lg-1 text-center">
@@ -142,46 +148,46 @@ useEffect(() => {
                                     <span>| AACSB, AMBA Approved</span> */}
                                 </p>
                                 <div className="apply-not-for-mobile">
-                                <Link to="#" onClick={() => {
-                                    setModalOpenFor("apply");
-                                    dispatch(setCollegeDetails(data));
-                                    dispatch(openModal());
-                                }} className="apply-link">
-                                
-                                    ✔ Apply Now
-                                </Link>
+                                    <Link to="#" onClick={() => {
+                                        setModalOpenFor("apply");
+                                        dispatch(setCollegeDetails(data));
+                                        dispatch(openModal());
+                                    }} className="apply-link">
+
+                                        ✔ Apply Now
+                                    </Link>
                                 </div>
                             </div>
                         </div>
-                         <div className="header-actions">
+                        <div className="header-actions">
                             <div className="apply-for-mobile">
                                 <Link to="#" onClick={() => {
                                     setModalOpenFor("apply");
                                     dispatch(setCollegeDetails(data));
                                     dispatch(openModal());
                                 }} className="apply-link">
-                                
+
                                     ✔ Apply Now
                                 </Link>
                             </div>
 
-    <button
-      className="brochure-btn"
-      onClick={() => {
-        setModalOpenFor("brochure");
-        dispatch(setCollegeDetails(data));
-        dispatch(setCanBrochureDownload(true));
-        dispatch(
-          setBrochureDownloadUrl(apiImageWrapper(data?.media?.brochureUrl))
-        );
-        dispatch(openModal());
-      }}
-    >
-      <i className="fa fa-download"></i> Download Brochure
-    </button>
-  </div>
+                            <button
+                                className="brochure-btn"
+                                onClick={() => {
+                                    setModalOpenFor("brochure");
+                                    dispatch(setCollegeDetails(data));
+                                    dispatch(setCanBrochureDownload(true));
+                                    dispatch(
+                                        setBrochureDownloadUrl(apiImageWrapper(data?.media?.brochureUrl))
+                                    );
+                                    dispatch(openModal());
+                                }}
+                            >
+                                <i className="fa fa-download"></i> Download Brochure
+                            </button>
+                        </div>
 
-                        
+
                     </div>
 
                     {/* TABS */}
@@ -199,27 +205,27 @@ useEffect(() => {
 
                     <div className="tabs-bar">
 
-  <button className="nav-arrow mt-4 me-3" onClick={() => scrollTabs("left")}>
-    ‹
-  </button>
-    
-  <div className="college-tabs" ref={tabsRef}>
-    {data?.tabs?.map((tab, index) => (
-        <button
-        key={index}
-        className={`tab-item ${activeTab === index ? "active" :""}`}
-        onClick={() => setActiveTab(index)}
-      >
-        {tab?.title}
-      </button>
-    ))}
-  </div>
+                        <button className="nav-arrow mt-4 me-3" onClick={() => scrollTabs("left")}>
+                            ‹
+                        </button>
 
-  <button className="nav-arrow mt-4 ms-3" onClick={() => scrollTabs("right")}>
-    ›
-  </button>
+                        <div className="college-tabs" ref={tabsRef}>
+                            {data?.tabs?.map((tab, index) => (
+                                <button
+                                    key={index}
+                                    className={`tab-item ${activeTab === index ? "active" : ""}`}
+                                    onClick={() => setActiveTab(index)}
+                                >
+                                    {tab?.title}
+                                </button>
+                            ))}
+                        </div>
 
-</div>
+                        <button className="nav-arrow mt-4 ms-3" onClick={() => scrollTabs("right")}>
+                            ›
+                        </button>
+
+                    </div>
 
                     {/* CONTENT */}
                     <div className="college-content">
@@ -239,7 +245,7 @@ useEffect(() => {
                         </div>
 
                         {/* RIGHT */}
-                        <RecentlyViewed/>
+                        <RecentlyViewed />
                         {/* <div className="content-right">
                             <h3>Students Also Visited</h3>
 
@@ -263,7 +269,7 @@ useEffect(() => {
 
                 </div>
             </section>
-            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor}/>}
+            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor} />}
         </div>
     );
 };

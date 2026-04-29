@@ -1,4 +1,4 @@
-import { useQuery ,useMutation, useQueryClient,useInfiniteQuery} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 // export const useGetCollegeList = (page = 1, limit = 10, filters = "") => {
@@ -46,28 +46,28 @@ export const useGetCollegeList = (page = 1, limit = 4, filters = "") => {
       return res.data;
     },
     getNextPageParam: (lastPage) => {
-        if (!lastPage?.pagination) return undefined;
-        const { page, totalPage } = lastPage.pagination;
-        const currentPage = parseInt(page);
-        const totalPages = parseInt(totalPage);
-        return currentPage < totalPages ? currentPage + 1 : undefined;
+      if (!lastPage?.pagination) return undefined;
+      const { page, totalPage } = lastPage.pagination;
+      const currentPage = parseInt(page);
+      const totalPages = parseInt(totalPage);
+      return currentPage < totalPages ? currentPage + 1 : undefined;
     },
     initialPageParam: 1,
     refetchOnWindowFocus: false,
     retry: (failureCount, error) => {
-        // If the status is 403, stop retrying immediately
-        if (error?.response?.status === 403) {
-            return false;
-        }
-        // Otherwise, retry up to 3 times (default behavior)
-        return failureCount < 3;
+      // If the status is 403, stop retrying immediately
+      if (error?.response?.status === 403) {
+        return false;
+      }
+      // Otherwise, retry up to 3 times (default behavior)
+      return failureCount < 3;
     },
-  }); 
+  });
 };
 
 
 
-export const useGetCollegeListHome = ({page = 1, limit = 10, courseId}) => {
+export const useGetCollegeListHome = ({ page = 1, limit = 10, courseId }) => {
   return useQuery({
     queryKey: ["useGetCollegeListHome", page, limit, courseId],
     queryFn: async () => {
@@ -79,7 +79,7 @@ export const useGetCollegeListHome = ({page = 1, limit = 10, courseId}) => {
     enabled: !!courseId,
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000 // 10 minutes
-  }); 
+  });
 };
 
 export const useGetCollegeDetailsById = (id) => {
@@ -92,7 +92,7 @@ export const useGetCollegeDetailsById = (id) => {
       return res.data?.data;
     },
     enabled: !!id
-  }); 
+  });
 };
 
 export const useGetStreams = () => {
@@ -104,7 +104,7 @@ export const useGetStreams = () => {
       );
       return res.data?.data;
     }
-  }); 
+  });
 };
 
 export const useGetCityState = () => {
@@ -116,7 +116,7 @@ export const useGetCityState = () => {
       );
       return res.data?.data;
     }
-  }); 
+  });
 };
 export const useGetCity = () => {
   return useQuery({
@@ -129,7 +129,7 @@ export const useGetCity = () => {
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 30 * 60 * 1000 // 30 minutes
-  }); 
+  });
 };
 
 export const useGetCourses = () => {
@@ -143,7 +143,7 @@ export const useGetCourses = () => {
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000 // 10 minutes
-  }); 
+  });
 };
 export const useGetCoursesForCollegeWise = (id = "") => {
   return useQuery({
@@ -156,54 +156,54 @@ export const useGetCoursesForCollegeWise = (id = "") => {
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000 // 10 minutes
-  }); 
+  });
 };
 
 export const useAddUniversityEnquiryForm = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationKey: ["useAddUniversityEnquiryFormAdd"],
-        mutationFn: async (data) => {
-            const { data: res } = await axios.post(`${import.meta.env.VITE_API_URL}/apply-course`,data);
-            return res;
-        }
-        // onSuccess: async (data, variables) => {
-        //     await queryClient.invalidateQueries({
-        //         queryKey: ["getAllInvitations", "RECEIVED"],
-        //     });
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["useAddUniversityEnquiryFormAdd"],
+    mutationFn: async (data) => {
+      const { data: res } = await axios.post(`${import.meta.env.VITE_API_URL}/apply-course`, data);
+      return res;
+    }
+    // onSuccess: async (data, variables) => {
+    //     await queryClient.invalidateQueries({
+    //         queryKey: ["getAllInvitations", "RECEIVED"],
+    //     });
 
-        // },
-    });
+    // },
+  });
 
 }
 
-export const useGetFaqList = (page = 1, limit = 10) => {
+export const useGetFaqList = ({ page = 1, limit = 10, section = "" }) => {
   return useInfiniteQuery({
-    queryKey: ["useGetFaqList", page, limit],
+    queryKey: ["useGetFaqList", page, limit, section],
     queryFn: async ({ pageParam }) => {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/faqs?&page=${pageParam}&limit=${limit}`
+        `${import.meta.env.VITE_API_URL}/faqs?&page=${pageParam}&limit=${limit}&category=${section}`
       );
       return res.data;
     },
     getNextPageParam: (lastPage) => {
-        if (!lastPage?.pagination) return undefined;
-        const { page, totalPage } = lastPage.pagination;
-        const currentPage = parseInt(page);
-        const totalPages = parseInt(totalPage);
-        return currentPage < totalPages ? currentPage + 1 : undefined;
+      if (!lastPage?.pagination) return undefined;
+      const { page, totalPage } = lastPage.pagination;
+      const currentPage = parseInt(page);
+      const totalPages = parseInt(totalPage);
+      return currentPage < totalPages ? currentPage + 1 : undefined;
     },
     initialPageParam: 1,
     refetchOnWindowFocus: false,
     retry: (failureCount, error) => {
-        // If the status is 403, stop retrying immediately
-        if (error?.response?.status === 403) {
-            return false;
-        }
-        // Otherwise, retry up to 3 times (default behavior)
-        return failureCount < 3;
+      // If the status is 403, stop retrying immediately
+      if (error?.response?.status === 403) {
+        return false;
+      }
+      // Otherwise, retry up to 3 times (default behavior)
+      return failureCount < 3;
     },
-  }); 
+  });
 };
 export const useGetTestimonialsList = (page = 1, limit = 10) => {
   return useInfiniteQuery({
@@ -215,21 +215,21 @@ export const useGetTestimonialsList = (page = 1, limit = 10) => {
       return res.data;
     },
     getNextPageParam: (lastPage) => {
-        if (!lastPage?.pagination) return undefined;
-        const { page, totalPage } = lastPage.pagination;
-        const currentPage = parseInt(page);
-        const totalPages = parseInt(totalPage);
-        return currentPage < totalPages ? currentPage + 1 : undefined;
+      if (!lastPage?.pagination) return undefined;
+      const { page, totalPage } = lastPage.pagination;
+      const currentPage = parseInt(page);
+      const totalPages = parseInt(totalPage);
+      return currentPage < totalPages ? currentPage + 1 : undefined;
     },
     initialPageParam: 1,
     refetchOnWindowFocus: false,
     retry: (failureCount, error) => {
-        // If the status is 403, stop retrying immediately
-        if (error?.response?.status === 403) {
-            return false;
-        }
-        // Otherwise, retry up to 3 times (default behavior)
-        return failureCount < 3;
+      // If the status is 403, stop retrying immediately
+      if (error?.response?.status === 403) {
+        return false;
+      }
+      // Otherwise, retry up to 3 times (default behavior)
+      return failureCount < 3;
     },
-  }); 
+  });
 };

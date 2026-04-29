@@ -6,6 +6,7 @@ import {
     college_banner,
     college_logo,
 } from "../assets/images";
+import SEO from "../components/SEO";
 import "./collegeListing.css";
 import {
     useGetCollegeList,
@@ -329,6 +330,7 @@ const College = () => {
 
     return (
         <div>
+            <SEO title="Colleges - Uddan Scholars" description="Browse top colleges on Uddan Scholars." />
             <section className="section-top">
                 {/* <div className="container">
                     <div className="col-lg-10 offset-lg-1 text-center">

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SEO from "../components/SEO";
 import { referaearn } from "../assets/images";
 import { FaWhatsapp } from "react-icons/fa";
 import { Container, Row, Col, Card } from "react-bootstrap";
@@ -57,6 +58,7 @@ const ReferAndEarn = () => {
     ];
     return (
         <section className="refer-section">
+            <SEO title="Refer and Earn - Uddan Scholars" description="Refer friends and earn rewards with Uddan Scholars." />
             <div className="container">
 
                 {/* HERO */}
@@ -229,7 +231,7 @@ const ReferAndEarn = () => {
                     </div>
                 </div>
 
-                <FaqComponent />
+                <FaqComponent section="refer_and_earn" />
 
             </div>
         </section>
