@@ -101,7 +101,7 @@ const CollegeDetails = () => {
         <div>
             <SEO
                 key={data?._id || "loading"}
-                title={data?.name ? `${data.name} - Uddan Scholars` : "College Details - Uddan Scholars"}
+                title={data?.name ? `${data.name} - Uddan Scholars College` : "College Details - Uddan Scholars"}
                 description={`Discover details about ${data?.name || 'this college'} on Uddan Scholars.`}
             />
             <section className="section-top">
