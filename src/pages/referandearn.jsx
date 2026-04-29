@@ -19,6 +19,11 @@ const ReferAndEarn = () => {
                 "Future Lift is an online career counseling platform dedicated to helping you make informed career decisions. Our AI-integrated assessment tests, affordable counseling sessions, and Instant Advice are designed to guide you toward a successful future."
         },
         {
+            question: "What is Future Lift, and how can it help me with my career goals ?",
+            answer:
+                "Future Lift is an online career counseling platform dedicated to helping you make informed career decisions. Our AI-integrated assessment tests, affordable counseling sessions, and Instant Advice are designed to guide you toward a successful future."
+        },
+        {
             question: "How does FutureLift better than other brands ?",
             answer:
                 "FutureLift combines AI-driven assessments with personalized counseling, offering transparent guidance and affordable solutions tailored to individual needs."
