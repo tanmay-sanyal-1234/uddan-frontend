@@ -55,7 +55,7 @@ const BlogListing = () => {
 
     return (
         <>
-            <SEO title="Blogs - Uddan Scholars" description="Read the latest blogs and updates from Uddan Scholars." />
+            <SEO title="College Reality Blogs | Insights, ROI & Placement Truth | Udaan" description="Explore blogs on college reality, placements, ROI, and student experiences. Get real insights to choose the right college and career path." />
             <section className="section-top mt-3">
                 {/* <div className="container">
                     <div className="col-lg-10 offset-lg-1 text-center">

@@ -125,7 +125,7 @@ const Contact = () => {
     }
     return (
         <>
-            <SEO title="Contact Us - Uddan Scholars" description="Get in touch with Uddan Scholars." />
+            <SEO title="Contact Udaan Scholars | Free Career Counselling Support" description="Get in touch with Udaan Scholars for free career counselling, college guidance, and expert support to choose the right college for your future. " />
             <section className="section-top" style={{ backgroundImage: `url(${contact_image})` }}>
 
             </section>

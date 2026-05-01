@@ -87,7 +87,7 @@ const About = () => {
 
     return (
         <div>
-            <SEO title="About Us - Uddan Scholars" description="Learn more about Uddan Scholars." />
+            <SEO title="About Udaan Scholars | Real College Insights & Career Guidance " description="Learn how Udaan Scholars helps students with real college insights, honest guidance, and free career counselling to make better career decisions." />
             <section className="section-top" style={{ backgroundImage: `url(${about_banner})` }}>
                 {/* <div className="container">
                     <div className="col-lg-10 offset-lg-1 text-center">
