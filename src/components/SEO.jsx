@@ -13,14 +13,14 @@ const SEO = ({ title, description }) => {
       <meta property="og:description" content={description} />
       <meta property="og:url" content={window.location.href} />
       {/* add image */}
-      <meta property="og:image" content={"https://udaanscholars.com/assets/logo-BBx1vglC.png"} />
+      <meta property="og:image" content={"https://udaanscholars.com/fav.png"} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       {/* add image */}
-      <meta name="twitter:image" content={"https://udaanscholars.com/assets/logo-BBx1vglC.png"} />
+      <meta name="twitter:image" content={"https://udaanscholars.com/fav.png"} />
     </Helmet>
   );
 };

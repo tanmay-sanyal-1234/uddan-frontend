@@ -103,6 +103,7 @@ const CollegeDetails = () => {
                 key={data?._id || "loading"}
                 title={data?.name ? `${data.name} - Uddan Scholars College` : "College Details - Uddan Scholars"}
                 description={`Discover details about ${data?.name || 'this college'} on Uddan Scholars.`}
+                image={apiImageWrapper(data?.logo)}
             />
             <section className="section-top">
                 {/* <div className="container">

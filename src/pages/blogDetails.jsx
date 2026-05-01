@@ -8,7 +8,7 @@ import FullPageLoader from "../components/FullPageLoader";
 import { apiImageWrapper } from "@/utils/helpers";
 import SkeletonLoader from "@/components/SkeletonLoader";
 import moment from "moment";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 const BlogDetails = () => {
     const { slug } = useParams();
     const { data, isLoading, isFetching, error, refetch } = useGetBlogDetails({ slug });
@@ -151,23 +151,13 @@ const BlogDetails = () => {
                 {(isLoading || isFetching) && <FullPageLoader />}
                 <Container>
                     {!isFetching && blog && (
-                        <Helmet key={blog?._id || "loading"} defer={false}>
-                            <title>{blog?.title ? `${blog.title} - Uddan Scholars Blog` : "Blog Details - Uddan Scholars"}</title>
-                            <meta name="description" content={blog?.seoDescription || blog?.title || "Blog Details"} />
-                            <meta property="og:title" content={blog?.seoTitle} />
-                            <meta property="og:description" content={blog?.seoDescription || blog?.title} />
-                            <meta property="og:image" content={apiImageWrapper(blog?.coverImage)} />
-                            <meta property="og:url" content={window.location.href} />
-                            <meta property="og:type" content="article" />
-
-                            {/* Twitter Preview */}
-                            <meta name="twitter:card" content="summary_large_image" />
-                            <meta name="twitter:title" content={blog?.title} />
-                            <meta name="twitter:image" content={apiImageWrapper(blog?.coverImage)} />
-
-
-
-                        </Helmet>
+                        <SEO
+                            key={blog?._id || "loading"}
+                            title={blog?.title ? `${blog.title} - Uddan Scholars Blog` : "Blog Details - Uddan Scholars"}
+                            description={blog?.seoDescription || blog?.heading || blog?.title}
+                            image={apiImageWrapper(blog?.coverImage)}
+                            type="article"
+                        />
                     )}
                     {!isFetching && data && blog && (<>
                         <div className="blog_header">
