@@ -97,34 +97,33 @@ const BlogDetails = () => {
     };
 
     useEffect(() => {
-
         const handleScroll = () => {
+            const scrollPosition = window.scrollY + 150; // Detection threshold
 
-            const scrollPosition = window.scrollY + 200;
+            let currentActive = activeId;
 
             sortedBlocks.forEach((item, index) => {
-
                 const section = document.getElementById(index);
-
                 if (section) {
-                    if (
-                        scrollPosition >= section.offsetTop &&
-                        scrollPosition < section.offsetTop + section.offsetHeight
-                    ) {
-                        setActiveId(index);
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        currentActive = index;
                     }
                 }
-
             });
 
+            if (currentActive !== activeId) {
+                setActiveId(currentActive);
+            }
         };
 
-
         window.addEventListener("scroll", handleScroll);
-
+        // Run once to initialize state
+        handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
-
-    }, [blog]);
+    }, [sortedBlocks, activeId]);
     return (
         <>
             <section className="section-top mt-3">
@@ -171,12 +170,12 @@ const BlogDetails = () => {
                             <div className="blog_author_row">
 
                                 <div className="author_box">
-                                    {/* <Image
+                                    <Image
                                         src={apiImageWrapper(blog?.author?.image)}
                                         roundedCircle
-                                    /> */}
+                                    />
                                     <div>
-                                        {/* <div className="author_name">{blog?.author?.name}</div> */}
+                                        <div className="author_name">{blog?.author?.name}</div>
                                         <div className="author_date">{moment(blog?.publishedAt).format("DD MMM YYYY")}</div>
                                     </div>
                                 </div>
@@ -212,12 +211,13 @@ const BlogDetails = () => {
                                             <div
                                                 key={index}
                                                 className={`toc_item ${activeId === index ? "active" : ""}`}
-                                                onClick={() =>
-                                                    document.getElementById(index).scrollIntoView({
+                                                onClick={() => {
+                                                    setActiveId(index);
+                                                    document.getElementById(index)?.scrollIntoView({
                                                         behavior: "smooth",
                                                         block: "start"
-                                                    })
-                                                }
+                                                    });
+                                                }}
                                             >
                                                 {item.title}
                                             </div>

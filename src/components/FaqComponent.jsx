@@ -40,8 +40,8 @@ const FaqComponent = ({ section }) => {
                             </div>
 
                             {activeIndex === index && (
-                                <div className="faq-answer">
-                                    {faq.answer}
+                                <div className="faq-answer" dangerouslySetInnerHTML={{ __html: faq.answer }}>
+
                                 </div>
                             )}
                         </div>

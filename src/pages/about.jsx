@@ -411,7 +411,7 @@ const About = () => {
 
 
 
-            <FaqComponent section="about_us" />
+            <FaqComponent section="aboutus" />
             {showModal && (
                 <div className="gallery-modal">
                     <div className="gallery-content">

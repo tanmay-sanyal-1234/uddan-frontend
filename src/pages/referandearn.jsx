@@ -236,7 +236,7 @@ const ReferAndEarn = () => {
                     </div>
                 </div>
 
-                <FaqComponent section="refer_and_earn" />
+                <FaqComponent section="referandearn" />
 
             </div>
         </section>
