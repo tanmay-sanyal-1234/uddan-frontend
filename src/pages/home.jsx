@@ -347,7 +347,7 @@ const Home = () => {
 
     return (
         <div>
-            <SEO title="Home - Uddan Scholars" description="Welcome to Uddan Scholars." />
+            <SEO title="Real College Insights & Free Career Counselling | Udaan Scholars" description="Discover real college insights, placement reality, ROI & more. Get free career counselling and choose the right college for your future with confidence. " />
             <section id="home" className="home_bg mb-4">
                 <div className="container">
                     <div className="row">

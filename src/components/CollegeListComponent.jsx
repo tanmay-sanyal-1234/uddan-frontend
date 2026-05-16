@@ -1,17 +1,17 @@
-import React, { useCallback ,useState} from "react";
+import React, { useCallback, useState } from "react";
 import FullPageLoader from "@/components/FullPageLoader";
 import { Link } from "react-router-dom";
 import { formatINR, apiImageWrapper } from "@/utils/helpers";
 import { useNavigate } from "react-router-dom";
 import { Button, OverlayTrigger, Overlay, Tooltip } from "react-bootstrap";
-import { useSelector,useDispatch } from "react-redux";
-import {setCollegeDetails,openModal,setBrochureDownloadUrl,setCanBrochureDownload} from "@/store/slices/universityModalSlice";
-import {setTabActiveFor} from "../store/slices/collegeFilterSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { setCollegeDetails, openModal, setBrochureDownloadUrl, setCanBrochureDownload } from "@/store/slices/universityModalSlice";
+import { setTabActiveFor } from "../store/slices/collegeFilterSlice";
 import UniversityModal from "../components/universityModal";
 const CollegeListComponent = ({ isFetching, data }) => {
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state) => state.universityModal.isOpen);
-    const [modalOpenFor , setModalOpenFor] = useState("apply");
+    const [modalOpenFor, setModalOpenFor] = useState("apply");
     const navigate = useNavigate();
     const courseNames = useCallback((college) => {
         let names = college?.flatMap(stream =>
@@ -33,7 +33,7 @@ const CollegeListComponent = ({ isFetching, data }) => {
         }
 
     }, [data])
-    const getName =(name) => {
+    const getName = (name) => {
         let displayName = name.length > 60 ? name.slice(0, 60) + "..." : name;
         let tooltip = name || "";
         return {
@@ -84,6 +84,9 @@ const CollegeListComponent = ({ isFetching, data }) => {
                         {/* Image */}
                         <Link to={`/college-details/${college._id}`}>
                             <div className="listing-image">
+                                {college?.section?.admissionReality?.isPartner && (
+                                    <div className="featured-badge">Featured</div>
+                                )}
                                 <img
                                     src={apiImageWrapper(college?.thumbnail)}
                                     alt={college.name}
@@ -124,13 +127,13 @@ const CollegeListComponent = ({ isFetching, data }) => {
                             {/* Middle */}
                             <div className="listing-details">
                                 <ul className="quick-links">
-                                    <li><Link  to={`/college-details/${college._id}`} onClick={() => {
-                                        dispatch(setTabActiveFor('course'))
-                                        
+                                    <li><Link to={`/college-details/${college._id}`} onClick={() => {
+                                        dispatch(setTabActiveFor('coursesAndFees'))
+
                                     }}>Course Fees</Link></li>
                                     <li><Link to={`/college-details/${college._id}`} onClick={() => {
-                                        dispatch(setTabActiveFor('admission'))
-                                        
+                                        dispatch(setTabActiveFor('admissionReality'))
+
                                     }}>Admission</Link></li>
                                 </ul>
 
@@ -152,11 +155,11 @@ const CollegeListComponent = ({ isFetching, data }) => {
                                                     </p>
                                                 </OverlayTrigger>
 
-                                                
+
                                                 <p className="fees">{formatINR(courseFee?.fees, true)}</p>
                                             </div>
                                         ))}
-                                        {college?.streamAndCourse?.flatMap(stream => stream?.courses || [])?.length > 2 && viewMore(college._id)}
+                                    {college?.streamAndCourse?.flatMap(stream => stream?.courses || [])?.length > 2 && viewMore(college._id)}
 
                                 </div>
                             </div>
@@ -182,7 +185,7 @@ const CollegeListComponent = ({ isFetching, data }) => {
 
                 </div>
             ))}
-            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor}/>}
+            {isModalOpen && <UniversityModal sectionFrom={modalOpenFor} />}
         </div>
     )
 };

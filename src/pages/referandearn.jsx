@@ -63,7 +63,7 @@ const ReferAndEarn = () => {
     ];
     return (
         <section className="refer-section">
-            <SEO title="Refer and Earn - Uddan Scholars" description="Refer friends and earn rewards with Uddan Scholars." />
+            <SEO title="Refer & Earn | Udaan Scholars College Referral Program" description="Refer students and earn rewards with Udaan Scholars. Help others find the right college with real insights and expert career guidance." />
             <div className="container">
 
                 {/* HERO */}
@@ -236,7 +236,7 @@ const ReferAndEarn = () => {
                     </div>
                 </div>
 
-                <FaqComponent section="refer_and_earn" />
+                <FaqComponent section="referandearn" />
 
             </div>
         </section>
