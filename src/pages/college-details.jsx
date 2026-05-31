@@ -12,7 +12,8 @@ import RecentlyViewed from "@/components/RecentlyViewed";
 import { setTabActiveFor } from "../store/slices/collegeFilterSlice";
 import "./college-details-new.css";
 import { useGetAdvertisments } from "../hooks/advertismentHook";
-
+import { whatsappLink } from "@/utils/helpers"
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 const CollegeDetails = () => {
     const dispatch = useDispatch();
     const scrollRef = useRef(null);
@@ -23,6 +24,7 @@ const CollegeDetails = () => {
     const isModalOpen = useSelector((state) => state.universityModal.isOpen);
     const collegeTabFillter = useSelector((state) => state.collegeFilterRedux.collegeTabActive);
     const [modalOpenFor, setModalOpenFor] = useState("brochure"); // 'brochure' or 'enquiry'
+    const [isScrolled, setIsScrolled] = useState(false);
     const sectionTabs = [
         { id: "overview", label: "Overview", icon: "" },
         { id: "realityScore", label: "Reality Score", icon: "" },
@@ -49,7 +51,14 @@ const CollegeDetails = () => {
 
                     // Scroll to tabs after a short delay to allow content to render
                     setTimeout(() => {
-                        document.querySelector(".section-tabs-container")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        if (sentinelRef.current) {
+                            const offset = 92;
+                            const elementPosition = sentinelRef.current.getBoundingClientRect().top + window.scrollY;
+                            window.scrollTo({
+                                top: elementPosition - offset,
+                                behavior: "smooth"
+                            });
+                        }
                     }, 300);
                     break;
                 }
@@ -77,6 +86,23 @@ const CollegeDetails = () => {
             localStorage.setItem("viewedColleges", JSON.stringify(viewedColleges));
         }
     }, [data]);
+
+    const sentinelRef = useRef(null);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (sentinelRef.current) {
+                console.log("scrolled", sentinelRef.current.getBoundingClientRect().top);
+                // 92px is the top offset of the sticky tabs. Add a 3px buffer (<= 95)
+                // to prevent the header from flickering or hiding due to sub-pixel rounding
+                // when smooth scrolling stops exactly at the boundary.
+                setIsScrolled(sentinelRef.current.getBoundingClientRect().top <= 93);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        handleScroll(); // Check initially
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     // Reality Check Data Mapping (Dynamic from API or fallback)
     const rc = useMemo(() => {
@@ -260,7 +286,7 @@ const CollegeDetails = () => {
                         </div>
                         <div className="header-info">
                             <h1 className="main-college-title">
-                                {data?.name}
+                                {data?.fullName || data?.name}
                             </h1>
                             <div className="main-college-location">
                                 <i className="fa fa-map-marker"></i>  {data?.address?.cityD?.name}, {data?.address?.stateD?.name}
@@ -270,9 +296,7 @@ const CollegeDetails = () => {
                                 {data?.est && <span className="meta-tag">Est. {data?.est}</span>}
                                 {data?.accreditation && <span className="meta-tag">{data.accreditation}</span>}
                             </div>
-                            <div className="reality-quote header-quote-text">
-                                "We don't show colleges. We show reality."
-                            </div>
+                            <div className="reality-quote header-quote-text" dangerouslySetInnerHTML={{ __html: `"${data?.shortLine}"` }}></div>
                             <div className="header-apply-btn-wrapper">
                                 <Link to="#" onClick={() => {
                                     setModalOpenFor("apply");
@@ -302,52 +326,105 @@ const CollegeDetails = () => {
                 </div>
             </section>
 
+            {/* SENTINEL FOR STICKY TABS */}
+            <div ref={sentinelRef} style={{ height: "1px", width: "100%" }}></div>
+
+            {/* SECTION: TAB NAVIGATION */}
+            <div className={`section-tabs-container ${isScrolled ? 'scrolled' : ''}`}>
+                <div className="compact-sticky-header">
+                    <div className="compact-header-left">
+                        <img src={apiImageWrapper(data?.logo)} alt={data?.name} className="compact-logo" />
+                        <h3 className="compact-title">{data?.fullName || data?.name}</h3>
+                    </div>
+                    <div className="compact-header-right">
+                        <Link to="#" onClick={() => {
+                            setModalOpenFor("apply");
+                            dispatch(setCollegeDetails(data));
+                            dispatch(openModal());
+                        }} className="compact-apply-btn">
+                            <i className="fa fa-upload"></i> Apply Now
+                        </Link>
+                        <button
+                            className="compact-download-btn"
+                            onClick={() => {
+                                setModalOpenFor("brochure");
+                                dispatch(setCollegeDetails(data));
+                                dispatch(setCanBrochureDownload(true));
+                                dispatch(setBrochureDownloadUrl(apiImageWrapper(data?.media?.brochureUrl)));
+                                dispatch(openModal());
+                            }}
+                        >
+                            <i className="fa fa-download"></i> Brochure
+                        </button>
+                        <a href="#" onClick={whatsappLink} className="compact-icon-btn whatsapp">
+                            <i className="fa fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                <div className="section-tabs-wrapper">
+                    <button
+                        className="tab-scroll-btn left"
+                        onClick={() => {
+                            scrollRef.current?.scrollBy({ left: -200, behavior: "smooth" });
+                        }}
+                    >
+                        <i className="fa fa-chevron-left"></i>
+                    </button>
+
+                    <div className="section-tabs-scroll" ref={scrollRef}>
+                        {sectionTabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                className={`section-tab-btn ${activeSectionTab === tab.id ? "active" : ""}`}
+                                onClick={() => {
+                                    setActiveSectionTab(tab.id);
+                                    if (sentinelRef.current) {
+                                        const offset = 80; // Scroll slightly past the sticky point
+                                        const elementPosition = sentinelRef.current.getBoundingClientRect().top + window.scrollY;
+                                        window.scrollTo({
+                                            top: elementPosition - offset,
+                                            behavior: "smooth"
+                                        });
+                                    }
+                                }}
+                            >
+                                <span className="tab-icon">{tab.icon}</span>
+                                <span className="tab-label">{tab.label}</span>
+                            </button>
+                        ))}
+                    </div>
+
+                    <button
+                        className="tab-scroll-btn right"
+                        onClick={() => {
+                            scrollRef.current?.scrollBy({ left: 200, behavior: "smooth" });
+                        }}
+                    >
+                        <i className="fa fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
             <div className="college-main-layout">
                 <div className="college-left-column">
-
-                    {/* SECTION: TAB NAVIGATION */}
-                    <div className="section-tabs-container">
-                        <div className="section-tabs-wrapper">
-                            <button
-                                className="tab-scroll-btn left"
-                                onClick={() => {
-                                    scrollRef.current?.scrollBy({ left: -200, behavior: "smooth" });
-                                }}
-                            >
-                                <i className="fa fa-chevron-left"></i>
-                            </button>
-
-                            <div className="section-tabs-scroll" ref={scrollRef}>
-                                {sectionTabs.map((tab) => (
-                                    <button
-                                        key={tab.id}
-                                        className={`section-tab-btn ${activeSectionTab === tab.id ? "active" : ""}`}
-                                        onClick={() => {
-                                            setActiveSectionTab(tab.id);
-                                            document.querySelector(".section-tabs-container")?.scrollIntoView({ behavior: "smooth", block: "start" });
-                                        }}
-                                    >
-                                        <span className="tab-icon">{tab.icon}</span>
-                                        <span className="tab-label">{tab.label}</span>
-                                    </button>
-                                ))}
-                            </div>
-
-                            <button
-                                className="tab-scroll-btn right"
-                                onClick={() => {
-                                    scrollRef.current?.scrollBy({ left: 200, behavior: "smooth" });
-                                }}
-                            >
-                                <i className="fa fa-chevron-right"></i>
-                            </button>
-                        </div>
-                    </div>
 
                     {/* SECTION: OVERVIEW (Moved inside tabs) */}
                     {activeSectionTab === "overview" && (
                         <section className="reality-section overview-section">
-                            <span className="section-label">OVERVIEW</span>
+                            <span className="section-label">
+                                OVERVIEW
+                            </span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Overview is the overview of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <div className="premium-card">
                                 <div className="overview-text text-content-p">
                                     {data?.description ? (
@@ -368,6 +445,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "realityScore" && (
                         <section className="reality-section">
                             <span className="section-label">REALITY SCORE</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Reality score is the score of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">How it really scores</h2>
                             <p className="reality-subtitle">Four dimensions rated honestly, with context.</p>
 
@@ -404,6 +492,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "expectationVsReality" && (
                         <section className="reality-section">
                             <span className="section-label">EXPECTATION VS REALITY</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Expectation vs reality is the comparison of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">What you're told vs what's true</h2>
                             <p className="reality-subtitle">Placement and academic reality, side by side.</p>
 
@@ -430,6 +529,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "redFlags" && (
                         <section className="reality-section">
                             <span className="section-label">RED FLAGS</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Red flags are the warnings of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">Things to be careful about</h2>
                             <p className="reality-subtitle">Honest warnings before you decide.</p>
 
@@ -451,6 +561,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "placementBreakdown" && (
                         <section className="reality-section">
                             <span className="section-label">PLACEMENT BREAKDOWN</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Placement breakdown is the breakdown of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">Where students actually land</h2>
                             <p className="reality-subtitle">The full picture — top offers, median, and the floor.</p>
 
@@ -488,6 +609,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "academicPressure" && (
                         <section className="reality-section">
                             <span className="section-label">ACADEMIC PRESSURE</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Academic pressure is the pressure of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">How intense is it really?</h2>
                             <p className="reality-subtitle">Rated across five dimensions of academic load.</p>
 
@@ -517,6 +649,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "coursesAndFees" && (
                         <section className="reality-section">
                             <span className="section-label">COURSES & FEES</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Courses and fees are the courses and fees of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">Programs and what they cost</h2>
                             <p className="reality-subtitle">Approximate annual fees — confirm with the admissions office.</p>
 
@@ -553,6 +696,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "admissionReality" && (
                         <section className="reality-section">
                             <span className="section-label">ADMISSION REALITY</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Admission reality is the admission reality of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             {rc?.admissionReality?.isPartner && (
                                 <div className="admission-gradient-card">
                                     <span className="partner-label">Official Admission Partner</span>
@@ -595,6 +749,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "scholarships" && (
                         <section className="reality-section">
                             <span className="section-label">SCHOLARSHIPS</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Scholarships are the scholarships of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">Financial aid available</h2>
                             <p className="reality-subtitle">Apply early — scholarship seats are limited and competition is high.</p>
 
@@ -615,6 +780,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "hostelExperience" && (
                         <section className="reality-section">
                             <span className="section-label">HOSTEL EXPERIENCE</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Hostel experience is the hostel experience of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">Life on campus</h2>
                             <p className="reality-subtitle">The good, the strict, and the alternatives.</p>
 
@@ -643,6 +819,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "studentVoices" && (
                         <section className="reality-section">
                             <span className="section-label">STUDENT VOICES</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Student voices is the student voices of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">Real opinions, unfiltered</h2>
                             <p className="reality-subtitle">Individual perspectives from students and graduates.</p>
 
@@ -667,6 +854,17 @@ const CollegeDetails = () => {
                     {activeSectionTab === "verdict" && (
                         <section className="reality-section">
                             <span className="section-label">SHOULD YOU CONSIDER THIS?</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip id="tooltip-top"> Verdict is the verdict of the college.</Tooltip>
+                                }
+                            >
+                                <span className="section-tag ms-2">
+                                    <i className="fa fa-info-circle" />
+
+                                </span>
+                            </OverlayTrigger>
                             <h2 className="reality-title reality-title-small">The honest verdict</h2>
                             <p className="reality-subtitle">Three categories to help you decide.</p>
 

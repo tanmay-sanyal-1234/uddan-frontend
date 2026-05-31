@@ -63,7 +63,7 @@
 .college-left-column .reality-section {
     max-width: none;
     margin: 0 0 40px 0;
-    padding: 0;
+    padding: 20px 0px 0px 0px;
 }
 
 .college-right-sidebar {
@@ -321,6 +321,225 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     margin-bottom: 30px;
     scroll-margin-top: 100px;
+    padding: 0px 50px 0px 50px;
+}
+
+.compact-sticky-header {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #fff;
+    border-bottom: 1px solid var(--border-color);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-tabs-container.scrolled .compact-sticky-header {
+    display: flex;
+}
+
+.compact-header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 50%;
+}
+
+.compact-logo {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.compact-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: #1a1a1a;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.compact-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.compact-apply-btn {
+    background: #264691;
+    border: 1px solid #264691;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.compact-apply-btn:hover {
+    color: #264691;
+    background: #fdfdfd;
+    border: 1px solid #264691;
+}
+
+.compact-download-btn {
+    background: #fdfdfd;
+    color: #264691;
+    border: 1px solid #264691;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.compact-download-btn:hover {
+    background: #264691;
+    color: #fdfdfd;
+    border: 1px solid #264691;
+}
+
+.compact-icon-btn {
+    background: #25D366;
+    color: white;
+    border: none;
+    height: 36px;
+    width: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.compact-icon-btn.bookmark {
+    background: #b2bec3;
+}
+
+.compact-icon-btn.bookmark:hover {
+    background: #99a5ab;
+}
+
+@media (max-width: 900px) {
+    .compact-sticky-header {
+        padding: 8px 10px;
+    }
+
+    .compact-title {
+        display: none;
+        /* Hide title on small screens to save space */
+    }
+
+    .compact-header-left {
+        max-width: max-content;
+    }
+
+    .compact-header-right {
+        gap: 6px;
+    }
+
+    .compact-apply-btn,
+    .compact-download-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .compact-icon-btn {
+        height: 32px;
+        width: 32px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-tabs-container.scrolled .compact-sticky-header {
+        display: none !important;
+    }
+
+    .section-tabs-container {
+        padding: 0px 15px 0px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .compact-header-right {
+        gap: 4px;
+    }
+
+    .compact-apply-btn {
+        padding: 6px 8px;
+        font-size: 11px;
+    }
+
+    .compact-download-btn {
+        padding: 6px;
+        font-size: 0;
+        /* Hide text, keep icon */
+    }
+
+    .compact-download-btn i {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 901px) {
+    .section-tabs-container.scrolled .section-tabs-wrapper {
+        background: #0f3057;
+        /* Dark blue background when scrolled */
+        border-radius: 0 0 6px 6px;
+    }
+
+    .section-tabs-container.scrolled .section-tab-btn {
+        color: #e0e0e0;
+        /* Light text */
+        border-bottom: 3px solid transparent;
+    }
+
+    .section-tabs-container.scrolled .section-tab-btn:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .section-tabs-container.scrolled .section-tab-btn.active {
+        color: #fff;
+        border-bottom: 3px solid #fff;
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .section-tabs-container.scrolled .tab-scroll-btn {
+        background: #0f3057;
+        color: #fff;
+    }
+
+    .section-tabs-container.scrolled .tab-scroll-btn:hover {
+        background: #1a4a82;
+    }
 }
 
 .section-tabs-wrapper {
@@ -472,7 +691,7 @@
 
 .overview-section {
     margin: 0 0 40px 0 !important;
-    padding: 0 !important;
+    padding: 0px !important;
     max-width: none !important;
 }
 
@@ -529,11 +748,12 @@
 }
 
 .main-college-title {
-    font-size: 28px;
+    font-size: 23px;
     font-weight: 800;
     color: #1a1a1a;
     margin: 0 0 10px 0;
     line-height: 1.3;
+    font-family: serif;
 }
 
 .main-college-location {

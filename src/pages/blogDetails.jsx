@@ -165,7 +165,7 @@ const BlogDetails = () => {
                                 {blog?.title}
                             </h2>
 
-                            {/* <div className="read_time">3 min read</div> */}
+                            <div className="read_time">{blog?.readTime || "3 min read"}</div>
 
                             <div className="blog_author_row">
 

@@ -238,7 +238,6 @@ const Home = () => {
     useEffect(() => {
         if (!courseFilterId) {
             if (!isFetchingCourses && coursesData) {
-                console.log("Setting course filter id to:", coursesData[0]?._id);
                 const t = setTimeout(() => {
                     setCourseFilterId(coursesData[0]?._id);
                 }, 0);

@@ -79,8 +79,8 @@ const Footer = () => {
 
                                 <div className="sf_contact">
                                     <p>Shivanna Building – 31, Dasarahalli, Byatarayanapura, Bengaluru, Karnataka 560024</p>
-                                    <p><i class="fa fa-phone" aria-hidden="true"></i>  <a href="tel:+919734166618">+91 9734166618</a></p>
-                                    <p><i class="fa fa-envelope" aria-hidden="true"></i>  <a href="mailto:uddanscholars@gmail.com">uddanscholars@gmail.com</a></p>
+                                    <p><i className="fa fa-phone" aria-hidden="true"></i>  <a href="tel:+919734166618">+91 9734166618</a></p>
+                                    <p><i className="fa fa-envelope" aria-hidden="true"></i>  <a href="mailto:uddanscholars@gmail.com">uddanscholars@gmail.com</a></p>
                                 </div>
                             </div>
                         </div>
